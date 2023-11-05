@@ -16,6 +16,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+//TODO 1. Mostrar detalles (añadir categorias en ruta y rutas a categorias)
+//TODO 2. Tests unitarios
+//TODO 3. Separar archivo accesoBD
+//TODO 4. SQL
+
 /**
  * Clase Controlador con atributos:
  * listaCategoriasSistema      Lista de categorías del sistema
