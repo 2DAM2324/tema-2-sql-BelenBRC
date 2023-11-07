@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+
+import Controlador.Controlador;
+
 import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,8 +17,20 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author belen
  */
 public class CategoriaTest {
+
+    Categoria instance;
+    Controlador controlador;
     
     public CategoriaTest() {
+        //Cargar datos de prueba de la base de datos
+        Controlador controlador = new Controlador();
+        controlador.deserializarCategoria();
+        controlador.deserializarUsuario();
+        controlador.deserializarRuta();
+        controlador.deserializarValoracion();
+        controlador.deserializarFotoPerfil();
+
+        instance = new Categoria("nombre");
     }
     
     @BeforeAll
@@ -40,11 +55,9 @@ public class CategoriaTest {
     @org.junit.jupiter.api.Test
     public void testSetIDCategoria() {
         System.out.println("setIDCategoria");
-        String id = "";
-        Categoria instance = null;
+        String id = "NuevoID";
         instance.setIDCategoria(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(id, instance.getIDCategoria());
     }
 
     /**
@@ -53,11 +66,9 @@ public class CategoriaTest {
     @org.junit.jupiter.api.Test
     public void testSetNombreCategoria() {
         System.out.println("setNombreCategoria");
-        String nombre = "";
-        Categoria instance = null;
+        String nombre = "NuevoNombre";
         instance.setNombreCategoria(nombre);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(nombre, instance.getNombreCategoria());
     }
 
     /**
@@ -66,11 +77,8 @@ public class CategoriaTest {
     @org.junit.jupiter.api.Test
     public void testSetListaRutas() {
         System.out.println("setListaRutas");
-        ArrayList<Ruta> lista = null;
-        Categoria instance = null;
-        instance.setListaRutas(lista);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setListaRutas(controlador.getListaRutasSistema());
+        assertEquals(controlador.getListaRutasSistema(), instance.getListaRutas());
     }
 
     /**
@@ -79,8 +87,7 @@ public class CategoriaTest {
     @org.junit.jupiter.api.Test
     public void testSetRutaEnLista() {
         System.out.println("setRutaEnLista");
-        Ruta ruta = null;
-        Categoria instance = null;
+        Ruta ruta = controlador.getListaRutasSistema().get(3) ;
         instance.setRutaEnLista(ruta);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

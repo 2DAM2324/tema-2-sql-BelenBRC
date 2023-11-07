@@ -157,6 +157,10 @@ public final class Ventana1 extends javax.swing.JFrame {
         jScrollPane_valoraciones_usuario.setVisible(false);
         jLabel_rutas_usuario.setVisible(false);
         jScrollPane_rutas_usuario.setVisible(false);
+
+        //Habilitar los campos que no se pueden modificar
+        jTextField_dni_persona.setEnabled(true);
+        jTextField_nombre_usuario.setEnabled(true);
     }
 
     /**
@@ -191,6 +195,10 @@ public final class Ventana1 extends javax.swing.JFrame {
         jTextArea_comentario_valoracion.setVisible(true);
         jButton_guardar_valoracion.setVisible(true);
         jButton_cancelar_valoracion.setVisible(true);
+
+        //Habilitar los campos que no se pueden modificar
+        jComboBox_ruta_valoracion.setEnabled(true);
+        jComboBox_usuario_valoracion.setEnabled(true);
     }
 
     /**
@@ -247,6 +255,10 @@ public final class Ventana1 extends javax.swing.JFrame {
         jScrollPane_valoraciones_ruta.setVisible(false);
         jLabel_categorias_ruta.setVisible(false);
         jScrollPane_ctegorias_ruta.setVisible(false);
+
+        //Habilitar los campos que no se pueden modificar
+        jTextField_nombre_ruta.setEnabled(true);
+        jComboBox_credor.setEnabled(true);
     }
 
     /**
@@ -281,6 +293,9 @@ public final class Ventana1 extends javax.swing.JFrame {
 
         jButton_guardar_foto_perfil.setVisible(true);
         jButton_cancelar_foto_perfil.setVisible(true);
+
+        //Habilitar los campos que no se pueden modificar
+        jComboBox_usuario_foto_perfil.setEnabled(true);
     }
 
     /**
@@ -1902,11 +1917,11 @@ public final class Ventana1 extends javax.swing.JFrame {
                 Double.valueOf(jTextField_tiempo_ruta.getText());
 
                 //Compobar que tiempo y distancia son positivos
-                if(Double.parseDouble(jTextField_distancia_ruta.getText()) < 0){
+                if(Double.parseDouble(jTextField_distancia_ruta.getText()) <= 0.0){
                     JOptionPane.showMessageDialog(this, "La distancia debe ser positiva", "Error", JOptionPane.ERROR_MESSAGE);
                     correcto = false;
                 }
-                if(Double.parseDouble(jTextField_tiempo_ruta.getText()) < 0){
+                if(Double.parseDouble(jTextField_tiempo_ruta.getText()) <= 0.0){
                     JOptionPane.showMessageDialog(this, "El tiempo debe ser positivo", "Error", JOptionPane.ERROR_MESSAGE);
                     correcto = false;
                 }
@@ -2210,6 +2225,10 @@ public final class Ventana1 extends javax.swing.JFrame {
         else if(!jTextField_tamanio_foto_perfil.getText().matches("[0-9]+")){
             JOptionPane.showMessageDialog(this, "El tamaño debe ser un número entero positivo", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        //Comprobar que el tamaño se corresponde con megapíxeles
+        else if(Integer.valueOf(jTextField_tamanio_foto_perfil.getText()) < Integer.valueOf(jTextField_reolucion_foto_perfil.getText())*Integer.valueOf(jTextField_reolucion_foto_perfil.getText())/1000000){
+            JOptionPane.showMessageDialog(this, "El tamaño debe ser mayor que la resolución", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         //Comprobar que la resolución no esté vacía
         else if(jTextField_reolucion_foto_perfil.getText().trim().equals("")){
             JOptionPane.showMessageDialog(this, "La resolución no puede estar vacía", "Error", JOptionPane.ERROR_MESSAGE);
@@ -2217,6 +2236,10 @@ public final class Ventana1 extends javax.swing.JFrame {
         //Comprobar que es un entero
         else if(!jTextField_reolucion_foto_perfil.getText().matches("[0-9]+")){
             JOptionPane.showMessageDialog(this, "La resolución debe ser un número entero positivo", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        //Comprobar que es mayor que cero
+        else if(Integer.valueOf(jTextField_reolucion_foto_perfil.getText()) <= 0){
+            JOptionPane.showMessageDialog(this, "La resolución debe ser mayor que cero", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
         else{

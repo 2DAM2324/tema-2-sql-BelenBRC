@@ -35,6 +35,9 @@ public class FotoPerfil implements Serializable{
         setTamanioKb(tamanioKb);
         setUsuario(usuario);
         asignarID();
+        if(getUsuario().getFotoPerfil() == null){
+            getUsuario().setFotoPerfil(this);
+        }
     }
 
     //Sets y gets

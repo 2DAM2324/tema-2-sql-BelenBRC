@@ -20,4 +20,5 @@
         <maven.compiler.target>19</maven.compiler.target>
         <exec.mainClass>Principal.Main</exec.mainClass>
     </properties>
+    <name>rutas-SQLite</name>
 </project>

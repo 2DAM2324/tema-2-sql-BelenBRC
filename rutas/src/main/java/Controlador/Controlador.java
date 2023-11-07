@@ -16,6 +16,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+//TODO FINAL: en el cargar fotos de perfil, recordar que hay que añadir cada foto de perfil en su correspondiente usuario del sistema
+
+//TODO PODER AÑADIR RUTAS A CATEGORIAS DESDE MODIFICAR!
+
+//¿DOBLE CLICK?
 //TODO 1. Mostrar detalles (añadir categorias en ruta y rutas a categorias)
 //TODO 2. Tests unitarios
 //TODO 3. Separar archivo accesoBD
@@ -171,6 +176,11 @@ public class Controlador {
         return listaUsuariosSistema;
     }
 
+    /**
+     * @brief   Método que devuelve la id del usuario del sistema con el DNI indicado
+     * @param dni   DNI del usuario del que se quiere obtener la ID
+     * @return  (String) ID del usuario del sistema con el DNI indicado
+     */
     public String getIdUsuarioSistema(String dni){
         String IDusuario = "";
 
@@ -941,6 +951,14 @@ public class Controlador {
         try{
             deserializador = new ObjectInputStream(new FileInputStream("FotosPerfil.dat"));
             listaFotosPerfilSistema = (ArrayList<FotoPerfil>) deserializador.readObject();
+
+            for (FotoPerfil fotoPerfil : listaFotosPerfilSistema) {
+                for (Usuario usuario : listaUsuariosSistema) {
+                    if (fotoPerfil.getUsuario().getDNI().equals(usuario.getDNI())) {
+                        usuario.setFotoPerfil(fotoPerfil);
+                    }
+                }
+            }
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
