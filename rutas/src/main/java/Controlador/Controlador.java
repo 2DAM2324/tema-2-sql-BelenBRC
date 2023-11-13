@@ -18,10 +18,8 @@ import java.util.ArrayList;
 
 //TODO FINAL: en el cargar fotos de perfil, recordar que hay que añadir cada foto de perfil en su correspondiente usuario del sistema
 
-//TODO PODER AÑADIR RUTAS A CATEGORIAS DESDE MODIFICAR!
+//TODO ARREGLAR Mostrar detalles (añadir categorias en ruta y rutas a categorias)
 
-//¿DOBLE CLICK?
-//TODO 1. Mostrar detalles (añadir categorias en ruta y rutas a categorias)
 //TODO 2. Tests unitarios
 //TODO 3. Separar archivo accesoBD
 //TODO 4. SQL
