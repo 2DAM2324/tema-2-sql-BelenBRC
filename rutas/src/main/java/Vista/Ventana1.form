@@ -51,7 +51,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jButton_confirmar_aniadir_categoria_en_ruta">
+        <Container class="javax.swing.JPanel" name="jPanel_ruta">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Rutas">
@@ -101,12 +101,15 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jButton_guardar_ruta" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButton_aniadir_categoria_en_ruta" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jButton_borrar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButton_guardar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButton_cancelar_ruta" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jComboBox_categoris_aniadibles_a_ruta" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jButton_guardar_ruta" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jButton_aniadir_categoria_en_ruta" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="jButton_borrar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jButton_guardar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jButton_cancelar_ruta" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -115,13 +118,9 @@
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel_valoraciones_ruta" min="-2" pref="149" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jLabel_categorias_ruta" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jComboBox_categoris_aniadibles_a_ruta" min="-2" pref="73" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="jLabel_categorias_ruta" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="54" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -149,12 +148,15 @@
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel_nombre_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField_nombre_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="jLabel_nombre_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField_nombre_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jLabel_valoraciones_ruta" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -175,7 +177,9 @@
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="40" max="32767" attributes="0"/>
+                                      <Component id="jComboBox_categoris_aniadibles_a_ruta" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="1" attributes="0">
                                               <Component id="jScrollPane_descripcion_ruta" min="-2" pref="75" max="-2" attributes="0"/>
@@ -205,16 +209,11 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel_valoraciones_ruta" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="28" max="32767" attributes="0"/>
                               <Component id="jScrollPane_valoraciones_ruta" min="-2" pref="88" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel_categorias_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jComboBox_categoris_aniadibles_a_ruta" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel_categorias_ruta" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane_categorias_ruta" min="-2" pref="92" max="-2" attributes="0"/>
@@ -670,7 +669,7 @@
                                       <Component id="jScrollPane_rutas_usuario" min="-2" pref="88" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="81" max="32767" attributes="0"/>
+                              <EmptySpace pref="95" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1044,7 +1043,7 @@
                           <Component id="jLabel_comentario_valoracion" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane_comentario_valoracion" min="-2" pref="104" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="80" max="32767" attributes="0"/>
+                      <EmptySpace pref="94" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1307,7 +1306,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton_cancelar_cantegoria" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="56" max="32767" attributes="0"/>
+                      <EmptySpace pref="70" max="32767" attributes="0"/>
                       <Component id="jLabel_tabla_rutas_de_categoria" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -1617,7 +1616,7 @@
                           <Component id="jLabel_tamanio_foto_perfil" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField_tamanio_foto_perfil" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="153" max="32767" attributes="0"/>
+                      <EmptySpace pref="167" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

@@ -71,6 +71,11 @@ public final class Ventana1 extends javax.swing.JFrame {
         jScrollPane_valoraciones_ruta.setVisible(false);
         jLabel_categorias_ruta.setVisible(false);
         jScrollPane_categorias_ruta.setVisible(false);
+        jButton_aniadir_categoria_en_ruta.setVisible(false);
+        jButton_borrar_categoria_en_ruta.setVisible(false);
+        jButton_guardar_categoria_en_ruta.setVisible(false);
+        jButton_confirmar_aniadir_categoria_en_ruta3.setVisible(false);
+        jComboBox_categoris_aniadibles_a_ruta.setVisible(false);
 
         jLabel_valoraciones_usuario.setVisible(false);
         jScrollPane_valoraciones_usuario.setVisible(false);
@@ -472,7 +477,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane = new javax.swing.JTabbedPane();
-        jButton_confirmar_aniadir_categoria_en_ruta = new javax.swing.JPanel();
+        jPanel_ruta = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable_rutas = new javax.swing.JTable();
         jLabel_nombre_ruta = new javax.swing.JLabel();
@@ -763,30 +768,30 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jButton_confirmar_aniadir_categoria_en_rutaLayout = new javax.swing.GroupLayout(jButton_confirmar_aniadir_categoria_en_ruta);
-        jButton_confirmar_aniadir_categoria_en_ruta.setLayout(jButton_confirmar_aniadir_categoria_en_rutaLayout);
-        jButton_confirmar_aniadir_categoria_en_rutaLayout.setHorizontalGroup(
-            jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel_rutaLayout = new javax.swing.GroupLayout(jPanel_ruta);
+        jPanel_ruta.setLayout(jPanel_rutaLayout);
+        jPanel_rutaLayout.setHorizontalGroup(
+            jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_rutaLayout.createSequentialGroup()
+                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_rutaLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_modificar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_aniadir_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_borrar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                    .addGroup(jPanel_rutaLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel_nombre_ruta)
                             .addComponent(jLabel_distancia_ruta)
                             .addComponent(jLabel_tiempo_ruta)
                             .addComponent(jLabel_descripcion_ruta))
                         .addGap(24, 24, 24)
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel_rutaLayout.createSequentialGroup()
                                 .addComponent(jLabel_dificultad_ruta)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jComboBox_dificultad_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -799,100 +804,99 @@ public final class Ventana1 extends javax.swing.JFrame {
                             .addComponent(jTextField_tiempo_ruta, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane_descripcion_ruta))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_guardar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_aniadir_categoria_en_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_borrar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_guardar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_cancelar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox_categoris_aniadibles_a_ruta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton_guardar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_aniadir_categoria_en_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_borrar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_guardar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_cancelar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane_categorias_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jScrollPane_valoraciones_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel_rutaLayout.createSequentialGroup()
+                                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel_valoraciones_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                                        .addComponent(jLabel_categorias_ruta)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jComboBox_categoris_aniadibles_a_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                    .addComponent(jLabel_categorias_ruta))
+                                .addGap(0, 54, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
-        jButton_confirmar_aniadir_categoria_en_rutaLayout.setVerticalGroup(
-            jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+        jPanel_rutaLayout.setVerticalGroup(
+            jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_rutaLayout.createSequentialGroup()
+                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_rutaLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jButton_aniadir_ruta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_modificar_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_borrar_ruta))
-                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                    .addGroup(jPanel_rutaLayout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_nombre_ruta)
-                            .addComponent(jTextField_nombre_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel_nombre_ruta)
+                        .addComponent(jTextField_nombre_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel_valoraciones_ruta))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_rutaLayout.createSequentialGroup()
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel_rutaLayout.createSequentialGroup()
+                                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel_distancia_ruta)
                                     .addComponent(jTextField_distancia_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel_tiempo_ruta)
                                     .addComponent(jTextField_tiempo_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                            .addGroup(jPanel_rutaLayout.createSequentialGroup()
                                 .addComponent(jButton_guardar_ruta)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton_cancelar_ruta)))
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel_rutaLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                                .addComponent(jComboBox_categoris_aniadibles_a_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_rutaLayout.createSequentialGroup()
                                         .addComponent(jScrollPane_descripcion_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(24, 24, 24))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_rutaLayout.createSequentialGroup()
                                         .addComponent(jButton_aniadir_categoria_en_ruta)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton_borrar_categoria_en_ruta)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel_credor)
                                     .addComponent(jComboBox_credor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jComboBox_dificultad_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel_dificultad_ruta)
                                     .addComponent(jButton_guardar_categoria_en_ruta))
                                 .addGap(27, 27, 27))
-                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                            .addGroup(jPanel_rutaLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel_descripcion_ruta)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
-                        .addComponent(jLabel_valoraciones_ruta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                    .addGroup(jPanel_rutaLayout.createSequentialGroup()
                         .addComponent(jScrollPane_valoraciones_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)
-                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel_categorias_ruta)
-                                .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3))
-                            .addComponent(jComboBox_categoris_aniadibles_a_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_categorias_ruta)
+                            .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane_categorias_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))))
         );
 
-        jTabbedPane.addTab("Rutas", jButton_confirmar_aniadir_categoria_en_ruta);
+        jTabbedPane.addTab("Rutas", jPanel_ruta);
 
         jTable_usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1119,7 +1123,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                             .addGroup(jPanel_usuarioLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane_rutas_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(81, Short.MAX_VALUE))))
+                        .addContainerGap(95, Short.MAX_VALUE))))
         );
 
         jTabbedPane.addTab("Usuarios", jPanel_usuario);
@@ -1272,7 +1276,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                 .addGroup(jPanel_valoracionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel_comentario_valoracion)
                     .addComponent(jScrollPane_comentario_valoracion, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("Valoraciones", jPanel_valoraciones);
@@ -1463,7 +1467,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                     .addComponent(jLabel_nombre_categoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_cancelar_cantegoria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jLabel_tabla_rutas_de_categoria)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1620,7 +1624,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                 .addGroup(jPanel_fotosPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_tamanio_foto_perfil)
                     .addComponent(jTextField_tamanio_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("Fotos de Perfil", jPanel_fotosPerfil);
@@ -2603,6 +2607,18 @@ public final class Ventana1 extends javax.swing.JFrame {
         jTextField_tiempo_ruta.setText("");
         jComboBox_dificultad_ruta.setSelectedIndex(0);
 
+        //Ocultar
+        jLabel_categorias_ruta.setVisible(false);
+        jScrollPane_categorias_ruta.setVisible(false);
+        jButton_aniadir_categoria_en_ruta.setVisible(false);
+        jButton_borrar_categoria_en_ruta.setVisible(false);
+        jButton_confirmar_aniadir_categoria_en_ruta3.setVisible(false);
+        jButton_guardar_categoria_en_ruta.setVisible(false);
+        jComboBox_categoris_aniadibles_a_ruta.setVisible(false);
+
+        //Habilitar la tabla de rutas
+        jTable_rutas.setEnabled(true);
+
         //Modificar variable de estado
         aniadiendo=false;
         modificando=false;
@@ -2682,10 +2698,22 @@ public final class Ventana1 extends javax.swing.JFrame {
                 //Ocultar los botones de guardar y cancelar y campos de texto
                 ocultarCamposRutas();
 
+                //Ocultar
+                jLabel_categorias_ruta.setVisible(false);
+                jScrollPane_categorias_ruta.setVisible(false);
+                jButton_aniadir_categoria_en_ruta.setVisible(false);
+                jButton_borrar_categoria_en_ruta.setVisible(false);
+                jButton_confirmar_aniadir_categoria_en_ruta3.setVisible(false);
+                jButton_guardar_categoria_en_ruta.setVisible(false);
+                jComboBox_categoris_aniadibles_a_ruta.setVisible(false);
+
                 //Habilitar los botones de añadir, modificar y borrar
                 jButton_aniadir_ruta.setEnabled(true);
                 jButton_borrar_ruta.setEnabled(true);
                 jButton_modificar_ruta.setEnabled(true);
+
+                //Habilitar la tabla de rutas
+                jTable_rutas.setEnabled(true);
 
                 //Vaciar campos de texto
                 jTextField_nombre_ruta.setText("");
@@ -2750,6 +2778,11 @@ public final class Ventana1 extends javax.swing.JFrame {
 
             //Hacer visible la parte modificable
             mostrarCamposRutas();
+            jLabel_categorias_ruta.setVisible(true);
+            jScrollPane_categorias_ruta.setVisible(true);
+            jButton_aniadir_categoria_en_ruta.setVisible(true);
+            jButton_borrar_categoria_en_ruta.setVisible(true);
+            jButton_guardar_categoria_en_ruta.setVisible(true);
 
             //Hacer invisible lo que no se puede modificar
             jLabel_distancia_ruta.setVisible(false);
@@ -2774,10 +2807,159 @@ public final class Ventana1 extends javax.swing.JFrame {
             //Hacer invisible info extra
             jLabel_valoraciones_ruta.setVisible(false);
             jScrollPane_valoraciones_ruta.setVisible(false);
-            jLabel_categorias_ruta.setVisible(false);
-            jScrollPane_categorias_ruta.setVisible(false);
+
+            //Inhabilitar la tabla de rutas
+            jTable_rutas.setEnabled(false);
         }
     }//GEN-LAST:event_jButton_modificar_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de añadir categoria de la pestaña ruta
+     * @param evt   Evento
+     */
+    private void jButton_aniadir_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_categoria_en_rutaActionPerformed
+        //Inhabilitar este botón y borrar
+        jButton_aniadir_categoria_en_ruta.setEnabled(false);
+        jButton_borrar_categoria_en_ruta.setEnabled(false);
+        //Hacer visible el combobox
+        jComboBox_categoris_aniadibles_a_ruta.setVisible(true);
+        //Actualizar el combobox
+        actualizarComboBoxCategoriasAniadibles();
+        //Hacer visible el botón de confirmar
+        jButton_confirmar_aniadir_categoria_en_ruta3.setVisible(true);
+        //Haer visible el botón de guardar
+        jButton_guardar_categoria_en_ruta.setVisible(true);
+    }                                                                 
+
+    /**
+     * @brief Metodo que actualiza los datos del combobox de categorías añadibles a la ruta
+     * @post   Se actualiza el combobox con las categorías que no están en la ruta seleccionada
+     */
+    private void actualizarComboBoxCategoriasAniadibles(){
+        //Vaciar el combobox
+        jComboBox_categoris_aniadibles_a_ruta.removeAllItems();
+        Ruta ruta = null;
+        String idRuta = controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString()));
+        for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
+            if(rutaAux.getIdRuta().equals(idRuta)){
+                ruta = rutaAux;
+            }
+        }
+
+        //Añadir las categorías que no están en la ruta
+        for(Categoria categoria : controladorVista.getListaCategoriasSistema()){
+            boolean existe = false;
+            for(Categoria categoriaAux : ruta.getListaCategorias()){
+                if(categoriaAux.getNombreCategoria().equals(categoria.getNombreCategoria())){
+                    existe = true;
+                }
+            }
+            if(!existe){
+                jComboBox_categoris_aniadibles_a_ruta.addItem(categoria.getNombreCategoria());
+            }
+        }
+    }//GEN-LAST:event_jButton_aniadir_categoria_en_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de borrar categoria de la pestaña ruta
+     * @param evt   Evento
+     */
+    private void jButton_borrar_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoria_en_rutaActionPerformed
+        //Comprobamos que hay una fila seleccionada
+        if(jTable_categorias_ruta.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(this, "Selecciona una categoría", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            //Borrar la categoría de la ruta
+            int fila = jTable_categorias_ruta.getSelectedRow();
+            String nombre = (String) jTable_categorias_ruta.getValueAt(fila, 1);
+            controladorVista.eliminarRutaDeCategoria(jTextField_nombre_ruta.getText(), nombre);
+            //Pintar los datos de la ruta
+            pintarDatosRuta();
+            pintarDatosCategoria();
+            //Haer visible el botón guardar
+            jButton_guardar_categoria_en_ruta.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton_borrar_categoria_en_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de cerrar modificar de la pestaña ruta
+     * @param evt   Evento
+     */
+    private void jButton_guardar_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_categoria_en_rutaActionPerformed
+        //Habilitar añadir y borrar
+        jButton_aniadir_categoria_en_ruta.setEnabled(true);
+        jButton_borrar_categoria_en_ruta.setEnabled(true);
+        //Hacer invisible el combobox
+        jComboBox_categoris_aniadibles_a_ruta.setVisible(false);
+        //Hacer invisible el botón de confirmar
+        jButton_confirmar_aniadir_categoria_en_ruta3.setVisible(false);
+        //Hacer invisible el botón de guardar
+        jButton_guardar_categoria_en_ruta.setVisible(false);
+    }//GEN-LAST:event_jButton_guardar_categoria_en_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de añadir junto a las categorias de la ruta de la pestaña ruta
+     * @param evt   Evento
+     */
+    private void jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed
+        //Comprobar que hay una categoría seleccionada
+        if(jComboBox_categoris_aniadibles_a_ruta.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(this, "Selecciona una categoría", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            //Comprobar qué ruta estamos modificando
+            int fila = jTable_rutas.getSelectedRow();
+            Ruta ruta = null;
+            String idRuta = controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString()));
+            for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
+                if(rutaAux.getIdRuta().equals(idRuta)){
+                    ruta = rutaAux;
+                }
+            }
+
+            //Encontrar la categoría seleccionada
+            Categoria categoria = null;
+            for(Categoria categoriaAux : controladorVista.getListaCategoriasSistema()){
+                if(categoriaAux.getNombreCategoria().equals(jComboBox_categoris_aniadibles_a_ruta.getSelectedItem().toString())){
+                    categoria = categoriaAux;
+                }
+            }
+
+            //Comprobar que la categoría no está ya en la ruta
+            boolean existe = false;
+            for(Categoria categoriaAux : ruta.getListaCategorias()){
+                if(categoriaAux.getNombreCategoria().equals(categoria.getNombreCategoria())){
+                    existe = true;
+                }
+            }
+
+            if(existe){
+                JOptionPane.showMessageDialog(this, "La categoría ya está añadida a la ruta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                //Añadir la categoría a la ruta
+                controladorVista.aniadirRutaACategoria(ruta, categoria);
+                //Pintar los datos de la ruta
+                pintarDatosRuta();
+                pintarDatosCategoria();
+                //Actulizar el combobox de categorías añadibles
+                actualizarComboBoxCategoriasAniadibles();
+                //Habilitar añadir y borrar
+                jButton_aniadir_categoria_en_ruta.setEnabled(true);
+                jButton_borrar_categoria_en_ruta.setEnabled(true);
+                //Hacer invisible el combobox
+                jComboBox_categoris_aniadibles_a_ruta.setVisible(false);
+                //Hacer invisible el botón de confirmar
+                jButton_confirmar_aniadir_categoria_en_ruta3.setVisible(false);
+                //Hacer invisible el botón de guardar
+                jButton_guardar_categoria_en_ruta.setVisible(false);
+
+                //Seleccionar en la tabla de rutas la ruta que se estaba modificando
+                jTable_rutas.setRowSelectionInterval(fila, fila);
+            }
+        }
+    }//GEN-LAST:event_jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed
 
     /**
      * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar de la pestaña ruta
@@ -2821,7 +3003,7 @@ public final class Ventana1 extends javax.swing.JFrame {
      * @brief Metodo que se clica sobre una fila de la tabla de rutas
      * @param evt   Evento
      */
-    private void jTable_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_rutasMouseClicked
+    private void jTable_rutasMouseClicked(java.awt.event.MouseEvent evt) {                                          
         //Si hay alguna fila seleccionada
         if(jTable_rutas.getSelectedRow() != -1){
             //Mostrar la información extra
@@ -2862,25 +3044,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                 model2.addRow(new Object[]{categoria.getIDCategoria(), categoria.getNombreCategoria()});
             }
         }
-    }//GEN-LAST:event_jTable_rutasMouseClicked
-
-    private void jButton_aniadir_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_categoria_en_rutaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_aniadir_categoria_en_rutaActionPerformed
-
-    private void jButton_borrar_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoria_en_rutaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_borrar_categoria_en_rutaActionPerformed
-
-    private void jButton_guardar_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_categoria_en_rutaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_guardar_categoria_en_rutaActionPerformed
-
-    private void jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed
-
-    
+    }                                             
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_aniadir_categoria;
@@ -2898,10 +3062,9 @@ public final class Ventana1 extends javax.swing.JFrame {
     public javax.swing.JButton jButton_borrar_valoracion;
     private javax.swing.JButton jButton_cancelar_cantegoria;
     private javax.swing.JButton jButton_cancelar_foto_perfil;
-    private javax.swing.JButton jButton_cancelar_ruta;
+    public javax.swing.JButton jButton_cancelar_ruta;
     private javax.swing.JButton jButton_cancelar_usuario;
     private javax.swing.JButton jButton_cancelar_valoracion;
-    private javax.swing.JPanel jButton_confirmar_aniadir_categoria_en_ruta;
     private javax.swing.JButton jButton_confirmar_aniadir_categoria_en_ruta3;
     private javax.swing.JButton jButton_confirmar_aniadir_ruta_de_categoria;
     private javax.swing.JButton jButton_eliminar_ruta_de_categoria;
@@ -2909,7 +3072,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton_guardar_categoria_en_ruta;
     private javax.swing.JButton jButton_guardar_foto_perfil;
     private javax.swing.JButton jButton_guardar_modificacion_categoria;
-    private javax.swing.JButton jButton_guardar_ruta;
+    public javax.swing.JButton jButton_guardar_ruta;
     private javax.swing.JButton jButton_guardar_usuario;
     private javax.swing.JButton jButton_guardar_valoracion;
     public javax.swing.JButton jButton_modificar_categoria;
@@ -2919,8 +3082,8 @@ public final class Ventana1 extends javax.swing.JFrame {
     public javax.swing.JButton jButton_modificar_valoracion;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox_categoris_aniadibles_a_ruta;
-    private javax.swing.JComboBox<String> jComboBox_credor;
-    private javax.swing.JComboBox<String> jComboBox_dificultad_ruta;
+    public javax.swing.JComboBox<String> jComboBox_credor;
+    public javax.swing.JComboBox<String> jComboBox_dificultad_ruta;
     private javax.swing.JComboBox<String> jComboBox_puntuacion_valoracion;
     private javax.swing.JComboBox<Ruta> jComboBox_ruta_valoracion;
     private javax.swing.JComboBox<String> jComboBox_usuario_foto_perfil;
@@ -2953,6 +3116,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_valoraciones_usuario;
     private javax.swing.JPanel jPanel_categoria;
     private javax.swing.JPanel jPanel_fotosPerfil;
+    private javax.swing.JPanel jPanel_ruta;
     private javax.swing.JPanel jPanel_usuario;
     private javax.swing.JPanel jPanel_valoraciones;
     private javax.swing.JPasswordField jPasswordField_contrasenia_usuario;
