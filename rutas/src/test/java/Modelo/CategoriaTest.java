@@ -2,7 +2,6 @@
 
 package Modelo;
 
-import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +22,7 @@ public class CategoriaTest {
     
     public CategoriaTest() {
         //Cargar datos de prueba de la base de datos
-        Controlador controlador = new Controlador();
+        controlador = Controlador.newInstance();
         controlador.deserializarCategoria();
         controlador.deserializarUsuario();
         controlador.deserializarRuta();
@@ -50,35 +49,37 @@ public class CategoriaTest {
     }
 
     /**
-     * Test of setIDCategoria method, of class Categoria.
+     * Test of toString method, of class Categoria.
      */
     @org.junit.jupiter.api.Test
-    public void testSetIDCategoria() {
-        System.out.println("setIDCategoria");
-        String id = "NuevoID";
-        instance.setIDCategoria(id);
-        assertEquals(id, instance.getIDCategoria());
+    public void testToString() {
+        System.out.println("toString");
+        instance = controlador.getListaCategoriasSistema().get(0);
+        String expResult = instance.getNombreCategoria();
+        String result = instance.toString();
+        assertEquals(expResult, result);
     }
 
     /**
-     * Test of setNombreCategoria method, of class Categoria.
+     * Test of asignarID method, of class Categoria.
      */
     @org.junit.jupiter.api.Test
-    public void testSetNombreCategoria() {
-        System.out.println("setNombreCategoria");
-        String nombre = "NuevoNombre";
-        instance.setNombreCategoria(nombre);
-        assertEquals(nombre, instance.getNombreCategoria());
+    public void testAsignarID() {
+        System.out.println("asignarID simple");
+        Categoria instance = new Categoria("Categoria");
+        //Asignar ID se hace dentro del constructor
+        assertEquals("cat.Categoria", instance.getIDCategoria());
     }
 
     /**
-     * Test of setListaRutas method, of class Categoria.
+     * Test of asignarID method, of class Categoria.
      */
     @org.junit.jupiter.api.Test
-    public void testSetListaRutas() {
-        System.out.println("setListaRutas");
-        instance.setListaRutas(controlador.getListaRutasSistema());
-        assertEquals(controlador.getListaRutasSistema(), instance.getListaRutas());
+    public void testAsignarIDWithSpaces() {
+        System.out.println("asignarID con espacios");
+        Categoria instance = new Categoria("Categoria con espacios");
+        //Asignar ID se hace dentro del constructor
+        assertEquals("cat.Categoriaconespacios", instance.getIDCategoria());
     }
 
     /**
@@ -87,81 +88,22 @@ public class CategoriaTest {
     @org.junit.jupiter.api.Test
     public void testSetRutaEnLista() {
         System.out.println("setRutaEnLista");
-        Ruta ruta = controlador.getListaRutasSistema().get(3) ;
-        instance.setRutaEnLista(ruta);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        Categoria categoria = new Categoria("Nueva");
+        categoria.setRutaEnLista(ruta);
+        assertEquals(ruta, categoria.getRutaEnLista(0));
     }
 
     /**
-     * Test of getIDCategoria method, of class Categoria.
+     * Test of setRutaEnLista method, of class Categoria.
      */
     @org.junit.jupiter.api.Test
-    public void testGetIDCategoria() {
-        System.out.println("getIDCategoria");
-        Categoria instance = null;
-        String expResult = "";
-        String result = instance.getIDCategoria();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSetRutaExistenteEnLista() {
+        System.out.println("setRutaExistenteEnLista");
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        Categoria categoria = new Categoria("Nueva");
+        categoria.setRutaEnLista(ruta);
+        categoria.setRutaEnLista(ruta);
+        assertEquals(1, categoria.getListaRutas().size());
     }
-
-    /**
-     * Test of getNombreCategoria method, of class Categoria.
-     */
-    @org.junit.jupiter.api.Test
-    public void testGetNombreCategoria() {
-        System.out.println("getNombreCategoria");
-        Categoria instance = null;
-        String expResult = "";
-        String result = instance.getNombreCategoria();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getListaRutas method, of class Categoria.
-     */
-    @org.junit.jupiter.api.Test
-    public void testGetListaRutas() {
-        System.out.println("getListaRutas");
-        Categoria instance = null;
-        ArrayList<Ruta> expResult = null;
-        ArrayList<Ruta> result = instance.getListaRutas();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getRutaEnLista method, of class Categoria.
-     */
-    @org.junit.jupiter.api.Test
-    public void testGetRutaEnLista() {
-        System.out.println("getRutaEnLista");
-        Integer posicion = null;
-        Categoria instance = null;
-        Ruta expResult = null;
-        Ruta result = instance.getRutaEnLista(posicion);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toString method, of class Categoria.
-     */
-    @org.junit.jupiter.api.Test
-    public void testToString() {
-        System.out.println("toString");
-        Categoria instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }
