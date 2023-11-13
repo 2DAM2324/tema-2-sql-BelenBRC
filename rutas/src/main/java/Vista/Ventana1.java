@@ -2904,17 +2904,17 @@ public final class Ventana1 extends javax.swing.JFrame {
      */
     private void jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed
         //Comprobar que hay una categoría seleccionada
-        if(jComboBox_categoris_aniadibles_a_ruta.getSelectedIndex() == 0){
+        if(jComboBox_categoris_aniadibles_a_ruta.getSelectedIndex() == -1){
             JOptionPane.showMessageDialog(this, "Selecciona una categoría", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else{
             //Comprobar qué ruta estamos modificando
-            int fila = jTable_rutas.getSelectedRow();
             Ruta ruta = null;
-            String idRuta = controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString()));
-            for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
-                if(rutaAux.getIdRuta().equals(idRuta)){
-                    ruta = rutaAux;
+            ruta = controladorVista.getRutaSistema(jTextField_nombre_ruta.getText(), jComboBox_credor.getSelectedItem().toString());
+            int fila = jTable_rutas.getSelectedRow();
+            for(int i=0; i < jTable_rutas.getRowCount(); i++){
+                if(jTable_rutas.getValueAt(i, 0).equals(ruta.getNombreRuta()) && jTable_rutas.getValueAt(i, 6).equals(ruta.getCreadorRuta().getDNI())){
+                    fila = i;
                 }
             }
 
@@ -2945,6 +2945,8 @@ public final class Ventana1 extends javax.swing.JFrame {
                 pintarDatosCategoria();
                 //Actulizar el combobox de categorías añadibles
                 actualizarComboBoxCategoriasAniadibles();
+                actualizarTablaCategoriasDeRuta();
+                
                 //Habilitar añadir y borrar
                 jButton_aniadir_categoria_en_ruta.setEnabled(true);
                 jButton_borrar_categoria_en_ruta.setEnabled(true);
@@ -3044,7 +3046,44 @@ public final class Ventana1 extends javax.swing.JFrame {
                 model2.addRow(new Object[]{categoria.getIDCategoria(), categoria.getNombreCategoria()});
             }
         }
-    }                                             
+    }
+    
+    /**
+     * @brief Metodo que actualiza la tabla de categorias de la ruta, mostrando las categorias que tiene la ruta seleccionada
+     */
+    public void actualizarTablaCategoriasDeRuta(){
+        //Encontrar la ruta seleccionada
+        Ruta rutaSeleccionada = null;
+        rutaSeleccionada = controladorVista.getRutaSistema(jTextField_nombre_ruta.getText(), jComboBox_credor.getSelectedItem().toString());
+        int fila = jTable_rutas.getSelectedRow();
+        for(int i=0; i < jTable_rutas.getRowCount(); i++){
+            if(jTable_rutas.getValueAt(i, 0).equals(rutaSeleccionada.getNombreRuta()) && jTable_rutas.getValueAt(i, 6).equals(rutaSeleccionada.getCreadorRuta().getDNI())){
+                fila = i;
+            }
+        }
+        String nombre = (String) jTable_rutas.getValueAt(fila, 0);
+        String creador = (String) jTable_rutas.getValueAt(fila, 6);
+        Usuario creadorRuta = null;
+        for(Usuario usuario : controladorVista.getListaUsuariosSistema()){
+            if(usuario.getDNI().equals(creador)){
+                creadorRuta = usuario;
+            }
+        }
+
+        Ruta ruta = null;
+        for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
+            if(rutaAux.getIdRuta().equals(controladorVista.getIDrutaSistema(nombre, creadorRuta.getIDUsuario()))){
+                ruta = rutaAux;
+            }
+        }
+        //Pintar la tabla de categorias
+        DefaultTableModel model2 = (DefaultTableModel) jTable_categorias_ruta.getModel();
+        model2.setRowCount(0);
+        for(Categoria categoria : ruta.getListaCategorias()){
+            model2.addRow(new Object[]{categoria.getIDCategoria(), categoria.getNombreCategoria()});
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_aniadir_categoria;

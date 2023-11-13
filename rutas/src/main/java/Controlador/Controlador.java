@@ -18,8 +18,6 @@ import java.util.ArrayList;
 
 //TODO FINAL: en el cargar fotos de perfil, recordar que hay que añadir cada foto de perfil en su correspondiente usuario del sistema
 
-//TODO ARREGLAR Mostrar detalles (añadir categorias en ruta y rutas a categorias)
-
 //TODO 2. Tests unitarios
 //TODO 3. Separar archivo accesoBD
 //TODO 4. SQL
@@ -223,6 +221,24 @@ public class Controlador {
         }
 
         return IDruta;
+    }
+
+    /**
+     * @brief   Método que devuelve la ruta del sistema con el nombre y el DNI del creador indicados
+     * @param nombreRuta        Nombre de la ruta de la que se quiere obtener el ID
+     * @param DNIcreadorRuta    DNI del creador de la ruta de la que se quiere obtener el ID
+     * @return  (Ruta)  Ruta del sistema con el nombre y el DNI del creador indicados
+     */
+    public Ruta getRutaSistema(String nombreRuta, String DNIcreadorRuta){
+        Ruta ruta = null;
+
+        for(int i=0; i < listaRutasSistema.size(); i++){
+            if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRuta) && listaRutasSistema.get(i).getCreadorRuta().getDNI().equals(DNIcreadorRuta)){
+                ruta = listaRutasSistema.get(i);
+            }
+        }
+
+        return ruta;
     }
 
     /**
@@ -869,33 +885,37 @@ public class Controlador {
                 existeRuta = true;
             }
         }
+
         //Buscar la categoría en la lista de categorías del sistema
         for(int i=0; i < listaCategoriasSistema.size(); i++){
             if(listaCategoriasSistema.get(i).getIDCategoria().equals(categoria.getIDCategoria())){
                 existeCategoria = true;
             }
         }
+
         if(existeRuta && existeCategoria){
             //Comprobar que no existe ya la ruta en la categoría
+            boolean existeRutaEnCategoria = false;
             for(int i=0; i < categoria.getListaRutas().size(); i++){
                 if(categoria.getListaRutas().get(i).getIdRuta().equals(ruta.getIdRuta())){
-                    //No añadir
+                    existeRutaEnCategoria = true;
                 }
-                else{
-                    //Añadir la ruta a la lista de rutas de la categoría
-                    categoria.setRutaEnLista(ruta);
-                }
+            }
+            if(!existeRutaEnCategoria){
+                //Añadir la ruta a la lista de rutas de la categoría
+                categoria.setRutaEnLista(ruta);
             }
 
             //Comprobar que no existe ya la categoría en la ruta
+            boolean existeCategoriaEnRuta = false;
             for(int i=0; i < ruta.getListaCategorias().size(); i++){
                 if(ruta.getListaCategorias().get(i).getIDCategoria().equals(categoria.getIDCategoria())){
-                    //No añadir
+                    existeCategoriaEnRuta = true;
                 }
-                else{
-                    //Añadir la categoría a la lista de categorías de la ruta
-                    ruta.setCategoriaEnLista(categoria);
-                }
+            }
+            if(!existeCategoriaEnRuta){
+                //Añadir la categoría a la lista de categorías de la ruta
+                ruta.setCategoriaEnLista(categoria);
             }
         }
         serializarCategoria();
