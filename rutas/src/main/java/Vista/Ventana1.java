@@ -63,11 +63,14 @@ public final class Ventana1 extends javax.swing.JFrame {
         jLabel_tabla_rutas_de_categoria.setVisible(false);
         jButton_eliminar_ruta_de_categoria.setVisible(false);
         jButton_guardar_modificacion_categoria.setVisible(false);
+        jButton_aniadir_ruta_de_categoria.setVisible(false);
+        jComboBox1.setVisible(false);
+        jButton_confirmar_aniadir_ruta_de_categoria.setVisible(false);
 
         jLabel_valoraciones_ruta.setVisible(false);
         jScrollPane_valoraciones_ruta.setVisible(false);
         jLabel_categorias_ruta.setVisible(false);
-        jScrollPane_ctegorias_ruta.setVisible(false);
+        jScrollPane_categorias_ruta.setVisible(false);
 
         jLabel_valoraciones_usuario.setVisible(false);
         jScrollPane_valoraciones_usuario.setVisible(false);
@@ -226,7 +229,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         jLabel_valoraciones_ruta.setVisible(true);
         jScrollPane_valoraciones_ruta.setVisible(true);
         jLabel_categorias_ruta.setVisible(true);
-        jScrollPane_ctegorias_ruta.setVisible(true);
+        jScrollPane_categorias_ruta.setVisible(true);
     }
 
     /**
@@ -254,7 +257,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         jLabel_valoraciones_ruta.setVisible(false);
         jScrollPane_valoraciones_ruta.setVisible(false);
         jLabel_categorias_ruta.setVisible(false);
-        jScrollPane_ctegorias_ruta.setVisible(false);
+        jScrollPane_categorias_ruta.setVisible(false);
 
         //Habilitar los campos que no se pueden modificar
         jTextField_nombre_ruta.setEnabled(true);
@@ -469,7 +472,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane = new javax.swing.JTabbedPane();
-        jPanel_rutas = new javax.swing.JPanel();
+        jButton_confirmar_aniadir_categoria_en_ruta = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable_rutas = new javax.swing.JTable();
         jLabel_nombre_ruta = new javax.swing.JLabel();
@@ -494,8 +497,13 @@ public final class Ventana1 extends javax.swing.JFrame {
         jScrollPane_valoraciones_ruta = new javax.swing.JScrollPane();
         jTable_valoraciones_ruta = new javax.swing.JTable();
         jLabel_categorias_ruta = new javax.swing.JLabel();
-        jScrollPane_ctegorias_ruta = new javax.swing.JScrollPane();
+        jScrollPane_categorias_ruta = new javax.swing.JScrollPane();
         jTable_categorias_ruta = new javax.swing.JTable();
+        jComboBox_categoris_aniadibles_a_ruta = new javax.swing.JComboBox<>();
+        jButton_aniadir_categoria_en_ruta = new javax.swing.JButton();
+        jButton_borrar_categoria_en_ruta = new javax.swing.JButton();
+        jButton_guardar_categoria_en_ruta = new javax.swing.JButton();
+        jButton_confirmar_aniadir_categoria_en_ruta3 = new javax.swing.JButton();
         jPanel_usuario = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable_usuario = new javax.swing.JTable();
@@ -554,6 +562,9 @@ public final class Ventana1 extends javax.swing.JFrame {
         jLabel_tabla_rutas_de_categoria = new javax.swing.JLabel();
         jButton_eliminar_ruta_de_categoria = new javax.swing.JButton();
         jButton_guardar_modificacion_categoria = new javax.swing.JButton();
+        jButton_aniadir_ruta_de_categoria = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton_confirmar_aniadir_ruta_de_categoria = new javax.swing.JButton();
         jPanel_fotosPerfil = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable_fotosPerfil = new javax.swing.JTable();
@@ -715,32 +726,67 @@ public final class Ventana1 extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane_ctegorias_ruta.setViewportView(jTable_categorias_ruta);
+        jScrollPane_categorias_ruta.setViewportView(jTable_categorias_ruta);
 
-        javax.swing.GroupLayout jPanel_rutasLayout = new javax.swing.GroupLayout(jPanel_rutas);
-        jPanel_rutas.setLayout(jPanel_rutasLayout);
-        jPanel_rutasLayout.setHorizontalGroup(
-            jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_rutasLayout.createSequentialGroup()
-                .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_rutasLayout.createSequentialGroup()
+        jComboBox_categoris_aniadibles_a_ruta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_categoris_aniadibles_a_ruta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox_categoris_aniadibles_a_rutaMouseClicked(evt);
+            }
+        });
+
+        jButton_aniadir_categoria_en_ruta.setText("Añadir categoria");
+        jButton_aniadir_categoria_en_ruta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_aniadir_categoria_en_rutaActionPerformed(evt);
+            }
+        });
+
+        jButton_borrar_categoria_en_ruta.setText("Borrar categoria");
+        jButton_borrar_categoria_en_ruta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_borrar_categoria_en_rutaActionPerformed(evt);
+            }
+        });
+
+        jButton_guardar_categoria_en_ruta.setText("Cerrar modificar");
+        jButton_guardar_categoria_en_ruta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_guardar_categoria_en_rutaActionPerformed(evt);
+            }
+        });
+
+        jButton_confirmar_aniadir_categoria_en_ruta3.setText("Añadir ");
+        jButton_confirmar_aniadir_categoria_en_ruta3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jButton_confirmar_aniadir_categoria_en_rutaLayout = new javax.swing.GroupLayout(jButton_confirmar_aniadir_categoria_en_ruta);
+        jButton_confirmar_aniadir_categoria_en_ruta.setLayout(jButton_confirmar_aniadir_categoria_en_rutaLayout);
+        jButton_confirmar_aniadir_categoria_en_rutaLayout.setHorizontalGroup(
+            jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton_modificar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_modificar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_aniadir_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_borrar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel_rutasLayout.createSequentialGroup()
+                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel_nombre_ruta)
                             .addComponent(jLabel_distancia_ruta)
                             .addComponent(jLabel_tiempo_ruta)
                             .addComponent(jLabel_descripcion_ruta))
                         .addGap(24, 24, 24)
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel_rutasLayout.createSequentialGroup()
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                                 .addComponent(jLabel_dificultad_ruta)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jComboBox_dificultad_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -753,81 +799,100 @@ public final class Ventana1 extends javax.swing.JFrame {
                             .addComponent(jTextField_tiempo_ruta, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane_descripcion_ruta))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton_guardar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_cancelar_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton_aniadir_categoria_en_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_borrar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_guardar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_cancelar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane_ctegorias_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane_categorias_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jScrollPane_valoraciones_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel_rutasLayout.createSequentialGroup()
-                                .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel_valoraciones_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_categorias_ruta))
+                                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                                        .addComponent(jLabel_categorias_ruta)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jComboBox_categoris_aniadibles_a_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
-        jPanel_rutasLayout.setVerticalGroup(
-            jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_rutasLayout.createSequentialGroup()
-                .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_rutasLayout.createSequentialGroup()
+        jButton_confirmar_aniadir_categoria_en_rutaLayout.setVerticalGroup(
+            jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jButton_aniadir_ruta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_modificar_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_borrar_ruta))
-                    .addGroup(jPanel_rutasLayout.createSequentialGroup()
+                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_rutasLayout.createSequentialGroup()
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_nombre_ruta)
                             .addComponent(jTextField_nombre_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel_rutasLayout.createSequentialGroup()
-                                .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel_distancia_ruta)
                                     .addComponent(jTextField_distancia_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel_tiempo_ruta)
                                     .addComponent(jTextField_tiempo_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel_rutasLayout.createSequentialGroup()
+                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                                 .addComponent(jButton_guardar_ruta)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton_cancelar_ruta)))
-                        .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel_rutasLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                                .addComponent(jScrollPane_descripcion_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(24, 24, 24)
-                                .addGroup(jPanel_rutasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                                        .addComponent(jScrollPane_descripcion_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(24, 24, 24))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
+                                        .addComponent(jButton_aniadir_categoria_en_ruta)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton_borrar_categoria_en_ruta)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel_credor)
                                     .addComponent(jComboBox_credor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jComboBox_dificultad_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_dificultad_ruta))
+                                    .addComponent(jLabel_dificultad_ruta)
+                                    .addComponent(jButton_guardar_categoria_en_ruta))
                                 .addGap(27, 27, 27))
-                            .addGroup(jPanel_rutasLayout.createSequentialGroup()
+                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel_descripcion_ruta)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel_rutasLayout.createSequentialGroup()
+                    .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createSequentialGroup()
                         .addComponent(jLabel_valoraciones_ruta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(jScrollPane_valoraciones_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel_categorias_ruta)
+                        .addGap(14, 14, 14)
+                        .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jButton_confirmar_aniadir_categoria_en_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel_categorias_ruta)
+                                .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3))
+                            .addComponent(jComboBox_categoris_aniadibles_a_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane_ctegorias_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane_categorias_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))))
         );
 
-        jTabbedPane.addTab("Rutas", jPanel_rutas);
+        jTabbedPane.addTab("Rutas", jButton_confirmar_aniadir_categoria_en_ruta);
 
         jTable_usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -989,7 +1054,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                             .addComponent(jScrollPane_valoraciones_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jLabel_valoraciones_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane_rutas_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jLabel_rutas_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+                            .addComponent(jLabel_rutas_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
                         .addGap(12, 12, 12))
                     .addComponent(jPasswordField_contrasenia_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(jPanel_usuarioLayout.createSequentialGroup()
@@ -1054,7 +1119,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                             .addGroup(jPanel_usuarioLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane_rutas_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(80, Short.MAX_VALUE))))
+                        .addContainerGap(81, Short.MAX_VALUE))))
         );
 
         jTabbedPane.addTab("Usuarios", jPanel_usuario);
@@ -1173,7 +1238,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                                     .addComponent(jButton_guardar_valoracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton_cancelar_valoracion, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
                             .addComponent(jComboBox_ruta_valoracion, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         jPanel_valoracionesLayout.setVerticalGroup(
             jPanel_valoracionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1207,7 +1272,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                 .addGroup(jPanel_valoracionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel_comentario_valoracion)
                     .addComponent(jScrollPane_comentario_valoracion, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("Valoraciones", jPanel_valoraciones);
@@ -1317,6 +1382,27 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
         });
 
+        jButton_aniadir_ruta_de_categoria.setText("Añadir una ruta");
+        jButton_aniadir_ruta_de_categoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_aniadir_ruta_de_categoriaActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
+
+        jButton_confirmar_aniadir_ruta_de_categoria.setText("Añadir");
+        jButton_confirmar_aniadir_ruta_de_categoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_confirmar_aniadir_ruta_de_categoriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_categoriaLayout = new javax.swing.GroupLayout(jPanel_categoria);
         jPanel_categoria.setLayout(jPanel_categoriaLayout);
         jPanel_categoriaLayout.setHorizontalGroup(
@@ -1347,8 +1433,13 @@ public final class Ventana1 extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton_eliminar_ruta_de_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_guardar_modificacion_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                            .addComponent(jButton_guardar_modificacion_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                            .addComponent(jButton_aniadir_ruta_de_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel_categoriaLayout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25)
+                                .addComponent(jButton_confirmar_aniadir_ruta_de_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel_categoriaLayout.setVerticalGroup(
             jPanel_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1372,17 +1463,22 @@ public final class Ventana1 extends javax.swing.JFrame {
                     .addComponent(jLabel_nombre_categoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_cancelar_cantegoria)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jLabel_tabla_rutas_de_categoria)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_categoriaLayout.createSequentialGroup()
+                .addGroup(jPanel_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel_categoriaLayout.createSequentialGroup()
+                        .addGroup(jPanel_categoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_confirmar_aniadir_ruta_de_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_aniadir_ruta_de_categoria)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_eliminar_ruta_de_categoria)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_guardar_modificacion_categoria)
-                        .addGap(19, 19, 19)))
-                .addGap(50, 50, 50))
+                        .addComponent(jButton_guardar_modificacion_categoria)))
+                .addGap(29, 29, 29))
         );
 
         jTabbedPane.addTab("Categorias", jPanel_categoria);
@@ -1490,7 +1586,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                         .addGroup(jPanel_fotosPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton_guardar_foto_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_cancelar_foto_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         jPanel_fotosPerfilLayout.setVerticalGroup(
             jPanel_fotosPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1524,7 +1620,7 @@ public final class Ventana1 extends javax.swing.JFrame {
                 .addGroup(jPanel_fotosPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_tamanio_foto_perfil)
                     .addComponent(jTextField_tamanio_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("Fotos de Perfil", jPanel_fotosPerfil);
@@ -1551,182 +1647,284 @@ public final class Ventana1 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        /**
-         * @brief Metodo que se ejecuta cuando se pulsa el boton de borrar de la pestaña categoria
-         * @param evt   Evento
-         * @post    Se borra la categoria seleccionada de la tabla
-         *          Se actualiza la tabla
-         *          Se elimina del array de categorías del sistema
-         *          Se actualiza el XML
-         */
-        private void jButton_borrar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoriaActionPerformed
-            if (jTable_categoria.getSelectedRow() != -1) {
-                    int fila = jTable_categoria.getSelectedRow();
-                    String id = (String) jTable_categoria.getValueAt(fila, 0);
-                    String nombre = (String) jTable_categoria.getValueAt(fila, 1);
-                    int confirmado = JOptionPane.showConfirmDialog(this, "¿Estas seguro de borrar la categoria " + nombre + "?");
-                    if (JOptionPane.OK_OPTION == confirmado) {
-                            controladorVista.borrarCategoria(id);
-                            pintarDatosCategoria();
-                            pintarDatosRuta();
-                    }
-            } else {
-                    JOptionPane.showMessageDialog(this, "Selecciona una categoria", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }//GEN-LAST:event_jButton_borrar_categoriaActionPerformed
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de borrar de la pestaña categoria
+     * @param evt   Evento
+     * @post    Se borra la categoria seleccionada de la tabla
+     *          Se actualiza la tabla
+     *          Se elimina del array de categorías del sistema
+     *          Se actualiza el XML
+     */
+    private void jButton_borrar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoriaActionPerformed
+        if (jTable_categoria.getSelectedRow() != -1) {
+                int fila = jTable_categoria.getSelectedRow();
+                String id = (String) jTable_categoria.getValueAt(fila, 0);
+                String nombre = (String) jTable_categoria.getValueAt(fila, 1);
 
-        /**
-         * @brief Metodo que se ejecuta cuando se pulsa el boton de añadir de la pestaña categoria
-         * @param evt   Evento
-         * @post    Se hacen visibles los botones de guardar y cancelar y el campo de texto
-         *          Se inhabilitan los botones de añadir, modificar y borrar
-         */
-        private void jButton_aniadir_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_categoriaActionPerformed
-            //Modificar variable de estado
-            aniadiendo=true;
-            //Hacer visibles los botones de guardar y cancelar
-            mostrarCamposCategorias();
-            //Inhabilitar los botones de añadir y borrar
-            jButton_aniadir_categoria.setEnabled(false);
-            jButton_borrar_categoria.setEnabled(false);
-            jButton_modificar_categoria.setEnabled(false);
-        }//GEN-LAST:event_jButton_aniadir_categoriaActionPerformed
-
-        /**
-         * @brief Metodo que se ejecuta cuando se pulsa el boton de cancelar de la pestaña categoria
-         * @param evt   Evento
-         * @post    Se ocultan los botones de guardar y cancelar y el campo de texto
-         *          Se habilitan los botones de añadir, modificar y borrar
-         */
-        private void jButton_cancelar_cantegoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelar_cantegoriaActionPerformed
-            //Ocultar los botones de guardar y cancelar y el campo de texto
-            ocultarCamposCategorias();
-            //Habilitar los botones de añadir, modificar y borrar
-            jButton_aniadir_categoria.setEnabled(true);
-            jButton_borrar_categoria.setEnabled(true);
-            jButton_modificar_categoria.setEnabled(true);
-
-            //Borrar los datos del campo de texto
-            jTextField_nombre_categoria.setText("");
-
-            //Modificar variable de estado
-            aniadiendo=false;
-            modificando=false;
-        }//GEN-LAST:event_jButton_cancelar_cantegoriaActionPerformed
-
-        /**
-         * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar de la pestaña categoria
-         * @param evt   Evento
-         * @post    Se añade la categoria al sistema si no existe ya
-         *          Se actualiza la tabla
-         *          Se actualiza el XML
-         */
-        private void jButton_guardar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_categoriaActionPerformed
-            //Comprobar que el nombre no está vacío
-            if (jTextField_nombre_categoria.getText().trim().equals("")) {
-                    JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
-            } 
-            else {
-                //Comprobar que no exista el nombre en la tabla
-                boolean existe = false;
-                String nombreLimpio = jTextField_nombre_categoria.getText().toUpperCase().trim();
-                for (Categoria categoria : controladorVista.getListaCategoriasSistema()) {
-                    if (categoria.getNombreCategoria().toUpperCase().trim().equals(nombreLimpio)) {
-                        existe = true;
-                    }
-                }
-                if (existe) {
-                        JOptionPane.showMessageDialog(this, "Ya existe una categoria con ese nombre", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                else {
-                    //Añadir la categoria al sistema
-                    controladorVista.aniadirCategoria(jTextField_nombre_categoria.getText());
-                    //Pintar los datos de la categoria
-                    pintarDatosCategoria();
-                    //Ocultar los botones de guardar y cancelar y el campo de texto
-                    ocultarCamposCategorias();
-                    //Habilitar los botones de añadir, modificar y borrar
-                    jButton_aniadir_categoria.setEnabled(true);
-                    jButton_borrar_categoria.setEnabled(true);
-                    jButton_modificar_categoria.setEnabled(true);
-                    //Borrar los datos del campo de texto
-                    jTextField_nombre_categoria.setText("");
-                    //Modificar variable de estado
-                    aniadiendo=false;
-                    modificando=false;
-                }
-            }
-        }//GEN-LAST:event_jButton_guardar_categoriaActionPerformed
-
-        /**
-         * @brief Metodo que se ejecuta cuando se pulsa el boton de modificar de la pestaña categoria
-         * @param evt   Evento
-         */
-        private void jButton_modificar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificar_categoriaActionPerformed
-            //Comprobar si hay una fila seleccionada
-            if (jTable_categoria.getSelectedRow() == -1) {
+                controladorVista.borrarCategoria(id);
+                pintarDatosCategoria();
+                pintarDatosRuta();
+        } 
+        else {
                 JOptionPane.showMessageDialog(this, "Selecciona una categoria", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                //Modificar variable de estado
-                modificando=true;
-                //Inhabilitar los botones de añadir, modificar y borrar
-                jButton_aniadir_categoria.setEnabled(false);
-                jButton_modificar_categoria.setEnabled(false);
-                jButton_borrar_categoria.setEnabled(false);
-                
-                //Mostrar los botones de eliminar ruta y guardar modificacion
-                jButton_eliminar_ruta_de_categoria.setVisible(true);
-                jButton_guardar_modificacion_categoria.setVisible(true);
-            }
-        }//GEN-LAST:event_jButton_modificar_categoriaActionPerformed
+        }
+    }//GEN-LAST:event_jButton_borrar_categoriaActionPerformed
 
-        /**
-         * @brief Metodo que se ejecuta cuando se pulsa el boton de eliminar ruta de la pestaña categoria
-         * @param evt   Evento
-         */
-        private void jButton_eliminar_ruta_de_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminar_ruta_de_categoriaActionPerformed
-            //Comprobar que haya alguna fila seleccionada en la tabla de rutas de categoria
-            if (jTable_rutas_de_categoria.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(this, "Selecciona una ruta", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                //Categoría seleccionada en la tabla de arriba
-                int filaCat = jTable_categoria.getSelectedRow();
-                String idCategoria = (String) jTable_categoria.getValueAt(filaCat, 0);
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de añadir de la pestaña categoria
+     * @param evt   Evento
+     * @post    Se hacen visibles los botones de guardar y cancelar y el campo de texto
+     *          Se inhabilitan los botones de añadir, modificar y borrar
+     */
+    private void jButton_aniadir_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_categoriaActionPerformed
+        //Modificar variable de estado
+        aniadiendo=true;
+        //Hacer visibles los botones de guardar y cancelar
+        mostrarCamposCategorias();
+        //Inhabilitar los botones de añadir y borrar
+        jButton_aniadir_categoria.setEnabled(false);
+        jButton_borrar_categoria.setEnabled(false);
+        jButton_modificar_categoria.setEnabled(false);
+    }//GEN-LAST:event_jButton_aniadir_categoriaActionPerformed
 
-                //Eliminar esa fila de la tabla
-                int fila = jTable_rutas_de_categoria.getSelectedRow();
-                String id = (String) jTable_rutas_de_categoria.getValueAt(fila, 0);
-                String nombre = (String) jTable_rutas_de_categoria.getValueAt(fila, 1);
-                int confirmado = JOptionPane.showConfirmDialog(this, "¿Estas seguro de eliminar la ruta " + nombre + " de la categoria?");
-                if (JOptionPane.OK_OPTION == confirmado) {
-                    controladorVista.eliminarRutaDeCategoria(id, idCategoria);
-                    pintarDatosRuta();
-                    //Actualizar la tabla de rutas de categoria
-                    jTable_categoriaMouseClicked(null);
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de cancelar de la pestaña categoria
+     * @param evt   Evento
+     * @post    Se ocultan los botones de guardar y cancelar y el campo de texto
+     *          Se habilitan los botones de añadir, modificar y borrar
+     */
+    private void jButton_cancelar_cantegoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelar_cantegoriaActionPerformed
+        //Ocultar los botones de guardar y cancelar y el campo de texto
+        ocultarCamposCategorias();
+        //Habilitar los botones de añadir, modificar y borrar
+        jButton_aniadir_categoria.setEnabled(true);
+        jButton_borrar_categoria.setEnabled(true);
+        jButton_modificar_categoria.setEnabled(true);
+
+        //Borrar los datos del campo de texto
+        jTextField_nombre_categoria.setText("");
+
+        //Modificar variable de estado
+        aniadiendo=false;
+        modificando=false;
+    }//GEN-LAST:event_jButton_cancelar_cantegoriaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar de la pestaña categoria
+     * @param evt   Evento
+     * @post    Se añade la categoria al sistema si no existe ya
+     *          Se actualiza la tabla
+     *          Se actualiza el XML
+     */
+    private void jButton_guardar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_categoriaActionPerformed
+        //Comprobar que el nombre no está vacío
+        if (jTextField_nombre_categoria.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+        } 
+        else {
+            //Comprobar que no exista el nombre en la tabla
+            boolean existe = false;
+            String nombreLimpio = jTextField_nombre_categoria.getText().toUpperCase().trim();
+            for (Categoria categoria : controladorVista.getListaCategoriasSistema()) {
+                if (categoria.getNombreCategoria().toUpperCase().trim().equals(nombreLimpio)) {
+                    existe = true;
                 }
-            
             }
-        }//GEN-LAST:event_jButton_eliminar_ruta_de_categoriaActionPerformed
+            if (existe) {
+                    JOptionPane.showMessageDialog(this, "Ya existe una categoria con ese nombre", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                //Añadir la categoria al sistema
+                controladorVista.aniadirCategoria(jTextField_nombre_categoria.getText());
+                //Pintar los datos de la categoria
+                pintarDatosCategoria();
+                //Ocultar los botones de guardar y cancelar y el campo de texto
+                ocultarCamposCategorias();
+                //Habilitar los botones de añadir, modificar y borrar
+                jButton_aniadir_categoria.setEnabled(true);
+                jButton_borrar_categoria.setEnabled(true);
+                jButton_modificar_categoria.setEnabled(true);
+                //Borrar los datos del campo de texto
+                jTextField_nombre_categoria.setText("");
+                //Modificar variable de estado
+                aniadiendo=false;
+                modificando=false;
+            }
+        }
+    }//GEN-LAST:event_jButton_guardar_categoriaActionPerformed
 
-        /**
-         * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar modificacion de la pestaña categoria
-         * @param evt   Evento
-         */
-        private void jButton_guardar_modificacion_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_modificacion_categoriaActionPerformed
-            //Ocultar los botones de eliminar ruta y guardar modificacion
-            jButton_eliminar_ruta_de_categoria.setVisible(false);
-            jButton_guardar_modificacion_categoria.setVisible(false);
-
-            //Habilitar los botones
-            jButton_aniadir_categoria.setEnabled(true);
-            jButton_modificar_categoria.setEnabled(true);
-            jButton_borrar_categoria.setEnabled(true);
-
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de modificar de la pestaña categoria
+     * @param evt   Evento
+     */
+    private void jButton_modificar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificar_categoriaActionPerformed
+        //Comprobar si hay una fila seleccionada
+        if (jTable_categoria.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una categoria", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
             //Modificar variable de estado
-            modificando=false;
-        }//GEN-LAST:event_jButton_guardar_modificacion_categoriaActionPerformed
+            modificando=true;
+            //Inhabilitar los botones de añadir, modificar y borrar
+            jButton_aniadir_categoria.setEnabled(false);
+            jButton_modificar_categoria.setEnabled(false);
+            jButton_borrar_categoria.setEnabled(false);
+            
+            //Mostrar los botones de eliminar ruta y guardar modificacion
+            jButton_eliminar_ruta_de_categoria.setVisible(true);
+            jButton_guardar_modificacion_categoria.setVisible(true);
+            jButton_aniadir_ruta_de_categoria.setVisible(true);
+
+        }
+    }//GEN-LAST:event_jButton_modificar_categoriaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de eliminar ruta de la pestaña categoria
+     * @param evt   Evento
+     */
+    private void jButton_eliminar_ruta_de_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminar_ruta_de_categoriaActionPerformed
+        //Comprobar que haya alguna fila seleccionada en la tabla de rutas de categoria
+        if (jTable_rutas_de_categoria.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una ruta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            //Categoría seleccionada en la tabla de arriba
+            int filaCat = jTable_categoria.getSelectedRow();
+            String idCategoria = (String) jTable_categoria.getValueAt(filaCat, 0);
+
+            //Eliminar esa fila de la tabla
+            int fila = jTable_rutas_de_categoria.getSelectedRow();
+            String id = (String) jTable_rutas_de_categoria.getValueAt(fila, 0);
+            String nombre = (String) jTable_rutas_de_categoria.getValueAt(fila, 1);
+            controladorVista.eliminarRutaDeCategoria(id, idCategoria);
+            pintarDatosRuta();
+            //Actualizar la tabla de rutas de categoria
+            jTable_categoriaMouseClicked(null);        
+        }
+    }//GEN-LAST:event_jButton_eliminar_ruta_de_categoriaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar modificacion de la pestaña categoria
+     * @param evt   Evento
+     */
+    private void jButton_guardar_modificacion_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_modificacion_categoriaActionPerformed
+        //Ocultar los botones de eliminar ruta y guardar modificacion
+        jButton_eliminar_ruta_de_categoria.setVisible(false);
+        jButton_guardar_modificacion_categoria.setVisible(false);
+        jButton_aniadir_ruta_de_categoria.setVisible(false);
+        jComboBox1.setVisible(false);
+        jButton_confirmar_aniadir_ruta_de_categoria.setVisible(false);
+
+        //Habilitar los botones
+        jButton_aniadir_categoria.setEnabled(true);
+        jButton_modificar_categoria.setEnabled(true);
+        jButton_borrar_categoria.setEnabled(true);
+        jButton_aniadir_ruta_de_categoria.setEnabled(true);
+        jButton_eliminar_ruta_de_categoria.setEnabled(true);
+
+        //Modificar variable de estado
+        modificando=false;
+    }//GEN-LAST:event_jButton_guardar_modificacion_categoriaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se clica sobre el botón Añadir una ruta de la pestaña Categorías
+     */
+    private void jButton_aniadir_ruta_de_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_ruta_de_categoriaActionPerformed
+        //Rellenar el combobox con las rutas que no están en la categoría
+        actualizarComboBoxRutasAniadibles();
+        //Mostrar combobox de rutas
+        jComboBox1.setVisible(true);
+        //Mostrar botón de confirmar
+        jButton_confirmar_aniadir_ruta_de_categoria.setVisible(true);
+        //Inhabilitar añadir y quitar
+        jButton_aniadir_ruta_de_categoria.setEnabled(false);
+        jButton_eliminar_ruta_de_categoria.setEnabled(false);
+    }//GEN-LAST:event_jButton_aniadir_ruta_de_categoriaActionPerformed
+
+    /**
+     * @brief Metodo que actualiza las rutas añadibles para la categoría seleccionada
+     */
+    private void actualizarComboBoxRutasAniadibles(){
+        jComboBox1.removeAllItems();
+        Categoria categoria = null;
+        for(Categoria categoriaAux : controladorVista.getListaCategoriasSistema()){
+            if(categoriaAux.getIDCategoria().equals(jTable_categoria.getValueAt(jTable_categoria.getSelectedRow(), 0))){
+                categoria = categoriaAux;
+            }
+        }
+
+        for(Ruta ruta : controladorVista.getListaRutasSistema()){
+            boolean existe = false;
+            for(Categoria categoriaAux : ruta.getListaCategorias()){
+                if(categoriaAux.getIDCategoria().equals(categoria.getIDCategoria())){
+                    existe = true;
+                }
+            }
+            if(!existe){
+                jComboBox1.addItem(ruta.getNombreRuta());
+            }
+        }
+    }
+
+    // ComboBox de rutas añadibles a la categoría
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+        //TODO eliminar
+    }//GEN-LAST:event_jComboBox1MouseClicked
+
+    private void jButton_confirmar_aniadir_ruta_de_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_confirmar_aniadir_ruta_de_categoriaActionPerformed
+        if(jComboBox1.getItemCount() != 0){
+            //Encontrar la ruta seleccionada
+            Ruta ruta = null;
+            for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
+                if(rutaAux.getNombreRuta().equals(jComboBox1.getSelectedItem().toString())){
+                    ruta = rutaAux;
+                }
+            }
+            //Encontrar la categoría seleccionada
+            int fila = jTable_categoria.getSelectedRow();
+            Categoria categoria = null;
+            for(Categoria categoriaAux : controladorVista.getListaCategoriasSistema()){
+                if(categoriaAux.getIDCategoria().equals(jTable_categoria.getValueAt(jTable_categoria.getSelectedRow(), 0))){
+                    categoria = categoriaAux;
+                }
+            }
+            //Comprobar que la ruta no esté ya en la categoría
+            boolean existe = false;
+            for(Ruta rutaAux : categoria.getListaRutas()){
+                if(rutaAux.getNombreRuta().equals(ruta.getNombreRuta())){
+                    existe = true;
+                }
+            }
+            if(existe){
+                JOptionPane.showMessageDialog(this, "La ruta ya está en la categoría", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                //Añadir la ruta a la categoría
+                controladorVista.aniadirRutaACategoria(ruta, categoria);
+
+                //Actualizar la tabla de categorías de la ruta
+                actualizarTablaRutasDeCategoria();
+                //Pintar la tabla de rutas
+                pintarDatosRuta();
+                //Pintar la tabla de categorías
+                pintarDatosCategoria();
+            }
+
+            //Ocultar combobox
+            jComboBox1.setVisible(false);
+
+            //Ocultar este botón
+            jButton_confirmar_aniadir_ruta_de_categoria.setVisible(false);
+
+            //Habilitar añadir y quitar
+            jButton_aniadir_ruta_de_categoria.setEnabled(true);
+            jButton_eliminar_ruta_de_categoria.setEnabled(true);
+
+            //Seleccionar en la tabla de categorías la categoría seleccionada
+            jTable_categoria.setRowSelectionInterval(fila, fila);
+        }
+    }//GEN-LAST:event_jButton_confirmar_aniadir_ruta_de_categoriaActionPerformed
+
 
     /**
      * @brief Metodo que se ejecuta cuando se clica sobre una fila de la tabla de categorias
@@ -1738,299 +1936,29 @@ public final class Ventana1 extends javax.swing.JFrame {
             //Hacer la tabla de rutas de la categoria visible
             jScrollPane1.setVisible(true);
             jLabel_tabla_rutas_de_categoria.setVisible(true);
-            //Mostrar la tabla de rutas de la categoria
-            String id = (String) jTable_categoria.getValueAt(jTable_categoria.getSelectedRow(), 0);
-            DefaultTableModel model = (DefaultTableModel) jTable_rutas_de_categoria.getModel();
-            model.setRowCount(0);
-            for(Ruta ruta : controladorVista.getListaRutasSistema()){
-                for(Categoria categoria : ruta.getListaCategorias()){
-                    if(categoria.getIDCategoria().equals(id)){
-                        model.addRow(new Object[]{ruta.getIdRuta(), ruta.getNombreRuta(), ruta.getCreadorRuta().getDNI(), ruta.getPuntuacionMedia()});
-                    }
-                }
-            }
+            //Actualizar la tabla de rutas de la categoria
+            actualizarTablaRutasDeCategoria();
         }
     }//GEN-LAST:event_jTable_categoriaMouseClicked
 
     /**
-     * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar de la pestaña ruta
-     * @param evt   Evento
-     * @post    Se añade la ruta al sistema si no existe ya
-     *          Se actualiza la tabla
-     *          Se actualiza el XML
+     * @brief Metodo que actualiza la información mostrada en la tabla de rutas de la categoría seleccionada en la tabla superior
+     * @pre     La tabla de categorias tiene una fila seleccionada
+     * @post    Se actualiza la tabla de rutas de la categoría seleccionada
      */
-    private void jButton_aniadir_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_rutaActionPerformed
-        //Comprobar que el combobox de creador tiene opciones seleccionables
-        if(jComboBox_credor.getItemCount() == 0){
-            JOptionPane.showMessageDialog(this, "No hay usuarios en el sistema que puedan crear rutas", "Acción no disponible", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
-        //Modificar variable de estado
-        aniadiendo=true;
-
-        //Hacer visibles los botones de guardar y cancelar y campos de texto
-        mostrarCamposRutas();
-
-        //Inhabilitar los botones de añadir y borrar
-        jButton_aniadir_ruta.setEnabled(false);
-        jButton_borrar_ruta.setEnabled(false);
-        jButton_modificar_ruta.setEnabled(false);
-
-        //Vaciar campos de texto
-        jTextField_nombre_ruta.setText("");
-        jTextField_distancia_ruta.setText("");
-        jTextField_tiempo_ruta.setText("");
-        jComboBox_dificultad_ruta.setSelectedIndex(0);
-
-        //Ocultar info extra
-        jLabel_valoraciones_ruta.setVisible(false);
-        jScrollPane_valoraciones_ruta.setVisible(false);
-        jLabel_categorias_ruta.setVisible(false);
-        jScrollPane_ctegorias_ruta.setVisible(false);
-        }
-    }//GEN-LAST:event_jButton_aniadir_rutaActionPerformed
-
-    /**
-     * @brief Metodo que se ejecuta cuando se pulsa el boton de modificar de la pestaña ruta
-     * @param evt  Evento
-     */
-    private void jButton_modificar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificar_rutaActionPerformed
-        //Comprobar si hay una fila seleccionada
-        if(jTable_rutas.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(this, "Selecciona una ruta", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            //Modificar la variable de estado
-            modificando=true;
-
-            //Inhabilitar los botones de añadir, modificar y borrar
-            jButton_aniadir_ruta.setEnabled(false);
-            jButton_modificar_ruta.setEnabled(false);
-            jButton_borrar_ruta.setEnabled(false);
-
-            //Hacer visible la parte modificable
-            mostrarCamposRutas();
-
-            //Hacer invisible lo que no se puede modificar
-            jLabel_distancia_ruta.setVisible(false);
-            jTextField_distancia_ruta.setVisible(false);
-            jLabel_tiempo_ruta.setVisible(false);
-            jTextField_tiempo_ruta.setVisible(false);
-
-            jTextField_nombre_ruta.setEnabled(false);
-            jComboBox_credor.setEnabled(false);
-
-            //Colocar sus datos en los campos
-            int fila = jTable_rutas.getSelectedRow();
-            jTextField_nombre_ruta.setText((String) jTable_rutas.getValueAt(fila, 0));
-            jTextArea_descripcion_ruta.setText((String) jTable_rutas.getValueAt(fila, 5));
-            jComboBox_dificultad_ruta.setSelectedItem((String) jTable_rutas.getValueAt(fila, 2));
-            jComboBox_credor.setSelectedItem((String) jTable_rutas.getValueAt(fila, 6));
-
-            //Inhabilitar los campos que no se pueden modificar
-            jTextField_nombre_ruta.setEnabled(false);
-            jComboBox_credor.setEnabled(false);
-
-            //Hacer invisible info extra
-            jLabel_valoraciones_ruta.setVisible(false);
-            jScrollPane_valoraciones_ruta.setVisible(false);
-            jLabel_categorias_ruta.setVisible(false);
-            jScrollPane_ctegorias_ruta.setVisible(false);
-        }
-    }//GEN-LAST:event_jButton_modificar_rutaActionPerformed
-
-    /**
-     * @brief Metodo que se ejecuta cuando se pulsa el boton de borrar de la pestaña ruta
-     * @param evt   Evento
-     */
-    private void jButton_borrar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_rutaActionPerformed
-        //Comprobar que hay una fila seleccionada
-        if(jTable_rutas.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(this, "Selecciona una ruta", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            //Borrar la ruta del sistema
-            int fila = jTable_rutas.getSelectedRow();
-            String nombre = (String) jTable_rutas.getValueAt(fila, 0);
-            String creador = (String) jTable_rutas.getValueAt(fila, 6);
-            controladorVista.borrarRuta(nombre, creador);
-            //Pintar los datos de la ruta
-            pintarDatosRuta();
-            pintarDatosCategoria();
-            pintarDatosValoracion();
-            pintarDatosUsuario();
-        }
-    }//GEN-LAST:event_jButton_borrar_rutaActionPerformed
-
-    /**
-     * @brief Metodo que se ejecuta cuando se pulsa el boton de cancelar de la pestaña ruta
-     * @param evt   Evento
-     */
-    private void jButton_cancelar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelar_rutaActionPerformed
-        //Ocultar los botones de guardar y cancelar y campos de texto
-        ocultarCamposRutas();
-
-        //Habilitar los botones de añadir, modificar y borrar
-        jButton_aniadir_ruta.setEnabled(true);
-        jButton_borrar_ruta.setEnabled(true);
-        jButton_modificar_ruta.setEnabled(true);
-
-        //Vaciar campos de texto
-        jTextField_nombre_ruta.setText("");
-        jTextField_distancia_ruta.setText("");
-        jTextField_tiempo_ruta.setText("");
-        jComboBox_dificultad_ruta.setSelectedIndex(0);
-
-        //Modificar variable de estado
-        aniadiendo=false;
-        modificando=false;
-    }//GEN-LAST:event_jButton_cancelar_rutaActionPerformed
-
-    /**
-     * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar de la pestaña ruta
-     * @param evt   Evento
-     * @post    Se añade la ruta al sistema si no existe ya
-     *          Se actualiza la tabla
-     *          Se actualiza el XML
-     */
-    private void jButton_guardar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_rutaActionPerformed
-        boolean correcto = true;
-        //Comprobar que el nombre no está vacío
-        if (jTextField_nombre_ruta.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
-            correcto = false;
-        }
-        if(aniadiendo){
-            //Comprobar que la distancia no está vacía
-            if (jTextField_distancia_ruta.getText().trim().equals("")) {
-                JOptionPane.showMessageDialog(this, "La distancia no puede estar vacía", "Error", JOptionPane.ERROR_MESSAGE);
-                correcto = false;
-            }
-            //Comprobar que el tiempo no está vacío
-            else if (jTextField_tiempo_ruta.getText().trim().equals("")) {
-                JOptionPane.showMessageDialog(this, "El tiempo no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
-                correcto = false;
-            }
-            //Comprobar que tiempo y distancia son doubles
-            try{
-                Double.valueOf(jTextField_distancia_ruta.getText());
-                Double.valueOf(jTextField_tiempo_ruta.getText());
-
-                //Compobar que tiempo y distancia son positivos
-                if(Double.parseDouble(jTextField_distancia_ruta.getText()) <= 0.0){
-                    JOptionPane.showMessageDialog(this, "La distancia debe ser positiva", "Error", JOptionPane.ERROR_MESSAGE);
-                    correcto = false;
-                }
-                if(Double.parseDouble(jTextField_tiempo_ruta.getText()) <= 0.0){
-                    JOptionPane.showMessageDialog(this, "El tiempo debe ser positivo", "Error", JOptionPane.ERROR_MESSAGE);
-                    correcto = false;
-                }
-            }
-            catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(this, "La distancia y el tiempo deben ser números", "Error", JOptionPane.ERROR_MESSAGE);
-                correcto = false;
-            }
-        }
-        if(correcto){
-            //Comprobar que no exista ya la ruta
-            boolean existe = false;
-            for(Ruta ruta : controladorVista.getListaRutasSistema()){
-                if(ruta.getIdRuta().equals(controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString())))){
-                    existe = true;
-                }
-            }
-            if(existe && aniadiendo){
-                JOptionPane.showMessageDialog(this, "Ya existe una ruta con ese nombre para ese usuario creador", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else{
-                if(!existe && aniadiendo){
-                    //Añadir la ruta al sistema
-                    controladorVista.aniadirRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), Double.parseDouble(jTextField_distancia_ruta.getText()), Double.parseDouble(jTextField_tiempo_ruta.getText()), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
-                }
-                else if(modificando){
-                    //Modificar la ruta en el sistema
-                    controladorVista.modificarRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
-                }
-                //Pintar los datos de la ruta
-                pintarDatosRuta();
-                pintarDatosCategoria();
-                pintarDatosValoracion();
-                pintarDatosUsuario();
-
-                //Ocultar los botones de guardar y cancelar y campos de texto
-                ocultarCamposRutas();
-
-                //Habilitar los botones de añadir, modificar y borrar
-                jButton_aniadir_ruta.setEnabled(true);
-                jButton_borrar_ruta.setEnabled(true);
-                jButton_modificar_ruta.setEnabled(true);
-
-                //Vaciar campos de texto
-                jTextField_nombre_ruta.setText("");
-                jTextField_distancia_ruta.setText("");
-                jTextField_tiempo_ruta.setText("");
-                jTextArea_descripcion_ruta.setText("");
-                jComboBox_dificultad_ruta.setSelectedIndex(0);
-
-                //Modificar variable de estado
-                aniadiendo=false;
-                modificando=false;
-
-                //Actualizar combobox rutas
-                jComboBox_ruta_valoracion.removeAllItems();
-                for(int i = 0; i < controladorVista.getListaRutasSistema().size(); i++){
-                    jComboBox_ruta_valoracion.addItem(controladorVista.getListaRutasSistema().get(i));
-                }
-            }
-        }
-    }//GEN-LAST:event_jButton_guardar_rutaActionPerformed
-
-    /**
-     * @brief Metodo que se clica sobre una fila de la tabla de rutas
-     * @param evt   Evento
-     */
-    private void jTable_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_rutasMouseClicked
-        //Si hay alguna fila seleccionada
-        if(jTable_rutas.getSelectedRow() != -1){
-            //Mostrar la información extra
-            jScrollPane_valoraciones_ruta.setVisible(true);
-            jLabel_valoraciones_ruta.setVisible(true);
-            jScrollPane_ctegorias_ruta.setVisible(true);
-            jLabel_categorias_ruta.setVisible(true);
-
-            //Encontrar la ruta seleccionada
-            int fila = jTable_rutas.getSelectedRow();
-            String nombre = (String) jTable_rutas.getValueAt(fila, 0);
-            String creador = (String) jTable_rutas.getValueAt(fila, 6);
-            Usuario creadorRuta = null;
-            for(Usuario usuario : controladorVista.getListaUsuariosSistema()){
-                if(usuario.getDNI().equals(creador)){
-                    creadorRuta = usuario;
-                }
-            }
-
-            Ruta ruta = null;
-            for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
-                if(rutaAux.getIdRuta().equals(controladorVista.getIDrutaSistema(nombre, creadorRuta.getIDUsuario()))){
-                    ruta = rutaAux;
-                }
-            }
-
-            //Pintar la tabla de valoraciones
-            DefaultTableModel model = (DefaultTableModel) jTable_valoraciones_ruta.getModel();
-            model.setRowCount(0);
-            for(Valoracion valoracion : ruta.getListaValoraciones()){
-                model.addRow(new Object[]{valoracion.getIDValoracion(), valoracion.getUsuario().getDNI(), valoracion.getUsuario().getDNI(), valoracion.getPuntuacion()});
-            }
-
-            //Pintar la tabla de categorias
-            DefaultTableModel model2 = (DefaultTableModel) jTable_categorias_ruta.getModel();
-            model2.setRowCount(0);
+    private void actualizarTablaRutasDeCategoria(){
+        String id = (String) jTable_categoria.getValueAt(jTable_categoria.getSelectedRow(), 0);
+        DefaultTableModel model = (DefaultTableModel) jTable_rutas_de_categoria.getModel();
+        model.setRowCount(0);
+        for(Ruta ruta : controladorVista.getListaRutasSistema()){
             for(Categoria categoria : ruta.getListaCategorias()){
-                model2.addRow(new Object[]{categoria.getIDCategoria(), categoria.getNombreCategoria()});
+                if(categoria.getIDCategoria().equals(id)){
+                    model.addRow(new Object[]{ruta.getIdRuta(), ruta.getNombreRuta(), ruta.getCreadorRuta().getDNI(), ruta.getPuntuacionMedia()});
+                }
             }
         }
-    }//GEN-LAST:event_jTable_rutasMouseClicked
+        actualizarComboBoxRutasAniadibles();
+    }
 
     /**
      * @brief Metodo que se ejecuta cuando se pulsa el boton de gurdar de la pestaña valoracion
@@ -2652,28 +2580,336 @@ public final class Ventana1 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable_usuarioMouseClicked
 
+    private void jComboBox_categoris_aniadibles_a_rutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_categoris_aniadibles_a_rutaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_categoris_aniadibles_a_rutaMouseClicked
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de cancelar de la pestaña ruta
+     * @param evt   Evento
+     */
+    private void jButton_cancelar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelar_rutaActionPerformed
+        //Ocultar los botones de guardar y cancelar y campos de texto
+        ocultarCamposRutas();
+
+        //Habilitar los botones de añadir, modificar y borrar
+        jButton_aniadir_ruta.setEnabled(true);
+        jButton_borrar_ruta.setEnabled(true);
+        jButton_modificar_ruta.setEnabled(true);
+
+        //Vaciar campos de texto
+        jTextField_nombre_ruta.setText("");
+        jTextField_distancia_ruta.setText("");
+        jTextField_tiempo_ruta.setText("");
+        jComboBox_dificultad_ruta.setSelectedIndex(0);
+
+        //Modificar variable de estado
+        aniadiendo=false;
+        modificando=false;
+    }//GEN-LAST:event_jButton_cancelar_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar de la pestaña ruta
+     * @param evt   Evento
+     * @post    Se añade la ruta al sistema si no existe ya
+     *          Se actualiza la tabla
+     *          Se actualiza el XML
+     */
+    private void jButton_guardar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_rutaActionPerformed
+        boolean correcto = true;
+        //Comprobar que el nombre no está vacío
+        if (jTextField_nombre_ruta.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+            correcto = false;
+        }
+        if(aniadiendo){
+            //Comprobar que la distancia no está vacía
+            if (jTextField_distancia_ruta.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(this, "La distancia no puede estar vacía", "Error", JOptionPane.ERROR_MESSAGE);
+                correcto = false;
+            }
+            //Comprobar que el tiempo no está vacío
+            else if (jTextField_tiempo_ruta.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(this, "El tiempo no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+                correcto = false;
+            }
+            //Comprobar que tiempo y distancia son doubles
+            try{
+                Double.valueOf(jTextField_distancia_ruta.getText());
+                Double.valueOf(jTextField_tiempo_ruta.getText());
+
+                //Compobar que tiempo y distancia son positivos
+                if(Double.parseDouble(jTextField_distancia_ruta.getText()) <= 0.0){
+                    JOptionPane.showMessageDialog(this, "La distancia debe ser positiva", "Error", JOptionPane.ERROR_MESSAGE);
+                    correcto = false;
+                }
+                if(Double.parseDouble(jTextField_tiempo_ruta.getText()) <= 0.0){
+                    JOptionPane.showMessageDialog(this, "El tiempo debe ser positivo", "Error", JOptionPane.ERROR_MESSAGE);
+                    correcto = false;
+                }
+            }
+            catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "La distancia y el tiempo deben ser números", "Error", JOptionPane.ERROR_MESSAGE);
+                correcto = false;
+            }
+        }
+        if(correcto){
+            //Comprobar que no exista ya la ruta
+            boolean existe = false;
+            for(Ruta ruta : controladorVista.getListaRutasSistema()){
+                if(ruta.getIdRuta().equals(controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString())))){
+                    existe = true;
+                }
+            }
+            if(existe && aniadiendo){
+                JOptionPane.showMessageDialog(this, "Ya existe una ruta con ese nombre para ese usuario creador", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                if(!existe && aniadiendo){
+                    //Añadir la ruta al sistema
+                    controladorVista.aniadirRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), Double.parseDouble(jTextField_distancia_ruta.getText()), Double.parseDouble(jTextField_tiempo_ruta.getText()), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
+                }
+                else if(modificando){
+                    //Modificar la ruta en el sistema
+                    controladorVista.modificarRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
+                }
+                //Pintar los datos de la ruta
+                pintarDatosRuta();
+                pintarDatosCategoria();
+                pintarDatosValoracion();
+                pintarDatosUsuario();
+
+                //Ocultar los botones de guardar y cancelar y campos de texto
+                ocultarCamposRutas();
+
+                //Habilitar los botones de añadir, modificar y borrar
+                jButton_aniadir_ruta.setEnabled(true);
+                jButton_borrar_ruta.setEnabled(true);
+                jButton_modificar_ruta.setEnabled(true);
+
+                //Vaciar campos de texto
+                jTextField_nombre_ruta.setText("");
+                jTextField_distancia_ruta.setText("");
+                jTextField_tiempo_ruta.setText("");
+                jTextArea_descripcion_ruta.setText("");
+                jComboBox_dificultad_ruta.setSelectedIndex(0);
+
+                //Modificar variable de estado
+                aniadiendo=false;
+                modificando=false;
+
+                //Actualizar combobox rutas
+                jComboBox_ruta_valoracion.removeAllItems();
+                for(int i = 0; i < controladorVista.getListaRutasSistema().size(); i++){
+                    jComboBox_ruta_valoracion.addItem(controladorVista.getListaRutasSistema().get(i));
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton_guardar_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de borrar de la pestaña ruta
+     * @param evt   Evento
+     */
+    private void jButton_borrar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_rutaActionPerformed
+        //Comprobar que hay una fila seleccionada
+        if(jTable_rutas.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(this, "Selecciona una ruta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            //Borrar la ruta del sistema
+            int fila = jTable_rutas.getSelectedRow();
+            String nombre = (String) jTable_rutas.getValueAt(fila, 0);
+            String creador = (String) jTable_rutas.getValueAt(fila, 6);
+            controladorVista.borrarRuta(nombre, creador);
+            //Pintar los datos de la ruta
+            pintarDatosRuta();
+            pintarDatosCategoria();
+            pintarDatosValoracion();
+            pintarDatosUsuario();
+        }
+    }//GEN-LAST:event_jButton_borrar_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de modificar de la pestaña ruta
+     * @param evt  Evento
+     */
+    private void jButton_modificar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificar_rutaActionPerformed
+        //Comprobar si hay una fila seleccionada
+        if(jTable_rutas.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(this, "Selecciona una ruta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            //Modificar la variable de estado
+            modificando=true;
+
+            //Inhabilitar los botones de añadir, modificar y borrar
+            jButton_aniadir_ruta.setEnabled(false);
+            jButton_modificar_ruta.setEnabled(false);
+            jButton_borrar_ruta.setEnabled(false);
+
+            //Hacer visible la parte modificable
+            mostrarCamposRutas();
+
+            //Hacer invisible lo que no se puede modificar
+            jLabel_distancia_ruta.setVisible(false);
+            jTextField_distancia_ruta.setVisible(false);
+            jLabel_tiempo_ruta.setVisible(false);
+            jTextField_tiempo_ruta.setVisible(false);
+
+            jTextField_nombre_ruta.setEnabled(false);
+            jComboBox_credor.setEnabled(false);
+
+            //Colocar sus datos en los campos
+            int fila = jTable_rutas.getSelectedRow();
+            jTextField_nombre_ruta.setText((String) jTable_rutas.getValueAt(fila, 0));
+            jTextArea_descripcion_ruta.setText((String) jTable_rutas.getValueAt(fila, 5));
+            jComboBox_dificultad_ruta.setSelectedItem((String) jTable_rutas.getValueAt(fila, 2));
+            jComboBox_credor.setSelectedItem((String) jTable_rutas.getValueAt(fila, 6));
+
+            //Inhabilitar los campos que no se pueden modificar
+            jTextField_nombre_ruta.setEnabled(false);
+            jComboBox_credor.setEnabled(false);
+
+            //Hacer invisible info extra
+            jLabel_valoraciones_ruta.setVisible(false);
+            jScrollPane_valoraciones_ruta.setVisible(false);
+            jLabel_categorias_ruta.setVisible(false);
+            jScrollPane_categorias_ruta.setVisible(false);
+        }
+    }//GEN-LAST:event_jButton_modificar_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de guardar de la pestaña ruta
+     * @param evt   Evento
+     * @post    Se añade la ruta al sistema si no existe ya
+     *          Se actualiza la tabla
+     *          Se actualiza el XML
+     */
+    private void jButton_aniadir_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_rutaActionPerformed
+        //Comprobar que el combobox de creador tiene opciones seleccionables
+        if(jComboBox_credor.getItemCount() == 0){
+            JOptionPane.showMessageDialog(this, "No hay usuarios en el sistema que puedan crear rutas", "Acción no disponible", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            //Modificar variable de estado
+            aniadiendo=true;
+
+            //Hacer visibles los botones de guardar y cancelar y campos de texto
+            mostrarCamposRutas();
+
+            //Inhabilitar los botones de añadir y borrar
+            jButton_aniadir_ruta.setEnabled(false);
+            jButton_borrar_ruta.setEnabled(false);
+            jButton_modificar_ruta.setEnabled(false);
+
+            //Vaciar campos de texto
+            jTextField_nombre_ruta.setText("");
+            jTextField_distancia_ruta.setText("");
+            jTextField_tiempo_ruta.setText("");
+            jComboBox_dificultad_ruta.setSelectedIndex(0);
+
+            //Ocultar info extra
+            jLabel_valoraciones_ruta.setVisible(false);
+            jScrollPane_valoraciones_ruta.setVisible(false);
+            jLabel_categorias_ruta.setVisible(false);
+            jScrollPane_categorias_ruta.setVisible(false);
+        }
+    }//GEN-LAST:event_jButton_aniadir_rutaActionPerformed
+
+    /**
+     * @brief Metodo que se clica sobre una fila de la tabla de rutas
+     * @param evt   Evento
+     */
+    private void jTable_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_rutasMouseClicked
+        //Si hay alguna fila seleccionada
+        if(jTable_rutas.getSelectedRow() != -1){
+            //Mostrar la información extra
+            jScrollPane_valoraciones_ruta.setVisible(true);
+            jLabel_valoraciones_ruta.setVisible(true);
+            jScrollPane_categorias_ruta.setVisible(true);
+            jLabel_categorias_ruta.setVisible(true);
+
+            //Encontrar la ruta seleccionada
+            int fila = jTable_rutas.getSelectedRow();
+            String nombre = (String) jTable_rutas.getValueAt(fila, 0);
+            String creador = (String) jTable_rutas.getValueAt(fila, 6);
+            Usuario creadorRuta = null;
+            for(Usuario usuario : controladorVista.getListaUsuariosSistema()){
+                if(usuario.getDNI().equals(creador)){
+                    creadorRuta = usuario;
+                }
+            }
+
+            Ruta ruta = null;
+            for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
+                if(rutaAux.getIdRuta().equals(controladorVista.getIDrutaSistema(nombre, creadorRuta.getIDUsuario()))){
+                    ruta = rutaAux;
+                }
+            }
+
+            //Pintar la tabla de valoraciones
+            DefaultTableModel model = (DefaultTableModel) jTable_valoraciones_ruta.getModel();
+            model.setRowCount(0);
+            for(Valoracion valoracion : ruta.getListaValoraciones()){
+                model.addRow(new Object[]{valoracion.getIDValoracion(), valoracion.getUsuario().getDNI(), valoracion.getUsuario().getDNI(), valoracion.getPuntuacion()});
+            }
+
+            //Pintar la tabla de categorias
+            DefaultTableModel model2 = (DefaultTableModel) jTable_categorias_ruta.getModel();
+            model2.setRowCount(0);
+            for(Categoria categoria : ruta.getListaCategorias()){
+                model2.addRow(new Object[]{categoria.getIDCategoria(), categoria.getNombreCategoria()});
+            }
+        }
+    }//GEN-LAST:event_jTable_rutasMouseClicked
+
+    private void jButton_aniadir_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_categoria_en_rutaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_aniadir_categoria_en_rutaActionPerformed
+
+    private void jButton_borrar_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoria_en_rutaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_borrar_categoria_en_rutaActionPerformed
+
+    private void jButton_guardar_categoria_en_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_categoria_en_rutaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_guardar_categoria_en_rutaActionPerformed
+
+    private void jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_aniadir_categoria;
+    private javax.swing.JButton jButton_aniadir_categoria_en_ruta;
     public javax.swing.JButton jButton_aniadir_foto_perfil;
     private javax.swing.JButton jButton_aniadir_ruta;
+    private javax.swing.JButton jButton_aniadir_ruta_de_categoria;
     public javax.swing.JButton jButton_aniadir_usuario;
     public javax.swing.JButton jButton_aniadir_valoracion;
     private javax.swing.JButton jButton_borrar_categoria;
+    private javax.swing.JButton jButton_borrar_categoria_en_ruta;
     public javax.swing.JButton jButton_borrar_foto_perfil;
     private javax.swing.JButton jButton_borrar_ruta;
     public javax.swing.JButton jButton_borrar_usuario;
     public javax.swing.JButton jButton_borrar_valoracion;
     private javax.swing.JButton jButton_cancelar_cantegoria;
     private javax.swing.JButton jButton_cancelar_foto_perfil;
-    public javax.swing.JButton jButton_cancelar_ruta;
+    private javax.swing.JButton jButton_cancelar_ruta;
     private javax.swing.JButton jButton_cancelar_usuario;
     private javax.swing.JButton jButton_cancelar_valoracion;
+    private javax.swing.JPanel jButton_confirmar_aniadir_categoria_en_ruta;
+    private javax.swing.JButton jButton_confirmar_aniadir_categoria_en_ruta3;
+    private javax.swing.JButton jButton_confirmar_aniadir_ruta_de_categoria;
     private javax.swing.JButton jButton_eliminar_ruta_de_categoria;
     private javax.swing.JButton jButton_guardar_categoria;
+    private javax.swing.JButton jButton_guardar_categoria_en_ruta;
     private javax.swing.JButton jButton_guardar_foto_perfil;
     private javax.swing.JButton jButton_guardar_modificacion_categoria;
-    public javax.swing.JButton jButton_guardar_ruta;
+    private javax.swing.JButton jButton_guardar_ruta;
     private javax.swing.JButton jButton_guardar_usuario;
     private javax.swing.JButton jButton_guardar_valoracion;
     public javax.swing.JButton jButton_modificar_categoria;
@@ -2681,8 +2917,10 @@ public final class Ventana1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton_modificar_ruta;
     public javax.swing.JButton jButton_modificar_usuario;
     public javax.swing.JButton jButton_modificar_valoracion;
-    public javax.swing.JComboBox<String> jComboBox_credor;
-    public javax.swing.JComboBox<String> jComboBox_dificultad_ruta;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox_categoris_aniadibles_a_ruta;
+    private javax.swing.JComboBox<String> jComboBox_credor;
+    private javax.swing.JComboBox<String> jComboBox_dificultad_ruta;
     private javax.swing.JComboBox<String> jComboBox_puntuacion_valoracion;
     private javax.swing.JComboBox<Ruta> jComboBox_ruta_valoracion;
     private javax.swing.JComboBox<String> jComboBox_usuario_foto_perfil;
@@ -2715,7 +2953,6 @@ public final class Ventana1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_valoraciones_usuario;
     private javax.swing.JPanel jPanel_categoria;
     private javax.swing.JPanel jPanel_fotosPerfil;
-    private javax.swing.JPanel jPanel_rutas;
     private javax.swing.JPanel jPanel_usuario;
     private javax.swing.JPanel jPanel_valoraciones;
     private javax.swing.JPasswordField jPasswordField_contrasenia_usuario;
@@ -2725,8 +2962,8 @@ public final class Ventana1 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane_categorias_ruta;
     private javax.swing.JScrollPane jScrollPane_comentario_valoracion;
-    private javax.swing.JScrollPane jScrollPane_ctegorias_ruta;
     private javax.swing.JScrollPane jScrollPane_descripcion_ruta;
     private javax.swing.JScrollPane jScrollPane_rutas_usuario;
     private javax.swing.JScrollPane jScrollPane_valoraciones_ruta;

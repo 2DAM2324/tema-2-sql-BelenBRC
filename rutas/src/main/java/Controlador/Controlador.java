@@ -858,6 +858,53 @@ public class Controlador {
     }
 
     /**
+     * @brief   Método que añade una ruta a una categoría y una categoría a una ruta siempre que no estén ya añadidos
+     * @param ruta      Ruta a añadir a la categoría
+     * @param categoria Categoría a añadir a la ruta
+     */
+    public void aniadirRutaACategoria(Ruta ruta, Categoria categoria){
+        boolean existeRuta = false;
+        boolean existeCategoria = false;
+        //Buscar la ruta en la lista de rutas del sistema
+        for(int i=0; i < listaRutasSistema.size(); i++){
+            if(listaRutasSistema.get(i).getIdRuta().equals(ruta.getIdRuta())){
+                existeRuta = true;
+            }
+        }
+        //Buscar la categoría en la lista de categorías del sistema
+        for(int i=0; i < listaCategoriasSistema.size(); i++){
+            if(listaCategoriasSistema.get(i).getIDCategoria().equals(categoria.getIDCategoria())){
+                existeCategoria = true;
+            }
+        }
+        if(existeRuta && existeCategoria){
+            //Comprobar que no existe ya la ruta en la categoría
+            for(int i=0; i < categoria.getListaRutas().size(); i++){
+                if(categoria.getListaRutas().get(i).getIdRuta().equals(ruta.getIdRuta())){
+                    //No añadir
+                }
+                else{
+                    //Añadir la ruta a la lista de rutas de la categoría
+                    categoria.setRutaEnLista(ruta);
+                }
+            }
+
+            //Comprobar que no existe ya la categoría en la ruta
+            for(int i=0; i < ruta.getListaCategorias().size(); i++){
+                if(ruta.getListaCategorias().get(i).getIDCategoria().equals(categoria.getIDCategoria())){
+                    //No añadir
+                }
+                else{
+                    //Añadir la categoría a la lista de categorías de la ruta
+                    ruta.setCategoriaEnLista(categoria);
+                }
+            }
+        }
+        serializarCategoria();
+        serializarRuta();
+    }
+
+    /**
      * @brief   Método que serializa la lista de categorías del sistema
      */
     public void serializarCategoria(){

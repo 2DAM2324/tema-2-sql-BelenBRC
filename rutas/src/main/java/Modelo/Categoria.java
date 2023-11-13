@@ -73,7 +73,18 @@ public class Categoria implements Serializable{
      * @param ruta     Ruta que pertenece a la categoría
      */
     public void setRutaEnLista(Ruta ruta){
-        getListaRutas().add(ruta);
+        //Comprobar que no exista ya la ruta en la lista
+        boolean existe = false;
+
+        for(Ruta r : getListaRutas()){
+            if(r.getIdRuta().equals(ruta.getIdRuta())){
+                existe = true;
+            }
+        }
+
+        if(!existe){
+            getListaRutas().add(ruta);
+        }
     }
 
     /**

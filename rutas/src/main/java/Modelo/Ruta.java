@@ -211,7 +211,17 @@ public class Ruta implements Serializable{
      * @post    La categoría se añade al final de la lista
      */
     public void setCategoriaEnLista(Categoria categoria){
-        getListaCategorias().add(categoria);
+        boolean existe = false;
+        
+        for(int i = 0; i < getListaCategorias().size() && !existe; i++){
+            if(getCategoriaEnListaPorPosicion(i).getIDCategoria().equals(categoria.getIDCategoria())){
+                existe = true;
+            }
+        }
+
+        if(!existe){
+            getListaCategorias().add(categoria);
+        }
     }
 
     /**

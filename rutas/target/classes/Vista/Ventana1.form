@@ -51,7 +51,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanel_rutas">
+        <Container class="javax.swing.JPanel" name="jButton_confirmar_aniadir_categoria_en_ruta">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Rutas">
@@ -67,10 +67,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" pref="586" max="32767" attributes="0"/>
+                              <Component id="jScrollPane3" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButton_modificar_ruta" alignment="0" pref="62" max="32767" attributes="0"/>
+                                  <Component id="jButton_modificar_ruta" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButton_aniadir_ruta" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButton_borrar_ruta" alignment="0" max="32767" attributes="0"/>
                               </Group>
@@ -102,16 +102,24 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jButton_guardar_ruta" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButton_cancelar_ruta" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                                  <Component id="jButton_aniadir_categoria_en_ruta" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jButton_borrar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton_guardar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton_cancelar_ruta" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane_ctegorias_ruta" alignment="1" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane_categorias_ruta" alignment="1" pref="0" max="32767" attributes="0"/>
                                   <Component id="jScrollPane_valoraciones_ruta" pref="0" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel_valoraciones_ruta" min="-2" pref="149" max="-2" attributes="0"/>
-                                          <Component id="jLabel_categorias_ruta" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jLabel_categorias_ruta" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="jComboBox_categoris_aniadibles_a_ruta" min="-2" pref="73" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
@@ -167,18 +175,29 @@
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace pref="48" max="32767" attributes="0"/>
-                                      <Component id="jScrollPane_descripcion_ruta" min="-2" pref="75" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jScrollPane_descripcion_ruta" min="-2" pref="75" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jButton_aniadir_categoria_en_ruta" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jButton_borrar_categoria_en_ruta" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel_credor" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jComboBox_credor" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jComboBox_dificultad_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel_dificultad_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jButton_guardar_categoria_en_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                       <Component id="jLabel_descripcion_ruta" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
@@ -187,12 +206,18 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel_valoraciones_ruta" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="28" max="32767" attributes="0"/>
                               <Component id="jScrollPane_valoraciones_ruta" min="-2" pref="88" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jLabel_categorias_ruta" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel_categorias_ruta" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jComboBox_categoris_aniadibles_a_ruta" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane_ctegorias_ruta" min="-2" pref="92" max="-2" attributes="0"/>
+                              <Component id="jScrollPane_categorias_ruta" min="-2" pref="92" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -431,7 +456,7 @@
                 <Property name="text" type="java.lang.String" value="Categor&#xed;as de la ruta:"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane_ctegorias_ruta">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane_categorias_ruta">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
@@ -467,6 +492,56 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JComboBox" name="jComboBox_categoris_aniadibles_a_ruta">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jComboBox_categoris_aniadibles_a_rutaMouseClicked"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_aniadir_categoria_en_ruta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="A&#xf1;adir categoria"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_aniadir_categoria_en_rutaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_borrar_categoria_en_ruta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Borrar categoria"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_borrar_categoria_en_rutaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_guardar_categoria_en_ruta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cerrar modificar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_guardar_categoria_en_rutaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_confirmar_aniadir_categoria_en_ruta3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="A&#xf1;adir "/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_confirmar_aniadir_categoria_en_ruta3ActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel_usuario">
@@ -511,7 +586,7 @@
                                   <Component id="jScrollPane_valoraciones_usuario" pref="0" max="32767" attributes="0"/>
                                   <Component id="jLabel_valoraciones_usuario" max="32767" attributes="0"/>
                                   <Component id="jScrollPane_rutas_usuario" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel_rutas_usuario" alignment="0" pref="167" max="32767" attributes="0"/>
+                                  <Component id="jLabel_rutas_usuario" alignment="0" pref="186" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           </Group>
@@ -595,7 +670,7 @@
                                       <Component id="jScrollPane_rutas_usuario" min="-2" pref="88" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="80" max="32767" attributes="0"/>
+                              <EmptySpace pref="81" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -926,7 +1001,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="135" max="32767" attributes="0"/>
+                      <EmptySpace pref="154" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -969,7 +1044,7 @@
                           <Component id="jLabel_comentario_valoracion" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane_comentario_valoracion" min="-2" pref="104" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="79" max="32767" attributes="0"/>
+                      <EmptySpace pref="80" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1192,10 +1267,16 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jButton_eliminar_ruta_de_categoria" max="32767" attributes="0"/>
                                   <Component id="jButton_guardar_modificacion_categoria" pref="159" max="32767" attributes="0"/>
+                                  <Component id="jButton_aniadir_ruta_de_categoria" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jComboBox1" min="-2" pref="73" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                                      <Component id="jButton_confirmar_aniadir_ruta_de_categoria" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="36" max="32767" attributes="0"/>
+                      <EmptySpace pref="55" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1226,19 +1307,25 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton_cancelar_cantegoria" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="59" max="32767" attributes="0"/>
+                      <EmptySpace pref="56" max="32767" attributes="0"/>
                       <Component id="jLabel_tabla_rutas_de_categoria" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" min="-2" pref="99" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jScrollPane1" min="-2" pref="124" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButton_confirmar_aniadir_ruta_de_categoria" min="-2" pref="22" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jButton_aniadir_ruta_de_categoria" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Component id="jButton_eliminar_ruta_de_categoria" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton_guardar_modificacion_categoria" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1405,6 +1492,40 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_guardar_modificacion_categoriaActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="jButton_aniadir_ruta_de_categoria">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="A&#xf1;adir una ruta"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_aniadir_ruta_de_categoriaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBox1">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jComboBox1MouseClicked"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_confirmar_aniadir_ruta_de_categoria">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_confirmar_aniadir_ruta_de_categoriaActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel_fotosPerfil">
@@ -1453,7 +1574,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="135" max="32767" attributes="0"/>
+                      <EmptySpace pref="154" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1496,7 +1617,7 @@
                           <Component id="jLabel_tamanio_foto_perfil" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField_tamanio_foto_perfil" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="152" max="32767" attributes="0"/>
+                      <EmptySpace pref="153" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
