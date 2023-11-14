@@ -54,7 +54,7 @@ public class FotoPerfilTest {
     /**
      * Test of asignarID method, of class Categoria.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testAsignarID() {
         System.out.println("asignarID");
         FotoPerfil prueba = new FotoPerfil("Foto Prueba", 1, 1, usuario);

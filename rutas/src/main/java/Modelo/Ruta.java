@@ -343,7 +343,10 @@ public class Ruta implements Serializable{
         for(int i = 0; i < getListaValoraciones().size(); i++){
             sumaPuntuaciones = sumaPuntuaciones + getValoracionEnListaPorPosicion(i).getPuntuacion();
         }
-        puntuacionMedia = sumaPuntuaciones/getListaValoraciones().size();
+        if(sumaPuntuaciones != 0)
+            puntuacionMedia = sumaPuntuaciones/getListaValoraciones().size();
+        else
+            puntuacionMedia = 0;
         setPuntuacionMedia(puntuacionMedia);
     }
 

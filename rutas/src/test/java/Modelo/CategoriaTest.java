@@ -5,10 +5,11 @@ package Modelo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import Controlador.Controlador;
 
-import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -51,7 +52,7 @@ public class CategoriaTest {
     /**
      * Test of toString method, of class Categoria.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testToString() {
         System.out.println("toString");
         instance = controlador.getListaCategoriasSistema().get(0);
@@ -63,7 +64,7 @@ public class CategoriaTest {
     /**
      * Test of asignarID method, of class Categoria.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testAsignarID() {
         System.out.println("asignarID simple");
         Categoria instance = new Categoria("Categoria");
@@ -74,7 +75,7 @@ public class CategoriaTest {
     /**
      * Test of asignarID method, of class Categoria.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testAsignarIDWithSpaces() {
         System.out.println("asignarID con espacios");
         Categoria instance = new Categoria("Categoria con espacios");
@@ -85,7 +86,7 @@ public class CategoriaTest {
     /**
      * Test of setRutaEnLista method, of class Categoria.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSetRutaEnLista() {
         System.out.println("setRutaEnLista");
         Ruta ruta = controlador.getListaRutasSistema().get(0);
@@ -97,7 +98,7 @@ public class CategoriaTest {
     /**
      * Test of setRutaEnLista method, of class Categoria.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSetRutaExistenteEnLista() {
         System.out.println("setRutaExistenteEnLista");
         Ruta ruta = controlador.getListaRutasSistema().get(0);
