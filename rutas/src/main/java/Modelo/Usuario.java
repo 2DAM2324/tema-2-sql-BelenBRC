@@ -317,7 +317,7 @@ public class Usuario implements Serializable{
      * @post     El ID generado estará asignado en el atributo ID_usuario
      */
     private void asignarID(){
-        setIDUsuario(this.getNombreUsuario().charAt(0) + this.getDNI());
+        setIDUsuario((this.getNombreUsuario().charAt(0) + this.getDNI()).trim());
     }
     
     //Métodos públicos
