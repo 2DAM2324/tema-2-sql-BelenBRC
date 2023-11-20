@@ -1725,6 +1725,10 @@ public final class Ventana1 extends javax.swing.JFrame {
         if (jTextField_nombre_categoria.getText().trim().equals("")) {
                 JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         } 
+        //Comprobar que el nombre contiene al menos una letra
+        else if (!jTextField_nombre_categoria.getText().matches(".*[a-zA-Z]+.*")) {
+                JOptionPane.showMessageDialog(this, "El nombre debe contener al menos una letra", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         else {
             //Comprobar que no exista el nombre en la tabla
             boolean existe = false;
@@ -2157,9 +2161,9 @@ public final class Ventana1 extends javax.swing.JFrame {
         else if(!jTextField_tamanio_foto_perfil.getText().matches("[0-9]+")){
             JOptionPane.showMessageDialog(this, "El tamaño debe ser un número entero positivo", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //Comprobar que el tamaño se corresponde con megapíxeles
-        else if(Integer.valueOf(jTextField_tamanio_foto_perfil.getText()) < Integer.valueOf(jTextField_reolucion_foto_perfil.getText())*Integer.valueOf(jTextField_reolucion_foto_perfil.getText())/1000000){
-            JOptionPane.showMessageDialog(this, "El tamaño debe ser mayor que la resolución", "Error", JOptionPane.ERROR_MESSAGE);
+        //Comprobar que el tamaño es mayor que cero
+        else if(Integer.valueOf(jTextField_tamanio_foto_perfil.getText()) <= 0){
+            JOptionPane.showMessageDialog(this, "El tamaño debe ser mayor que cero", "Error", JOptionPane.ERROR_MESSAGE);
         }
         //Comprobar que la resolución no esté vacía
         else if(jTextField_reolucion_foto_perfil.getText().trim().equals("")){
@@ -2354,7 +2358,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         if(jTextField_dni_persona.getText().trim().equals("")){
             JOptionPane.showMessageDialog(this, "El DNI no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //Comprobar que el DNI tiene 8 números y una letra
+        //Comprobar que el DNI tiene 8 números y una letra correcta
         else if(!controladorVista.comprobarFormatoDNICorrecto(jTextField_dni_persona.getText())){
             JOptionPane.showMessageDialog(this, "El DNI debe tener 8 números y una letra", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -2369,6 +2373,10 @@ public final class Ventana1 extends javax.swing.JFrame {
         //Comprobar que el correo no esté vacío
         else if(jTextField_correo_usuario.getText().trim().equals("")){
             JOptionPane.showMessageDialog(this, "El correo no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        //Comprobar que el correo sea correcto
+        else if(!controladorVista.comprobarFormatoCorreoCorrecto(jTextField_correo_usuario.getText())){
+            JOptionPane.showMessageDialog(this, "El correo debe tener un formato válido", "Error", JOptionPane.ERROR_MESSAGE);
         }
         //Comprobar que la contraseña no esté vacía
         else if(jPasswordField_contrasenia_usuario.getText().trim().equals("")){

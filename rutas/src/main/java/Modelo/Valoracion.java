@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author BelenBRC
  */
 public class Valoracion implements Serializable{
-    private String ID_valoracion;
+    private String ID_valoracion;       //TODO pasar a autoincremental
     private Ruta ruta;
     private Usuario usuario;
     private Integer puntuacion;

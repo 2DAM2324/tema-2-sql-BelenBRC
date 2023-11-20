@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author belen
  */
 public class Categoria implements Serializable{
-    private String ID_categoria;
+    private String ID_categoria;        //TODO pasar a autoincremental
     private String nombre_categoria;
     private ArrayList<Ruta> listaRutas;
 

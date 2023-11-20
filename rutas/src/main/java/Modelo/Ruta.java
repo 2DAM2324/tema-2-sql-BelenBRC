@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author belen
  */
 public class Ruta implements Serializable{
-    private String ID_ruta;
+    private String ID_ruta;     //TODO pasar a autoincremental
     private String nombre_ruta;
     private String descripcion;
     private double distanciaKm;

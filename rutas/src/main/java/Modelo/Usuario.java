@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author belen
  */
 public class Usuario implements Serializable{
-    private String ID_usuario;
+    private String ID_usuario; //TODO cambiar a autoincremental
     private String nombre_usuario;
     private String apellido_1;
     private String apellido_2;

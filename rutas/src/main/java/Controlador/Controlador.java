@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //TODO FINAL: en el cargar fotos de perfil, recordar que hay que añadir cada foto de perfil en su correspondiente usuario del sistema
 
@@ -262,20 +264,43 @@ public class Controlador {
     }
 
     /**
-     * @brief   Método que comprueba si el formato del DNI es correcto, es decir: tiene 8 números y una letra
+     * @brief   Método que comprueba si el formato del DNI es correcto, es decir: tiene 8 números y una letra que corresponde con los números
      * @param dni   DNI a comprobar
      * @return      True si el formato del DNI es correcto, false en caso contrario
      */
     public boolean comprobarFormatoDNICorrecto(String dni){
         boolean formatoCorrecto = false;
-        
+        String letrasDNI = "TRWAGMYFPDXBNJZSQVHLCKE";
+
         if(dni.length() == 9){
-            if(Character.isLetter(dni.charAt(8))){
-                if(Character.isDigit(dni.charAt(0)) && Character.isDigit(dni.charAt(1)) && Character.isDigit(dni.charAt(2)) && Character.isDigit(dni.charAt(3)) && Character.isDigit(dni.charAt(4)) && Character.isDigit(dni.charAt(5)) && Character.isDigit(dni.charAt(6)) && Character.isDigit(dni.charAt(7))){
-                    formatoCorrecto = true;
+            //Comprobar si los 8 primeros caracteres son números
+            if(Character.isDigit(dni.charAt(0)) && Character.isDigit(dni.charAt(1)) && Character.isDigit(dni.charAt(2)) && Character.isDigit(dni.charAt(3)) && Character.isDigit(dni.charAt(4)) && Character.isDigit(dni.charAt(5)) && Character.isDigit(dni.charAt(6)) && Character.isDigit(dni.charAt(7))){
+                //Comprobar si el último caracter es una letra
+                if(Character.isLetter(dni.charAt(8))){
+                    //Comprobar si la letra es correcta
+                    if(dni.charAt(8) == letrasDNI.charAt(Integer.parseInt(dni.substring(0, 8)) % 23)){
+                        formatoCorrecto = true;
+                    }
                 }
             }
         }
+
+        return formatoCorrecto;
+    }
+
+    /**
+     * @brief   Método que comprueba si el formato del correo electrónico es correcto
+     * @param correo    Correo electrónico a comprobar
+     * @return  True si el formato del correo electrónico es correcto, false en caso contrario
+     */
+    public boolean comprobarFormatoCorreoCorrecto(String correo){
+        boolean formatoCorrecto = false;
+
+        String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(correo);
+        formatoCorrecto = matcher.matches();
+
         return formatoCorrecto;
     }
 

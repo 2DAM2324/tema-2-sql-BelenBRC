@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author belen
  */
 public class FotoPerfil implements Serializable{
-    private String ID_foto;
+    private String ID_foto;     //TODO pasar a autoincremental
     private String nombre_imagen;
     private Integer resolucionImagenMp;
     private Integer tamanioKb;
