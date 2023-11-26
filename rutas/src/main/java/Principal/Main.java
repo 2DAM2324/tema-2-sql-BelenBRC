@@ -26,8 +26,7 @@ public class Main {
         controlador.deserializarFotoPerfil();
 
 
-        Conector conector = Conector.newInstance();
-        conector.conectar();
+        controlador.getConector().conectar();
 
        Ventana1 ventana;
         try{
@@ -37,6 +36,8 @@ public class Main {
         catch(IOException | ClassNotFoundException | SAXException ex){
         }
 
-        conector.desconectar();
+        controlador.getConector().printCategoriasDB();
+
+        controlador.getConector().desconectar();
     }
 }

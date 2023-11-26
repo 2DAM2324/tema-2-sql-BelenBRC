@@ -3,6 +3,7 @@
 package Controlador;
 
 import Modelo.Categoria;
+import Modelo.Conector;
 import Modelo.FotoPerfil;
 import Modelo.Ruta;
 import Modelo.Usuario;
@@ -40,11 +41,14 @@ public class Controlador {
     private ArrayList<FotoPerfil>   listaFotosPerfilSistema;
     private ArrayList<Ruta>         listaRutasSistema;
     private ArrayList<Valoracion>   listaValoracionesSistema;
+
+    private Conector conector;
     
     //Constructor
     /**
      * @brief   Constructor de un objeto de la clase Controlador
      * @post    Las listas de categorías, usuarios, fotos de perfil, rutas y valoraciones estarán vacías
+     *          El conector estará inicializado y conectado a la base de datos
      */
     public Controlador(){
         listaCategoriasSistema      = new ArrayList<>();
@@ -52,6 +56,9 @@ public class Controlador {
         listaFotosPerfilSistema     = new ArrayList<>();
         listaRutasSistema           = new ArrayList<>();
         listaValoracionesSistema    = new ArrayList<>();
+
+        conector = Conector.newInstance();
+        conector.conectar();
     }
 
     //Sets y gets
@@ -139,6 +146,14 @@ public class Controlador {
      */
     public void setValoracionEnLista(Valoracion valoracion) {
         this.listaValoracionesSistema.add(valoracion);
+    }
+
+    /**
+     * @brief   Método que establece el conector
+     * @param conector  Conector para la base de datos
+     */
+    public void setConector(Conector conector) {
+        this.conector = conector;
     }
 
     /**
@@ -249,6 +264,14 @@ public class Controlador {
      */
     public ArrayList<Valoracion> getListaValoracionesSistema() {
         return listaValoracionesSistema;
+    }
+
+    /**
+     * @brief   Método que devuelve el conector para la base de datos
+     * @return  (Conector)  Conector para la base de datos
+     */
+    public Conector getConector() {
+        return conector;
     }
 
     //Métodos

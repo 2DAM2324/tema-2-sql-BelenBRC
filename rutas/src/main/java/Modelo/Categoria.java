@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author belen
  */
 public class Categoria implements Serializable{
-    private String ID_categoria;        //TODO pasar a autoincremental
+    private Integer ID_categoria;        
     private String nombre_categoria;
     private ArrayList<Ruta> listaRutas;
 
@@ -21,12 +21,24 @@ public class Categoria implements Serializable{
     /**
      * @brief   Constructor de un objeto de la clase Categoria con parámetros, sin rutas asignadas
      * @param nombre    Nombre de la categoría
-     * @post    El ID generado estará asignado en el atributo ID_categoria
+     * @post    El ID será null
      *          La lista de rutas estará vacía
      */
     public Categoria(String nombre){
         setNombreCategoria(nombre);
-        asignarID();
+        setIDCategoria(null);
+        setListaRutas(new ArrayList<Ruta>());
+    }
+
+    /**
+     * @brief   Constructor de un objeto de la clase Categoria con parámetros, sin rutas asignadas
+     * @param nombre    Nombre de la categoría
+     * @param id        Código identificador único de la categoría
+     * @post    La lista de rutas estará vacía
+     */
+    public Categoria(String nombre, Integer id){
+        setNombreCategoria(nombre);
+        setIDCategoria(id);
         setListaRutas(new ArrayList<Ruta>());
     }
 
@@ -34,12 +46,25 @@ public class Categoria implements Serializable{
      * @brief   Constructor de un objeto de la clase Categoria con parámetros y con rutas asignadas
      * @param nombre    Nombre de la categoría
      * @param lista     Lista de rutas que pertenecen a la categoría
-     * @post    El ID generado estará asignado en el atributo ID_categoria
+     * @post    El ID será null
      *          La lista de rutas estará inicializada con las rutas pasados por parámetro
      */
     public Categoria(String nombre, ArrayList<Ruta> lista){
         setNombreCategoria(nombre);
-        asignarID();
+        setIDCategoria(null);
+        setListaRutas(lista);
+    }
+
+    /**
+     * @brief   Constructor de un objeto de la clase Categoria con parámetros y con rutas asignadas
+     * @param nombre    Nombre de la categoría
+     * @param id        Código identificador único de la categoría
+     * @param lista     Lista de rutas que pertenecen a la categoría
+     * @post    La lista de rutas estará inicializada con las rutas pasados por parámetro
+     */
+    public Categoria(String nombre, Integer id, ArrayList<Ruta> lista){
+        setNombreCategoria(nombre);
+        setIDCategoria(id);
         setListaRutas(lista);
     }
 
@@ -48,7 +73,7 @@ public class Categoria implements Serializable{
      * @brief   Método que establece el código identificador único de la categoría
      * @param id    Código identificador único de la categoría
      */
-    public void setIDCategoria(String id){
+    public void setIDCategoria(Integer id){
         this.ID_categoria = id;
     }
 
@@ -89,9 +114,9 @@ public class Categoria implements Serializable{
 
     /**
      * @brief   Método que devuelve el código identificador único de la categoría
-     * @return  ID_categoria    (String)    Código identificador único de la categoría
+     * @return  ID_categoria    (Integer)    Código identificador único de la categoría
      */
-    public String getIDCategoria(){
+    public Integer getIDCategoria(){
         return this.ID_categoria;
     }
 
@@ -118,16 +143,6 @@ public class Categoria implements Serializable{
      */
     public Ruta getRutaEnLista(Integer posicion){
         return getListaRutas().get(posicion);
-    }
-
-    //Métodos propios internos
-    /**
-     * @brief   Método que asigna un código identificador único a la categoría
-     * @pre     El nombre de la categoría debe estar asignado
-     * @post    El ID generado estará asignado en el atributo ID_categoria
-     */
-    private void asignarID(){
-        setIDCategoria("cat." + getNombreCategoria().replaceAll(" ", ""));
     }
 
     //Métodos públicos
