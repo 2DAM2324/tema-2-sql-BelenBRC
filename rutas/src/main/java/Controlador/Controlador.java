@@ -59,6 +59,9 @@ public class Controlador {
 
         conector = Conector.newInstance();
         conector.conectar();
+
+        //Cargar datos de la base de datos
+        cargarDatosBD();
     }
 
     //Sets y gets
@@ -1028,6 +1031,24 @@ public class Controlador {
                 }
             }
         }
+    }
+
+    private void cargarDatosBD(){
+        leerCategoriasBD();
+        //leerFotosPerfilBD();
+        //leerUsuariosBD();
+        //leerRutasBD();
+        //leerValoracionesBD();
+    }
+
+    /**
+     * @brief   Método que obtiene la lista de completa de categorías de la base de datos
+     * @post    Se obtiene la lista de categorías de la base de datos
+     * @post    Si la conexión con la base de datos falla, la lista de categorías del sistema se queda vacía
+     */
+    public void leerCategoriasBD(){
+        listaCategoriasSistema.clear();
+        listaCategoriasSistema = getConector().getCategoriasDB();
     }
 
     /**

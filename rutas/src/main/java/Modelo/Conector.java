@@ -249,20 +249,32 @@ public class Conector {
     }
 
 
-    
-    public void printCategoriasDB(){
+    /**
+     * @brief   Método que lee las categorías de la base de datos y las almacena en una lista de categorías
+     * @return  (ArrayList<Categoria>)    Lista de categorías de la base de datos
+     * @post    La lista de categorías estará inicializada con las categorías de la base de datos
+     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
+     *          y devuelve una lista vacía
+     */
+    public ArrayList<Categoria> getCategoriasDB(){
         setNombreTabla(NOMBRE_TABLA_CATEGORIA);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
 
+        getListaCategorias().clear();
+
         try{
 
             sentencia = getConexion().prepareStatement(sql);
             resultado = sentencia.executeQuery();
+
             while (resultado.next()) {
-                System.out.println("id:\t" + resultado.getString("id_categoria"));
-                System.out.println("nombre:\t" + resultado.getString("nombre")); 
+                Integer id = resultado.getInt("id_categoria");
+                String nombre = resultado.getString("nombre");
+                
+                Categoria categoria = new Categoria(nombre, id);
+                getListaCategorias().add(categoria);
             }
 
         }
@@ -284,5 +296,7 @@ public class Conector {
                 }
             }
         }
+
+        return getListaCategorias();
     }
 }

@@ -19,13 +19,6 @@ public class Main {
 
         Controlador controlador = Controlador.newInstance();
 
-        controlador.deserializarCategoria();
-        controlador.deserializarUsuario();
-        controlador.deserializarRuta();
-        controlador.deserializarValoracion();
-        controlador.deserializarFotoPerfil();
-
-
         controlador.getConector().conectar();
 
        Ventana1 ventana;
@@ -35,8 +28,6 @@ public class Main {
         }   
         catch(IOException | ClassNotFoundException | SAXException ex){
         }
-
-        controlador.getConector().printCategoriasDB();
 
         controlador.getConector().desconectar();
     }
