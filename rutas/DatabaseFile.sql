@@ -1,7 +1,9 @@
---Belén Robustillo Carmona
-
-CREATE DATABASE IF NOT EXISTS `rutas` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `rutas`;
+DROP TABLE IF EXISTS clasificacion;
+DROP TABLE IF EXISTS valoracion;
+DROP TABLE IF EXISTS categoria;
+DROP TABLE IF EXISTS ruta;
+DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS foto_perfil;
 
 -- -----------------------------------------------------
 
@@ -10,17 +12,17 @@ CREATE TABLE IF NOT EXISTS foto_perfil(
     nombre_foto     VARCHAR(100)    NOT NULL,
     resolucion_mpx  INTEGER         NOT NULL    CHECK (resolucion_mpx > 0),
     tamanio_kb      INTEGER         NOT NULL    CHECK (tamanio_kb > 0)
-) LIKE rutas.foto_perfil;
+);
 
 CREATE TABLE IF NOT EXISTS usuario(
     id_usuario      INTEGER         PRIMARY KEY AUTOINCREMENT,
     nombre          VARCHAR(50)     NOT NULL,
     apellido1       VARCHAR(50)     NOT NULL,
     apellido2       VARCHAR(50),
-    email           VARCHAR(100)    NOT NULL    CHECK (validarEmail(email)),
-    password        VARCHAR(100)    NOT NULL,
-    dni             VARCHAR(9)      NOT NULL    CHECK (validarDNI(dni))    UNIQUE,
-    id_foto_perfil  INTEGER                     ,   -- Optimización 1:1
+    email           VARCHAR(100)    NOT NULL    CHECK (email GLOB '*@*.*'),
+    password        VARCHAR(100)    NOT NULL    CHECK (LENGTH(password) > 3),
+    dni             VARCHAR(9)      NOT NULL    CHECK (LENGTH(dni) = 9) UNIQUE,
+    id_foto_perfil  INTEGER,   -- Optimización 1:1
     FOREIGN KEY (id_foto_perfil)   REFERENCES foto_perfil(id_foto_perfil)
 );
 
@@ -39,7 +41,7 @@ CREATE TABLE IF NOT EXISTS ruta(
 
 CREATE TABLE IF NOT EXISTS categoria(
     id_categoria    INTEGER         PRIMARY KEY AUTOINCREMENT,
-    nombre          VARCHAR(50)     NOT NULL    UNIQUE  CHECK (nombre LIKE '%[a-zA-Z]%')
+    nombre          VARCHAR(50)     NOT NULL    UNIQUE  CHECK (nombre GLOB '*[a-zA-Z]*')
 );
 
 CREATE TABLE IF NOT EXISTS valoracion(                          -- Relación N:M
@@ -59,21 +61,6 @@ CREATE TABLE IF NOT EXISTS clasificacion(                       -- Relación N:M
     FOREIGN KEY (id_categoria)  REFERENCES categoria(id_categoria),
     FOREIGN KEY (id_ruta)       REFERENCES ruta(id_ruta)
 );
-
--- -----------------------------------------------------
-
-CREATE FUNCTION IF NOT EXISTS validarDNI(dni VARCHAR(9)) RETURNS BOOLEAN AS
-BEGIN
-    DECLARE letras          VARCHAR(23)     DEFAULT 'TRWAGMYFPDXBNJZSQVHLCKE';
-    DECLARE letra           VARCHAR(1)      DEFAULT UPPER(SUBSTR(dni, -1));
-    DECLARE numero          INTEGER         DEFAULT CAST(SUBSTR(dni, 1, LENGTH(dni) - 1) AS INTEGER);
-    DECLARE resto           INTEGER         DEFAULT numero % 23;
-    DECLARE letra_correcta  VARCHAR(1)      DEFAULT SUBSTR(letras, resto + 1, 1);
-    RETURN  letra = letra_correcta;
-END;
-
-CREATE FUNCTION IF NOT EXISTS validarEmail(email VARCHAR(100)) RETURNS BOOLEAN AS
-'SELECT email REGEXP ''^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$''';
 
 -- -----------------------------------------------------
 
