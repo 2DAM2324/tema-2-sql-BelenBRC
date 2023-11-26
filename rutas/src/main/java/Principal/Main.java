@@ -19,24 +19,24 @@ public class Main {
 
         Controlador controlador = Controlador.newInstance();
 
-    /*    controlador.deserializarCategoria();
+        controlador.deserializarCategoria();
         controlador.deserializarUsuario();
         controlador.deserializarRuta();
         controlador.deserializarValoracion();
         controlador.deserializarFotoPerfil();
-*/
 
-        Conector conector = new Conector();
+
+        Conector conector = Conector.newInstance();
         conector.conectar();
 
- /*       Ventana1 ventana;
+       Ventana1 ventana;
         try{
                 ventana = new Ventana1();
                 ventana.setVisible(true);
         }   
         catch(IOException | ClassNotFoundException | SAXException ex){
         }
-*/
+
         conector.desconectar();
     }
 }

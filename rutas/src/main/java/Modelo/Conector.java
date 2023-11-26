@@ -5,15 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conector {
-    private String url;
-    private Connection conexion;
-    private String nombreTabla;
+    private static Conector instancia = null;
+    private String          url;
+    private Connection      conexion;
+    private String          nombreTabla;
 
     /**
      * @brief Constructor de la clase Conector con la url por defecto
      * @post  Conexión con url por defecto 
      */
-    public Conector(){
+    private Conector(){
         setUrl("C:\\Users\\belen\\Documents\\NetBeansProjects\\BRC-2DAM-AD\\tema-2-sql-BelenBRC\\rutas\\rutas.db");
     }
 
@@ -21,7 +22,7 @@ public class Conector {
      * @brief Constructor de la clase Conector con parámetros
      * @param url           (String)    Url de la base de datos
      */
-    public Conector(String url){
+    private Conector(String url){
         setUrl(url);
     }
 
@@ -31,7 +32,7 @@ public class Conector {
      * @brief Establece la url de la base de datos
      * @param url   (String)    Url de la base de datos
      */
-    public void setUrl(String url) {
+    private void setUrl(String url) {
         this.url = url;
     }
 
@@ -39,7 +40,7 @@ public class Conector {
      * @brief Establece la conexión con la base de datos
      * @param conexion  (Connection)    Conexión con la base de datos
      */
-    public void setConexion(Connection conexion) {
+    private void setConexion(Connection conexion) {
         this.conexion = conexion;
     }
 
@@ -47,7 +48,7 @@ public class Conector {
      * @brief Establece el nombre de la tabla de la base de datos
      * @param nombreTabla   (String)    Nombre de la tabla de la base de datos
      */
-    public void setNombreTabla(String nombreTabla) {
+    private void setNombreTabla(String nombreTabla) {
         this.nombreTabla = nombreTabla;
     }
 
@@ -55,7 +56,7 @@ public class Conector {
      * @brief Devuelve la url de la base de datos
      * @return url  (String)    Url de la base de datos
      */
-    public String getUrl() {
+    private String getUrl() {
         return url;
     }
 
@@ -63,7 +64,7 @@ public class Conector {
      * @brief Devuelve la conexión con la base de datos
      * @return conexion  (Connection)    Conexión con la base de datos
      */
-    public Connection getConexion() {
+    private Connection getConexion() {
         return conexion;
     }
 
@@ -71,8 +72,31 @@ public class Conector {
      * @brief Devuelve el nombre de la tabla de la base de datos
      * @return nombreTabla  (String)    Nombre de la tabla de la base de datos
      */
-    public String getNombreTabla() {
+    private String getNombreTabla() {
         return nombreTabla;
+    }
+
+    /**
+     * @brief   Método que devuelve la instancia de la clase Conector con la url por defecto
+     * @return  (Conector)  Instancia de la clase Conector
+     */
+    public static Conector newInstance(){
+        if(instancia == null){
+            instancia = new Conector();
+        }
+        return instancia;
+    }
+
+    /**
+     * @brief   Método que devuelve la instancia de la clase Conector con parámetros
+     * @param url   (String)    Url de la base de datos
+     * @return  (Conector)  Instancia de la clase Conector
+     */
+    public static Conector newInstance(String url){
+        if(instancia == null){
+            instancia = new Conector(url);
+        }
+        return instancia;
     }
 
     //Métodos
