@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.xml.sax.SAXException;
 
 import Controlador.Controlador;
+import Modelo.Conector;
 /**
  *
  * @author belen
@@ -18,18 +19,24 @@ public class Main {
 
         Controlador controlador = Controlador.newInstance();
 
-        controlador.deserializarCategoria();
+    /*    controlador.deserializarCategoria();
         controlador.deserializarUsuario();
         controlador.deserializarRuta();
         controlador.deserializarValoracion();
         controlador.deserializarFotoPerfil();
+*/
 
-        Ventana1 ventana;
+        Conector conector = new Conector();
+        conector.conectar();
+
+ /*       Ventana1 ventana;
         try{
                 ventana = new Ventana1();
                 ventana.setVisible(true);
         }   
         catch(IOException | ClassNotFoundException | SAXException ex){
         }
+*/
+        conector.desconectar();
     }
 }
