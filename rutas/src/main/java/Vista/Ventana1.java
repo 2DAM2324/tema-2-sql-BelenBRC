@@ -38,6 +38,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     public Ventana1() throws IOException, FileNotFoundException, ClassNotFoundException, NotSerializableException, SAXException {
         initComponents();
         controladorVista = Controlador.newInstance();
+        controladorVista.getConector().conectar();
         
         //Ocultar campos modificables en las pestañas
         ocultarCamposCategorias();
@@ -463,6 +464,7 @@ public final class Ventana1 extends javax.swing.JFrame {
 
         if (opcion == JOptionPane.YES_OPTION) {
             // Si el usuario confirma, cerrar la ventana y la aplicación
+            controladorVista.getConector().desconectar();
             dispose();
             System.exit(0); 
         }
