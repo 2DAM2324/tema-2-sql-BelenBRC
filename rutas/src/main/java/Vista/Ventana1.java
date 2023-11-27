@@ -698,11 +698,11 @@ public final class Ventana1 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID valoracion", "DNI Usuario", "Puntuación"
+                "DNI Usuario", "Puntuación"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -710,11 +710,6 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
         });
         jScrollPane_valoraciones_ruta.setViewportView(jTable_valoraciones_ruta);
-        if (jTable_valoraciones_ruta.getColumnModel().getColumnCount() > 0) {
-            jTable_valoraciones_ruta.getColumnModel().getColumn(0).setHeaderValue("ID valoracion");
-            jTable_valoraciones_ruta.getColumnModel().getColumn(1).setHeaderValue("Ruta");
-            jTable_valoraciones_ruta.getColumnModel().getColumn(2).setHeaderValue("Puntuación");
-        }
 
         jLabel_categorias_ruta.setText("Categorías de la ruta:");
 
@@ -809,13 +804,12 @@ public final class Ventana1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jComboBox_categoris_aniadibles_a_ruta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton_guardar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_aniadir_categoria_en_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_borrar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_guardar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_cancelar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButton_guardar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_aniadir_categoria_en_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_borrar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_guardar_categoria_en_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_confirmar_aniadir_categoria_en_ruta3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_cancelar_ruta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel_rutaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane_categorias_ruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -992,11 +986,11 @@ public final class Ventana1 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID valoracion", "Ruta", "Puntuación"
+                "Ruta", "Puntuación"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1004,11 +998,6 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
         });
         jScrollPane_valoraciones_usuario.setViewportView(jTable_valoraciones_usuario);
-        if (jTable_valoraciones_usuario.getColumnModel().getColumnCount() > 0) {
-            jTable_valoraciones_usuario.getColumnModel().getColumn(0).setHeaderValue("ID valoracion");
-            jTable_valoraciones_usuario.getColumnModel().getColumn(1).setHeaderValue("Ruta");
-            jTable_valoraciones_usuario.getColumnModel().getColumn(2).setHeaderValue("Puntuación");
-        }
 
         jLabel_rutas_usuario.setText("Rutas creadas por el usuario:");
 
@@ -1958,12 +1947,12 @@ public final class Ventana1 extends javax.swing.JFrame {
      * @post    Se actualiza la tabla de rutas de la categoría seleccionada
      */
     private void actualizarTablaRutasDeCategoria(){
-        String id = (String) jTable_categoria.getValueAt(jTable_categoria.getSelectedRow(), 0);
+        Integer id = (Integer) jTable_categoria.getValueAt(jTable_categoria.getSelectedRow(), 0);
         DefaultTableModel model = (DefaultTableModel) jTable_rutas_de_categoria.getModel();
         model.setRowCount(0);
         for(Ruta ruta : controladorVista.getListaRutasSistema()){
             for(Categoria categoria : ruta.getListaCategorias()){
-                if(categoria.getIDCategoria().equals(id)){
+                if(categoria.getIDCategoria() == id){
                     model.addRow(new Object[]{ruta.getIdRuta(), ruta.getNombreRuta(), ruta.getCreadorRuta().getDNI(), ruta.getPuntuacionMedia()});
                 }
             }
@@ -2583,7 +2572,7 @@ public final class Ventana1 extends javax.swing.JFrame {
             DefaultTableModel model2 = (DefaultTableModel) jTable_valoraciones_usuario.getModel();
             model2.setRowCount(0);
             for(Valoracion valoracion : usuario.getListaValoraciones()){
-                model2.addRow(new Object[]{valoracion.getIDValoracion(), valoracion.getRuta().toString(), valoracion.getPuntuacion()});
+                model2.addRow(new Object[]{valoracion.getRuta().toString(), valoracion.getPuntuacion()});
             }
 
             //Pintar la tabla de rutas
@@ -3047,7 +3036,7 @@ public final class Ventana1 extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) jTable_valoraciones_ruta.getModel();
             model.setRowCount(0);
             for(Valoracion valoracion : ruta.getListaValoraciones()){
-                model.addRow(new Object[]{valoracion.getIDValoracion(), valoracion.getUsuario().getDNI(), valoracion.getUsuario().getDNI(), valoracion.getPuntuacion()});
+                model.addRow(new Object[]{valoracion.getUsuario().getDNI(), valoracion.getPuntuacion()});
             }
 
             //Pintar la tabla de categorias

@@ -102,14 +102,12 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jComboBox_categoris_aniadibles_a_ruta" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jButton_guardar_ruta" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jButton_aniadir_categoria_en_ruta" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="jButton_borrar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jButton_guardar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jButton_cancelar_ruta" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="jButton_guardar_ruta" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton_aniadir_categoria_en_ruta" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jButton_borrar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton_guardar_categoria_en_ruta" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton_confirmar_aniadir_categoria_en_ruta3" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton_cancelar_ruta" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -418,8 +416,7 @@
                 <Component class="javax.swing.JTable" name="jTable_valoraciones_ruta">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="3" rowCount="0">
-                        <Column editable="true" title="ID valoracion" type="java.lang.String"/>
+                      <Table columnCount="2" rowCount="0">
                         <Column editable="true" title="DNI Usuario" type="java.lang.String"/>
                         <Column editable="true" title="Puntuaci&#xf3;n" type="java.lang.Integer"/>
                       </Table>
@@ -427,17 +424,12 @@
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="ID valoracion"/>
+                          <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="Ruta"/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="Puntuaci&#xf3;n"/>
+                          <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
@@ -849,8 +841,7 @@
                 <Component class="javax.swing.JTable" name="jTable_valoraciones_usuario">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="3" rowCount="0">
-                        <Column editable="true" title="ID valoracion" type="java.lang.String"/>
+                      <Table columnCount="2" rowCount="0">
                         <Column editable="true" title="Ruta" type="java.lang.Object"/>
                         <Column editable="true" title="Puntuaci&#xf3;n" type="java.lang.Integer"/>
                       </Table>
@@ -858,17 +849,12 @@
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="ID valoracion"/>
+                          <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="Ruta"/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title value="Puntuaci&#xf3;n"/>
+                          <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
