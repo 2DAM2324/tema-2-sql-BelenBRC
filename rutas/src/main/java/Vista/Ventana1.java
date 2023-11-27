@@ -1654,7 +1654,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     private void jButton_borrar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoriaActionPerformed
         if (jTable_categoria.getSelectedRow() != -1) {
                 int fila = jTable_categoria.getSelectedRow();
-                String id = (String) jTable_categoria.getValueAt(fila, 0);
+                Integer id = (Integer) jTable_categoria.getValueAt(fila, 0);
                 String nombre = (String) jTable_categoria.getValueAt(fila, 1);
 
                 controladorVista.borrarCategoria(id);
@@ -1790,11 +1790,11 @@ public final class Ventana1 extends javax.swing.JFrame {
         else {
             //Categoría seleccionada en la tabla de arriba
             int filaCat = jTable_categoria.getSelectedRow();
-            String idCategoria = (String) jTable_categoria.getValueAt(filaCat, 0);
+            Integer idCategoria = (Integer) jTable_categoria.getValueAt(filaCat, 0);
 
             //Eliminar esa fila de la tabla
             int fila = jTable_rutas_de_categoria.getSelectedRow();
-            String id = (String) jTable_rutas_de_categoria.getValueAt(fila, 0);
+            Integer id = (Integer) jTable_rutas_de_categoria.getValueAt(fila, 0);
             String nombre = (String) jTable_rutas_de_categoria.getValueAt(fila, 1);
             controladorVista.eliminarRutaDeCategoria(id, idCategoria);
             pintarDatosRuta();
@@ -2254,7 +2254,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         else{
             //Borrar la foto de perfil del sistema
             int fila = jTable_fotosPerfil.getSelectedRow();
-            controladorVista.borrarFotoPerfil((String) jTable_fotosPerfil.getValueAt(fila, 0));
+            controladorVista.borrarFotoPerfil((Integer) jTable_fotosPerfil.getValueAt(fila, 0));
             //Pintar los datos de la foto de perfil
             pintarDatosFotoPerfil();
             pintarDatosUsuario();
@@ -2872,8 +2872,9 @@ public final class Ventana1 extends javax.swing.JFrame {
         else{
             //Borrar la categoría de la ruta
             int fila = jTable_categorias_ruta.getSelectedRow();
-            String nombre = (String) jTable_categorias_ruta.getValueAt(fila, 1);
-            controladorVista.eliminarRutaDeCategoria(jTextField_nombre_ruta.getText(), nombre);
+            Integer idCategoria = (Integer) jTable_categorias_ruta.getValueAt(fila, 0);
+            Integer idRuta = controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString()));
+            controladorVista.eliminarRutaDeCategoria(idRuta, idCategoria);
             //Pintar los datos de la ruta
             pintarDatosRuta();
             pintarDatosCategoria();

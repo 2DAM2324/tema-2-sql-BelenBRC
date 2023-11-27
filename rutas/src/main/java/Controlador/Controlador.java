@@ -9,21 +9,15 @@ import Modelo.Ruta;
 import Modelo.Usuario;
 import Modelo.Valoracion;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//TODO FINAL: en el cargar fotos de perfil, recordar que hay que añadir cada foto de perfil en su correspondiente usuario del sistema
 
 //TODO 2. Tests unitarios
-//TODO 3. Separar archivo accesoBD
-//TODO 4. SQL
 
 /**
  * Clase Controlador con atributos:
@@ -172,7 +166,7 @@ public class Controlador {
      * @param IDcategoria   ID de la categoría de la que se quiere obtener la lista de rutas
      * @return  Lista de rutas de la categoría indicada
      */
-    public ArrayList<Ruta> getListaRutasCategoria(String IDcategoria){
+    public ArrayList<Ruta> getListaRutasCategoria(Integer IDcategoria){
         ArrayList<Ruta> listaRutasCategoria = new ArrayList<>();
 
         for(int i=0; i < listaCategoriasSistema.size(); i++){
@@ -359,7 +353,7 @@ public class Controlador {
      * @post    Las rutas que contenían la categoría eliminada ya no la contienen
      *          El fchero XML de rutas contiene la lista de rutas del sistema actualizada
      */
-    public void borrarCategoria(String IDcategoriaEliminada){
+    public void borrarCategoria(Integer IDcategoriaEliminada){
         for(int i=0; i < listaCategoriasSistema.size(); i++){
             if(listaCategoriasSistema.get(i).getIDCategoria().equals(IDcategoriaEliminada)){
                 //Borrar la categoría de las rutas que la contengan
@@ -857,7 +851,7 @@ public class Controlador {
      * @post    La foto de perfil con el ID indicado se ha eliminado de la lista de fotos de perfil del sistema
      * @post    El fichero XML contiene la lista de fotos de perfil del sistema actualizada
      */
-    public void borrarFotoPerfil(String idFotoEliminada){
+    public void borrarFotoPerfil(Integer idFotoEliminada){
         String dniUsuario = "";
         //Eliminar la foto de perfil del sistema
         for(int i=0; i < listaFotosPerfilSistema.size(); i++){
@@ -885,7 +879,7 @@ public class Controlador {
      * @post    Se actualizan los ficheros XML
      * @post    Se actualizan las listas del sistema
      */
-    public void eliminarRutaDeCategoria(String idRuta, String idCategoria){
+    public void eliminarRutaDeCategoria(Integer idRuta, Integer idCategoria){
         //Buscar la ruta en la lista de rutas del sistema
         Ruta ruta = null;
         for(int i=0; i < listaRutasSistema.size(); i++){
@@ -999,39 +993,7 @@ public class Controlador {
         }
     }
 
-    /**
-     * @brief   Método que deserializa la lista de categorías del sistema
-     */
-    public void deserializarCategoria(){
-        ObjectInputStream deserializador = null;
-        try{
-            deserializador = new ObjectInputStream(new FileInputStream("Categorias.dat"));
-            listaCategoriasSistema = (ArrayList<Categoria>) deserializador.readObject();
-        }
-        catch(FileNotFoundException fnfe){
-            fnfe.printStackTrace();
-            System.out.println("Error al encontrar el fichero de la lista de categorías del sistema");
-        }
-        catch(ClassNotFoundException cnfe){
-            cnfe.printStackTrace();
-            System.out.println("Error al encontrar la clase categorías");
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-            System.out.println("Error al deserializar la lista de categorías del sistema");
-        }
-        finally{
-            if(deserializador != null){
-                try{
-                    deserializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el deserializador de la lista de categorías del sistema");
-                }
-            }
-        }
-    }
+   
 
     /**
      * @brief   Método que obtiene toda la información de la base de datos y la almacena en las listas del sistema
@@ -1121,48 +1083,6 @@ public class Controlador {
     }
 
     /**
-     * @brief   Método que deserializa la lista de fotos de perfil del sistema
-     */
-    public void deserializarFotoPerfil(){
-        ObjectInputStream deserializador = null;
-        try{
-            deserializador = new ObjectInputStream(new FileInputStream("FotosPerfil.dat"));
-            listaFotosPerfilSistema = (ArrayList<FotoPerfil>) deserializador.readObject();
-
-            for (FotoPerfil fotoPerfil : listaFotosPerfilSistema) {
-                for (Usuario usuario : listaUsuariosSistema) {
-                    if (fotoPerfil.getUsuario().getDNI().equals(usuario.getDNI())) {
-                        usuario.setFotoPerfil(fotoPerfil);
-                    }
-                }
-            }
-        }
-        catch(FileNotFoundException fnfe){
-            fnfe.printStackTrace();
-            System.out.println("Error al encontrar el fichero de la lista de fotos de perfil del sistema");
-        }
-        catch(ClassNotFoundException cnfe){
-            cnfe.printStackTrace();
-            System.out.println("Error al encontrar la clase fotos de perfil");
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-            System.out.println("Error al deserializar la lista de fotos de perfil del sistema");
-        }
-        finally{
-            if(deserializador != null){
-                try{
-                    deserializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el deserializador de la lista de fotos de perfil del sistema");
-                }
-            }
-        }
-    }
-
-    /**
      * @brief   Método que serializa la lista de rutas del sistema
      */
     public void serializarRuta(){
@@ -1183,40 +1103,6 @@ public class Controlador {
                 catch(IOException e){
                     e.printStackTrace();
                     System.out.println("Error al cerrar el serializador de la lista de rutas del sistema");
-                }
-            }
-        }
-    }
-
-    /**
-     * @brief   Método que deserializa la lista de rutas del sistema
-     */
-    public void deserializarRuta(){
-        ObjectInputStream deserializador = null;
-        try{
-            deserializador = new ObjectInputStream(new FileInputStream("Rutas.dat"));
-            listaRutasSistema = (ArrayList<Ruta>) deserializador.readObject();
-        }
-        catch(FileNotFoundException fnfe){
-            fnfe.printStackTrace();
-            System.out.println("Error al encontrar el fichero de la lista de rutas del sistema");
-        }
-        catch(ClassNotFoundException cnfe){
-            cnfe.printStackTrace();
-            System.out.println("Error al encontrar la clase rutas");
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-            System.out.println("Error al deserializar la lista de rutas del sistema");
-        }
-        finally{
-            if(deserializador != null){
-                try{
-                    deserializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el deserializador de la lista de rutas del sistema");
                 }
             }
         }
@@ -1249,40 +1135,6 @@ public class Controlador {
     }
 
     /**
-     * @brief   Método que deserializa la lista de usuarios del sistema
-     */
-    public void deserializarUsuario(){
-        ObjectInputStream deserializador = null;
-        try{
-            deserializador = new ObjectInputStream(new FileInputStream("Usuarios.dat"));
-            listaUsuariosSistema = (ArrayList<Usuario>) deserializador.readObject();
-        }
-        catch(FileNotFoundException fnfe){
-            fnfe.printStackTrace();
-            System.out.println("Error al encontrar el fichero de la lista de usuarios del sistema");
-        }
-        catch(ClassNotFoundException cnfe){
-            cnfe.printStackTrace();
-            System.out.println("Error al encontrar la clase usuarios");
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-            System.out.println("Error al deserializar la lista de usuarios del sistema");
-        }
-        finally{
-            if(deserializador != null){
-                try{
-                    deserializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el deserializador de la lista de usuarios del sistema");
-                }
-            }
-        }
-    }
-
-    /**
      * @brief   Método que serializa la lista de valoraciones del sistema
      */
     public void serializarValoracion(){
@@ -1308,37 +1160,5 @@ public class Controlador {
         }
     }
 
-    /**
-     * @brief   Método que deserializa la lista de valoraciones del sistema
-     */
-    public void deserializarValoracion(){
-        ObjectInputStream deserializador = null;
-        try{
-            deserializador = new ObjectInputStream(new FileInputStream("Valoraciones.dat"));
-            listaValoracionesSistema = (ArrayList<Valoracion>) deserializador.readObject();
-        }
-        catch(FileNotFoundException fnfe){
-            fnfe.printStackTrace();
-            System.out.println("Error al encontrar el fichero de la lista de valoraciones del sistema");
-        }
-        catch(ClassNotFoundException cnfe){
-            cnfe.printStackTrace();
-            System.out.println("Error al encontrar la clase valoraciones");
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-            System.out.println("Error al deserializar la lista de valoraciones del sistema");
-        }
-        finally{
-            if(deserializador != null){
-                try{
-                    deserializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el deserializador de la lista de valoraciones del sistema");
-                }
-            }
-        }
-    }
+    
 }

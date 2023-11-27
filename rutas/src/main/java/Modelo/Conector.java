@@ -26,12 +26,6 @@ public class Conector {
     private ArrayList<Usuario>          listaUsuarios;
     private ArrayList<Valoracion>       listaValoraciones;
 
-    private ArrayList<Integer>          listaIDsCategorias;
-    private ArrayList<Integer>          listaIDsFotosPerfil;
-    private ArrayList<Integer>          listaIDsRutas;
-    private ArrayList<Integer>          listaIDsUsuarios;
-    private ArrayList<Integer>          listaIDsValoraciones;
-
     /**
      * @brief Constructor de la clase Conector con la url por defecto
      * @post  Conexión con url por defecto 
@@ -246,8 +240,6 @@ public class Conector {
         try{
             getConexion().close();
             setConexion(null);
-            //TODO eliminar debug
-            System.out.println("Conexión cerrada");
         }
         catch(SQLException sqle){
             sqle.printStackTrace();
