@@ -343,7 +343,7 @@ public class Conector {
 
             Usuario usuario = new Usuario(id, nombre, apellido1, apellido2, email, contrasena, dni);
 
-            if(idFotoPerfil != 0){
+            if(idFotoPerfil != 0 && idFotoPerfil != null){
                 //Vincular foto de perfil con usuario
                 boolean encontrado = false;
                 for(int i=0; i<getListaFotosPerfil().size() && !encontrado; i++){
@@ -605,6 +605,29 @@ public class Conector {
 
         sentencia = getConexion().prepareStatement(sql);
         sentencia.setString(1, categoria.getNombreCategoria());
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
+
+    /**
+     * @brief   Método que crea un usuario en la base de datos
+     * @param usuario       (Usuario)   Usuario a crear
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void createUsuario(Usuario usuario) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_USUARIO);
+        String sql = "INSERT INTO " + getNombreTabla() + " (nombre, apellido1, apellido2, email, password, dni) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, usuario.getNombreUsuario());
+        sentencia.setString(2, usuario.getApellido1());
+        sentencia.setString(3, usuario.getApellido2());
+        sentencia.setString(4, usuario.getCorreoElectronico());
+        sentencia.setString(5, usuario.getContrasenia());
+        sentencia.setString(6, usuario.getDNI());
+
         sentencia.executeUpdate();
         cerrarSentencia(sentencia);
     }

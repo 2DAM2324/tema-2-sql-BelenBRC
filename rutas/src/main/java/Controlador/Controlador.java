@@ -334,23 +334,13 @@ public class Controlador {
      * @param nombreCategoria   Nombre de la categoría a añadir a la lista de categorías del sistema
      * @throws SQLException     Excepción que se lanza si se produce un error en la base de datos
      * @throws Exception        Excepción general
-     * @post    Se actualiza el XML
+     * @post    Se actualiza la base de datos
      */
     public void aniadirCategoria(String nombreCategoria) throws SQLException, Exception{
-        boolean existeCategoria = false;
         Categoria categoria = new Categoria(nombreCategoria);
 
-        for(int i=0; i < listaCategoriasSistema.size(); i++){
-            if(listaCategoriasSistema.get(i).getIDCategoria().equals(categoria.getIDCategoria())){
-                existeCategoria = true;
-            }
-        }
-        
-        if(!existeCategoria){
-            listaCategoriasSistema.add(categoria);
-            conector.createCategoria(categoria);
-            conector.getTodasLasCategorias();
-        }
+        conector.createCategoria(categoria);
+        conector.getTodasLasCategorias();
     }
     
     /**
@@ -396,22 +386,15 @@ public class Controlador {
      * @param apellido2     Segundo apellido del usuario a añadir a la lista de usuarios del sistema
      * @param correo        Correo electrónico del usuario a añadir a la lista de usuarios del sistema
      * @param contrasenia   Contraseña del usuario a añadir a la lista de usuarios del sistema
-     * @post    Se actualiza el XML
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void aniadirUsuario(String DNI, String nombre, String apellido1, String apellido2, String correo, String contrasenia){
-        boolean existeUsuario = false;
+    public void aniadirUsuario(String DNI, String nombre, String apellido1, String apellido2, String correo, String contrasenia) throws SQLException, Exception{
         Usuario usuario = new Usuario(nombre, apellido1, apellido2, correo, contrasenia, DNI);
 
-        for(int i=0; i < listaUsuariosSistema.size(); i++){
-            if(listaUsuariosSistema.get(i).getIDUsuario().equals(usuario.getIDUsuario())){
-                existeUsuario = true;
-            }
-        }
-
-        if(!existeUsuario){
-            listaUsuariosSistema.add(usuario);
-            serializarUsuario();
-        }
+        getConector().createUsuario(usuario);
+        getConector().getTodosLosUsuarios();
     }
 
     /**
