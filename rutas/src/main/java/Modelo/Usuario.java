@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author belen
  */
 public class Usuario implements Serializable{
-    private String ID_usuario; //TODO cambiar a autoincremental
+    private Integer ID_usuario; 
     private String nombre_usuario;
     private String apellido_1;
     private String apellido_2;
@@ -34,13 +34,65 @@ public class Usuario implements Serializable{
     //Constructor
     /**
      * @brief    Constructor de un objeto de la clase Usuario con parámetros
+     * @param id                        Código identificador único del usuario
      * @param nombre                    Nombre propio del usuario, sin apellidos
      * @param apellido1                 Primer apellido del usuario
      * @param apellido2                 Segundo apellido del usuario
      * @param correoElectronico         Dirección del correo electrónico del usuario
      * @param contrasenia               Hash de la contraseña del usuario
      * @param dni                       Números y letra del documento nacional de identidad
-     * @post    El ID generado estará asignado en el atributo ID_usuario
+     * @param fotoPerfil                Foto de perfil del usuario
+     * @param listaValoraciones         Lista de valoraciones de rutas realizadas por el usuario
+     * @param listaRutas                Lista de rutas creadas por el usuario
+     */
+    public Usuario(Integer id, String nombre, String apellido1, String apellido2, String correoElectronico, String contrasenia, String dni, FotoPerfil fotoPerfil, ArrayList<Valoracion> listaValoraciones, ArrayList<Ruta> listaRutas){
+        setNombreUsuario(nombre);
+        setApellido1(apellido1);
+        setApellido2(apellido2);
+        setCorreoElectronico(correoElectronico);
+        setContrasenia(contrasenia);
+        setDNI(dni);
+        setIDUsuario(id);
+        setFotoPerfil(fotoPerfil);
+        setListaValoraciones(listaValoraciones);
+        setListaRutas(listaRutas);
+    }
+
+    /**
+     * @brief    Constructor de un objeto de la clase Usuario con parámetros
+     * @param id                        Código identificador único del usuario
+     * @param nombre                    Nombre propio del usuario, sin apellidos
+     * @param apellido1                 Primer apellido del usuario
+     * @param apellido2                 Segundo apellido del usuario
+     * @param correoElectronico         Dirección del correo electrónico del usuario
+     * @param contrasenia               Hash de la contraseña del usuario
+     * @param dni                       Números y letra del documento nacional de identidad
+     * @post    La foto de perfil será null
+     *          La lista de valoraciones estará vacía
+     *          La lista de rutas estará vacía
+     */
+    public Usuario(Integer id, String nombre, String apellido1, String apellido2, String correoElectronico, String contrasenia, String dni){
+        setNombreUsuario(nombre);
+        setApellido1(apellido1);
+        setApellido2(apellido2);
+        setCorreoElectronico(correoElectronico);
+        setContrasenia(contrasenia);
+        setDNI(dni);
+        setIDUsuario(id);
+        setFotoPerfil(null);
+        setListaValoraciones(new ArrayList<Valoracion>());
+        setListaRutas(new ArrayList<Ruta>());
+    }
+
+    /**
+     * @brief    Constructor de un objeto de la clase Usuario con parámetros
+     * @param nombre                    Nombre propio del usuario, sin apellidos
+     * @param apellido1                 Primer apellido del usuario
+     * @param apellido2                 Segundo apellido del usuario
+     * @param correoElectronico         Dirección del correo electrónico del usuario
+     * @param contrasenia               Hash de la contraseña del usuario
+     * @param dni                       Números y letra del documento nacional de identidad
+     * @post    El ID será null
      *          La lista de valoraciones estará vacía
      *          La lista de rutas estará vacía
      *          La foto de perfil estará vacía
@@ -52,7 +104,7 @@ public class Usuario implements Serializable{
         setCorreoElectronico(correoElectronico);
         setContrasenia(contrasenia);
         setDNI(dni);
-        asignarID();
+        setIDUsuario(null);
         setFotoPerfil(null);
         setListaValoraciones(new ArrayList<Valoracion>());
         setListaRutas(new ArrayList<Ruta>());
@@ -67,7 +119,7 @@ public class Usuario implements Serializable{
      * @param contrasenia               Hash de la contraseña del usuario
      * @param dni                       Números y letra del documento nacional de identidad
      * @param listaValoraciones         Lista de valoraciones de rutas realizadas por el usuario
-     * @post    El ID generado estará asignado en el atributo ID_usuario
+     * @post    El ID será null
      *          La lista de rutas estará vacía
      *          La foto de perfil estará vacía
      */
@@ -78,7 +130,7 @@ public class Usuario implements Serializable{
         setCorreoElectronico(correoElectronico);
         setContrasenia(contrasenia);
         setDNI(dni);
-        asignarID();
+        setIDUsuario(null);
         setFotoPerfil(null);
         setListaValoraciones(listaValoraciones);
         setListaRutas(new ArrayList<Ruta>());
@@ -94,7 +146,7 @@ public class Usuario implements Serializable{
      * @param dni                       Números y letra del documento nacional de identidad
      * @param listaValoraciones         Lista de valoraciones de rutas realizadas por el usuario
      * @param listaRutas         Lista de rutas creadas por el usuario
-     * @post    El ID generado estará asignado en el atributo ID_usuario
+     * @post    El ID será null
      *          La foto de perfil estará vacía
      */
     public Usuario(String nombre, String apellido1, String apellido2, String correoElectronico, String contrasenia, String dni, ArrayList<Valoracion> listaValoraciones, ArrayList<Ruta> listaRutas){
@@ -104,7 +156,7 @@ public class Usuario implements Serializable{
         setCorreoElectronico(correoElectronico);
         setContrasenia(contrasenia);
         setDNI(dni);
-        asignarID();
+        setIDUsuario(null);
         setFotoPerfil(null);
         setListaValoraciones(listaValoraciones);
         setListaRutas(listaRutas);
@@ -115,7 +167,7 @@ public class Usuario implements Serializable{
      * @brief    Método que establece el código identificador único del usuario
      * @param id    Código identificador único del usuario
      */
-    private void setIDUsuario(String id){
+    private void setIDUsuario(Integer id){
         this.ID_usuario = id;
     }
     
@@ -211,9 +263,9 @@ public class Usuario implements Serializable{
     
     /**
      * @brief    Método que devuelve el código identificador único del usuario
-     * @return   ID_usuario     (String)     Código identificador único del usuario
+     * @return   ID_usuario     (Integer)     Código identificador único del usuario
      */
-    public String getIDUsuario(){
+    public Integer getIDUsuario(){
         return this.ID_usuario;
     }
     
@@ -309,17 +361,7 @@ public class Usuario implements Serializable{
     public Ruta getRutaEnListaPorPosicion(Integer posicion){
         return getListaRutas().get(posicion);
     }
-    
-    //Métodos propios internos
-    /**
-     * @brief    Método que genera y asigna un ID a un usuario
-     * @pre      Los atributos nombre y DNI no pueden estar vacíos 
-     * @post     El ID generado estará asignado en el atributo ID_usuario
-     */
-    private void asignarID(){
-        setIDUsuario((this.getNombreUsuario().charAt(0) + this.getDNI()).trim());
-    }
-    
+       
     //Métodos públicos
     @Override
     /**

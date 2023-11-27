@@ -2847,7 +2847,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         //Vaciar el combobox
         jComboBox_categoris_aniadibles_a_ruta.removeAllItems();
         Ruta ruta = null;
-        String idRuta = controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString()));
+        Integer idRuta = controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString()));
         for(Ruta rutaAux : controladorVista.getListaRutasSistema()){
             if(rutaAux.getIdRuta().equals(idRuta)){
                 ruta = rutaAux;

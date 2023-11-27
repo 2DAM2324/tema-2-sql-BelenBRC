@@ -49,18 +49,5 @@ public class FotoPerfilTest {
     
     @AfterEach
     public void tearDown() {
-    }
-
-    /**
-     * Test of asignarID method, of class Categoria.
-     */
-    @Test
-    public void testAsignarID() {
-        System.out.println("asignarID");
-        FotoPerfil prueba = new FotoPerfil("Foto Prueba", 1, 1, usuario);
-
-        String expResult = "Fp" + usuario.getIDUsuario();
-        String result = prueba.getIDfoto();
-        assertEquals(expResult, result);
-    }    
+    }  
 }

@@ -60,29 +60,6 @@ public class CategoriaTest {
         String result = instance.toString();
         assertEquals(expResult, result);
     }
-
-    /**
-     * Test of asignarID method, of class Categoria.
-     */
-    @Test
-    public void testAsignarID() {
-        System.out.println("asignarID simple");
-        Categoria instance = new Categoria("Categoria");
-        //Asignar ID se hace dentro del constructor
-        assertEquals("cat.Categoria", instance.getIDCategoria());
-    }
-
-    /**
-     * Test of asignarID method, of class Categoria.
-     */
-    @Test
-    public void testAsignarIDWithSpaces() {
-        System.out.println("asignarID con espacios");
-        Categoria instance = new Categoria("Categoria con espacios");
-        //Asignar ID se hace dentro del constructor
-        assertEquals("cat.Categoriaconespacios", instance.getIDCategoria());
-    }
-
     /**
      * Test of setRutaEnLista method, of class Categoria.
      */

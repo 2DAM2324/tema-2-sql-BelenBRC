@@ -49,32 +49,6 @@ public class UsuarioTest {
     }
 
     /**
-     * Test of asignarID method, of class Usuario.
-     */
-    @Test
-    public void testAsignarID() {
-        System.out.println("asignarID");
-        Usuario prueba = new Usuario("Usuario", "Prueba", "TestUser", "fepnf@`koadnf.com", "1234", "07257650T");
-        //Asignar ID se hace en el constructor
-        String expResult = "U07257650T";
-        String result = prueba.getIDUsuario();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of asignarID method, of class Usuario.
-     */
-    @Test
-    public void testAsignarIDNombreEmpiezaConEspacio() {
-        System.out.println("asignarID");
-        Usuario prueba = new Usuario(" Espaciado", "Prueba", "TestUser", "fepnf@`koadnf.com", "1234", "07257650T");
-        //Asignar ID se hace en el constructor
-        String expResult = "07257650T";
-        String result = prueba.getIDUsuario();
-        assertEquals(expResult, result);
-    }
-
-    /**
      * Test of toString method, of class Usuario.
      */
     @Test

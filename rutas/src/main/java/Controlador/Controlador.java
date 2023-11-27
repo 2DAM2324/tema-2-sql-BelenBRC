@@ -195,10 +195,10 @@ public class Controlador {
     /**
      * @brief   Método que devuelve la id del usuario del sistema con el DNI indicado
      * @param dni   DNI del usuario del que se quiere obtener la ID
-     * @return  (String) ID del usuario del sistema con el DNI indicado
+     * @return  (Integer) ID del usuario del sistema con el DNI indicado
      */
-    public String getIdUsuarioSistema(String dni){
-        String IDusuario = "";
+    public Integer getIdUsuarioSistema(String dni){
+        Integer IDusuario = 0;
 
         for(int i=0; i < listaUsuariosSistema.size(); i++){
             if(listaUsuariosSistema.get(i).getDNI().equals(dni)){
@@ -229,10 +229,10 @@ public class Controlador {
      * @brief   Método que devuelve el ID de la ruta del sistema
      * @param nombreRuta        Nombre de la ruta de la que se quiere obtener el ID
      * @param IDcreadorRuta     ID del creador de la ruta de la que se quiere obtener el ID
-     * @return
+     * @return  (Integer)  ID de la ruta del sistema con el nombre y el ID del creador indicados
      */
-    public String getIDrutaSistema(String nombreRuta, String IDcreadorRuta){
-        String IDruta = "";
+    public Integer getIDrutaSistema(String nombreRuta, Integer IDcreadorRuta){
+        Integer IDruta = 0;
 
         for(int i=0; i < listaRutasSistema.size(); i++){
             if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRuta) && listaRutasSistema.get(i).getCreadorRuta().getIDUsuario().equals(IDcreadorRuta)){
@@ -557,7 +557,7 @@ public class Controlador {
      * @post    Se actualizan todos los ficheros XML afectados
      */
     public void borrarRuta(String nombreRutaEliminada, String dniCreadorRutaEliminada){
-        String IDrutaEliminada = "";
+        Integer IDrutaEliminada = 0;
         for(int i=0; i < listaRutasSistema.size(); i++){
             if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRutaEliminada) && listaRutasSistema.get(i).getCreadorRuta().getDNI().equals(dniCreadorRutaEliminada)){
                 
@@ -644,7 +644,7 @@ public class Controlador {
      */
     public void modificarRuta(String nombreRuta, String descripcion, String dificultad, String dniCreador){
         //Buscar ID del usuario creador de la ruta
-        String IDcreadorRuta = "";
+        Integer IDcreadorRuta = 0;
         for(int i=0; i < listaUsuariosSistema.size(); i++){
             if(listaUsuariosSistema.get(i).getDNI().equals(dniCreador)){
                 IDcreadorRuta = listaUsuariosSistema.get(i).getIDUsuario();
@@ -705,7 +705,7 @@ public class Controlador {
      * @post    El fichero XML contiene la lista de valoraciones del sistema actualizada
      */
     public void borrarValoracion(String nombreRuta, String usuario){
-        String IDvaloracionEliminada = "";
+        Integer IDvaloracionEliminada = 0;
         //Buscar la valoración en el sistema
         for(int i=0; i < listaValoracionesSistema.size(); i++){
             if(listaValoracionesSistema.get(i).getRuta().getNombreRuta().equals(nombreRuta) && listaValoracionesSistema.get(i).getUsuario().getDNI().equals(usuario)){

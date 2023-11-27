@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author belen
  */
 public class FotoPerfil implements Serializable{
-    private String ID_foto;     //TODO pasar a autoincremental
+    private Integer ID_foto;     
     private String nombre_imagen;
     private Integer resolucionImagenMp;
     private Integer tamanioKb;
@@ -27,17 +27,34 @@ public class FotoPerfil implements Serializable{
      * @param resolucionMp      Resolución de la imagen en megapíxeles
      * @param tamanioKb         Tamaño de la imagen en kilobytes
      * @param usuario           Usuario al que pertenece la foto de perfil
-     * @post    El ID generado estará asignado en el atributo ID_foto
+     * @post    El ID será null
      */
     public FotoPerfil(String nombre, Integer resolucionMp, Integer tamanioKb, Usuario usuario){
         setNombreImagen(nombre);
         setResolucionImagenMp(resolucionMp);
         setTamanioKb(tamanioKb);
         setUsuario(usuario);
-        asignarID();
+        setIDfoto(null);
         if(getUsuario().getFotoPerfil() == null){
             getUsuario().setFotoPerfil(this);
         }
+    }
+
+    /**
+     * @brief   Constructor de un objeto de la clase FotoPerfil con parámetros y con ID, sin usuario
+     * @param id                Código identificador de la fotografía
+     * @param nombre            Nombre del archivo de imagen
+     * @param resolucionMp      Resolución de la imagen en megapíxeles
+     * @param tamanioKb         Tamaño de la imagen en kilobytes
+     * @post    El usuario será null
+     */
+    public FotoPerfil(Integer id, String nombre, Integer resolucionMp, Integer tamanioKb){
+        setIDfoto(id);
+        setNombreImagen(nombre);
+        setResolucionImagenMp(resolucionMp);
+        setTamanioKb(tamanioKb);
+        
+        setUsuario(null);
     }
 
     //Sets y gets
@@ -45,7 +62,7 @@ public class FotoPerfil implements Serializable{
      * @brief   Método que establece el código identificador de la fotografía
      * @param id    código identificador de la fotografía
      */
-    private void setIDfoto(String id){
+    private void setIDfoto(Integer id){
         this.ID_foto = id;
     }
     
@@ -77,15 +94,15 @@ public class FotoPerfil implements Serializable{
      * @brief   Método que establece el código identificador único del usuario al que pertenece la foto de perfil
      * @param usuario    Usuario al que pertenece la foto de perfil
      */
-    private void setUsuario(Usuario usuario){
+    public void setUsuario(Usuario usuario){
         this.usuario = usuario;
     }
     
     /**
      * @brief   Método que devuelve el código identificador de la fotografía
-     * @return  ID_foto     (String)    código identificador de la fotografía
+     * @return  ID_foto     (Integer)    código identificador de la fotografía
      */
-    public String getIDfoto(){
+    public Integer getIDfoto(){
         return this.ID_foto;
     }
     
@@ -121,16 +138,6 @@ public class FotoPerfil implements Serializable{
         return this.usuario;
     }
     
-    //Métodos propios internos
-    /**
-     * @brief   Método que genera y asigna el código identificador a la foto de perfil del usuario
-     * @pre     Es obligatorio que los atributos usuario y nombre_imagen no estén vacíos
-     * @post    El atributo ID estará asignado a la imagen de perfil
-     */
-    private void asignarID(){
-        setIDfoto("Fp" + getUsuario().getIDUsuario());
-    }
-
     //Métodos públicos
     /**
      * @brief   Método que permite imprimir nombre, resolución y tamaño de una foto de perfil pasando un objeto 

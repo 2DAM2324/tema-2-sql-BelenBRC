@@ -60,17 +60,5 @@ public class ValoracionTest {
         String result = instance.toString();
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of asignarID method, of class Valoracion.
-     */
-    @Test
-    public void testAsignarID() {
-        System.out.println("asignarID");
-        //Asignar ID se hace en el constructor
-        String expResult = instance.getRuta().getIdRuta() + instance.getUsuario().getIDUsuario();
-        String result = instance.getIDValoracion();
-        assertEquals(expResult, result);
-    }
 
 }

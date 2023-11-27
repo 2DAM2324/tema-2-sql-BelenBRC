@@ -272,8 +272,10 @@ public class Conector {
             while (resultado.next()) {
                 Integer id = resultado.getInt("id_categoria");
                 String nombre = resultado.getString("nombre");
+
+                ArrayList<Ruta> listaRutas = getRutasCategoria(id);
                 
-                Categoria categoria = new Categoria(nombre, id);
+                Categoria categoria = new Categoria(nombre, id, listaRutas);
                 getListaCategorias().add(categoria);
             }
 
@@ -298,5 +300,220 @@ public class Conector {
         }
 
         return getListaCategorias();
+    }
+
+    /**
+     * @brief   Método que lee las fotos de perfil de la base de datos y las almacena en una lista de fotos de perfil
+     * @return  (ArrayList<FotoPerfil>)   Lista de fotos de perfil de la base de datos
+     * @post    La lista de fotos de perfil estará inicializada con las fotos de perfil de la base de datos
+     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
+     *          y devuelve una lista vacía
+     */
+    public ArrayList<Ruta> getRutasCategoria(Integer idCategoria){
+        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
+        ArrayList<Ruta> listaRutas = new ArrayList<Ruta>();
+
+        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_categoria = " + idCategoria;
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;        
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next()) {
+                Integer idRuta = resultado.getInt("id_ruta");
+                Ruta ruta = getRutaPorID(idRuta);
+                listaRutas.add(ruta);                
+            }
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+
+        return listaRutas;
+    }
+
+    /**
+     * @brief   Método que busca una ruta por su id
+     * @param idRuta    (Integer)   Código identificador único de la ruta
+     * @return  (Ruta)  Ruta con el id pasado por parámetro, con su usuario asignado 
+     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
+     *          y devuelve null
+     * @post    Si no se encuentra la ruta, devuelve null
+     * @post    NO ESTÁN ASIGNADAS LAS VALORACIONES NI LAS CATEGORIAS //TODO
+     */
+    public Ruta getRutaPorID(Integer idRuta){
+        setNombreTabla(NOMBRE_TABLA_RUTA);
+        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_ruta = " + idRuta;
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        Ruta ruta = null;
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            Integer id = resultado.getInt("id_ruta");
+            String nombre = resultado.getString("nombre_ruta");
+            String descripcion = resultado.getString("descripcion");
+            Double distanciaKm = resultado.getDouble("distancia_km");
+            String dificultad = resultado.getString("dificultad");
+            Double tiempoH = resultado.getDouble("tiempo_h");
+            Double puntuacionMedia = resultado.getDouble("puntuacion_media");
+            Integer idUsuario = resultado.getInt("id_usuario");
+
+            Usuario usuario = getUsuarioPorID(idUsuario);
+
+            ruta = new Ruta(id, nombre, descripcion, distanciaKm, dificultad, tiempoH, puntuacionMedia, usuario);
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+
+        return ruta;
+    }
+
+    /**
+     * @brief   Método que busca un usuario por su id
+     * @param idUsuario (Integer)   Código identificador único del usuario
+     * @return  (Usuario)   Usuario con el id pasado por parámetro, con su foto de perfil asignada si la tiene
+     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
+     *          y devuelve null
+     * @post    Si no se encuentra el usuario, devuelve null
+     * @post    NO ESTÁN ASIGNADAS LAS RUTAS NI LAS VALORACIONES //TODO
+     */
+    public Usuario getUsuarioPorID(Integer idUsuario){
+        setNombreTabla(NOMBRE_TABLA_USUARIO);
+        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_usuario = " + idUsuario;
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        Usuario usuario = null;
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            Integer id = resultado.getInt("id_usuario");
+            String nombre = resultado.getString("nombre");
+            String apellido1 = resultado.getString("apellido1");
+            String apellido2 = resultado.getString("apellido2");
+            String email = resultado.getString("email");
+            String contrasena = resultado.getString("password");
+            String dni = resultado.getString("dni");
+            Integer idFotoPerfil = resultado.getInt("id_foto_perfil");
+            System.out.println("idFotoPerfil: " + idFotoPerfil);
+
+            usuario = new Usuario(id, nombre, apellido1, apellido2, email, contrasena, dni);
+
+            if(idFotoPerfil != 0){
+                FotoPerfil fotoPerfil = getFotoPerfilPorID(idFotoPerfil);
+                fotoPerfil.setUsuario(usuario);
+                usuario.setFotoPerfil(fotoPerfil);
+            }
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+
+        return usuario;
+    }
+
+    /**
+     * @brief   Método que busca una foto de perfil por su id
+     * @param idFotoPerfil  (Integer)   Código identificador único de la foto de perfil
+     * @return  (FotoPerfil)    Foto de perfil con el id pasado por parámetro, SIN USUARIO ASIGNADO
+     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
+     *          y devuelve null
+     * @post    Si no se encuentra la foto de perfil, devuelve null
+     * @post    Se debe asignar el usuario a la foto de perfil
+     */
+    public FotoPerfil getFotoPerfilPorID(Integer idFotoPerfil){
+        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
+        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_foto_perfil = " + idFotoPerfil;
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        FotoPerfil fotoPerfil = null;
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            Integer id = resultado.getInt("id_foto_perfil");
+            String nombre = resultado.getString("nombre_foto");
+            Integer resolucionMp = resultado.getInt("resolucion_mpx");
+            Integer tamanioKb = resultado.getInt("tamanio_kb");
+
+            fotoPerfil = new FotoPerfil(id, nombre, resolucionMp, tamanioKb);
+
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+
+        return fotoPerfil;
     }
 }

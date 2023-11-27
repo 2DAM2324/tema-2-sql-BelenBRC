@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author belen
  */
 public class Ruta implements Serializable{
-    private String ID_ruta;     //TODO pasar a autoincremental
+    private Integer ID_ruta;     
     private String nombre_ruta;
     private String descripcion;
     private double distanciaKm;
@@ -33,6 +33,58 @@ public class Ruta implements Serializable{
     
     //Constructores
     /**
+     * @brief   Constructor de un objeto de la clase Ruta con parámetros, incluido id de la ruta
+     * @param id                Código identificador único de la ruta
+     * @param nombre            Nombre de la ruta
+     * @param descripcion       Descripción de la ruta
+     * @param distanciaKm       Distancia de la ruta en kilómetros
+     * @param dificultad        Dificultad de la ruta
+     * @param horas             Tiempo estimado de la ruta en horas
+     * @param puntuacionMedia   Puntuación media de la ruta en una escala de 0 a 5 estrellas
+     * @param creadorRuta       Usuario que ha creado la ruta
+     * @param listaValoraciones Lista de valoraciones de la ruta realizadas por los usuarios registrados en la aplicación
+     * @param listaCategorias   Lista de categorías a las que pertenece la ruta
+     */
+    public Ruta(Integer id, String nombre, String descripcion, double distanciaKm, String dificultad, double horas, double puntuacionMedia, Usuario creadorRuta, ArrayList<Valoracion> listaValoraciones, ArrayList<Categoria> listaCategorias){
+        setNombreRuta(nombre);
+        setDescripcion(descripcion);
+        setDistanciaKm(distanciaKm);
+        setDificultad(dificultad);
+        setTiempoHoras(horas);
+        setPuntuacionMedia(puntuacionMedia);
+        setCreadorRuta(creadorRuta);
+        setIdRuta(id);
+        setListaValoraciones(listaValoraciones);
+        setListaCategorias(listaCategorias);
+    }
+
+    /**
+     * @brief   Constructor de un objeto de la clase Ruta con parámetros, incluido id de la ruta, pero sin listas de valoraciones y categorías
+     * @param id                Código identificador único de la ruta
+     * @param nombre            Nombre de la ruta
+     * @param descripcion       Descripción de la ruta
+     * @param distanciaKm       Distancia de la ruta en kilómetros
+     * @param dificultad        Dificultad de la ruta
+     * @param horas             Tiempo estimado de la ruta en horas
+     * @param puntuacionMedia   Puntuación media de la ruta en una escala de 0 a 5 estrellas
+     * @param creadorRuta       Usuario que ha creado la ruta
+     * @post    La lista de valoraciones estará vacía
+     *          La lista de categorías estará vacía
+     */
+    public Ruta(Integer id, String nombre, String descripcion, double distanciaKm, String dificultad, double horas, double puntuacionMedia, Usuario creadorRuta){
+        setNombreRuta(nombre);
+        setDescripcion(descripcion);
+        setDistanciaKm(distanciaKm);
+        setDificultad(dificultad);
+        setTiempoHoras(horas);
+        setPuntuacionMedia(puntuacionMedia);
+        setCreadorRuta(creadorRuta);
+        setIdRuta(id);
+        setListaValoraciones(new ArrayList<Valoracion>());
+        setListaCategorias(new ArrayList<Categoria>());
+    }
+
+    /**
      * @brief   Constructor de un objeto de la clase Ruta con parámetros
      * @param nombre                Nombre de la ruta
      * @param descripcion           Descripción de la ruta
@@ -40,7 +92,7 @@ public class Ruta implements Serializable{
      * @param dificultad            Dificultad de la ruta
      * @param horas                 Tiempo estimado de la ruta en horas
      * @param creadorRuta           Usuario que ha creado la ruta
-     * @post    El ID generado estará asignado en el atributo ID_ruta
+     * @post    El ID será null
      *          La lista de valoraciones estará vacía
      *          La lista de categorías estará vacía
      *          La puntuación media se establecerá a 0
@@ -53,7 +105,7 @@ public class Ruta implements Serializable{
         setTiempoHoras(horas);
         setPuntuacionMedia(0);
         setCreadorRuta(creadorRuta);
-        asignarID();
+        setIdRuta(null);
         setListaValoraciones(new ArrayList<Valoracion>());
         setListaCategorias(new ArrayList<Categoria>());
     }
@@ -67,7 +119,7 @@ public class Ruta implements Serializable{
      * @param horas                 Tiempo estimado de la ruta en horas
      * @param creadorRuta           Usuario que ha creado la ruta
      * @param listaCategorias       Lista de categorías a las que pertenece la ruta
-     * @post    El ID generado estará asignado en el atributo ID_ruta
+     * @post    El ID será null
      *          La lista de valoraciones estará vacía	
      *          La puntuación media se establecerá a 0
      */
@@ -79,7 +131,7 @@ public class Ruta implements Serializable{
         setTiempoHoras(horas);
         setPuntuacionMedia(0);
         setCreadorRuta(creadorRuta);
-        asignarID();
+        setIdRuta(null);
         setListaValoraciones(new ArrayList<Valoracion>());
         setListaCategorias(listaCategorias);
     }
@@ -94,7 +146,7 @@ public class Ruta implements Serializable{
      * @param creadorRuta           Usuario que ha creado la ruta
      * @param listaValoraciones     Lista de valoraciones de la ruta realizadas por los usuarios registrados en la aplicación
      * @param listaCategorias       Lista de categorías a las que pertenece la ruta
-     * @post    El ID generado estará asignado en el atributo ID_ruta
+     * @post    El ID será null
      *          La puntuación media se establecerá a 0
      */
     public Ruta(String nombre, String descripcion, double distanciaKm, String dificultad, double horas, Usuario creadorRuta, ArrayList<Valoracion> listaValoraciones, ArrayList<Categoria> listaCategorias){
@@ -105,7 +157,7 @@ public class Ruta implements Serializable{
         setTiempoHoras(horas);
         setPuntuacionMedia(0);
         setCreadorRuta(creadorRuta);
-        asignarID();
+        setIdRuta(null);
         setListaValoraciones(listaValoraciones);
         setListaCategorias(listaCategorias);
     }
@@ -115,7 +167,7 @@ public class Ruta implements Serializable{
      * @brief   Método que establece el código identificador único de la ruta
      * @param id    Código identificador único de la ruta
      */
-    private void setIdRuta(String id){
+    private void setIdRuta(Integer id){
         this.ID_ruta = id;
     }
     
@@ -226,9 +278,9 @@ public class Ruta implements Serializable{
 
     /**
      * @brief   Método que devuelve el código identificador único de la ruta
-     * @return  ID_ruta     (String)    Código identificador único de la ruta
+     * @return  ID_ruta     (Integer)    Código identificador único de la ruta
      */
-    public String getIdRuta(){
+    public Integer getIdRuta(){
         return this.ID_ruta;
     }
     
@@ -320,17 +372,6 @@ public class Ruta implements Serializable{
      */
     public Categoria getCategoriaEnListaPorPosicion(Integer posicion){
         return this.listaCategorias.get(posicion);
-    }
-    
-    //Métodos propios internos
-    /**
-     * @brief   Método que asigna el código identificador único de la ruta
-     * @pre     El nombre de la ruta y el creador no pueden estar vacíos
-     * @post    El ID generado estará asignado en el atributo ID_ruta
-     */
-    private void asignarID(){
-        String id = getNombreRuta().replaceAll(" ", "") + getCreadorRuta().getIDUsuario();
-        setIdRuta(id);
     }
 
     /**

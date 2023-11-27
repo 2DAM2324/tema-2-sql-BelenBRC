@@ -93,43 +93,4 @@ public class RutaTest {
         String result = instance.toString();
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of asignarID method, of class Ruta.
-     */
-    @Test
-    public void testAsignarID() {
-        System.out.println("asignarID");
-        Ruta prueba = new Ruta("Ruta", "Descripcion Prueba", 1, "Media", 1, usuario);
-        //Asignar ID se hace dentro del constructor
-        String expResult = prueba.getNombreRuta().replaceAll(" ", "") + prueba.getCreadorRuta().getIDUsuario();
-        String result = prueba.getIdRuta();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of asignarID method, of class Ruta.
-     */
-    @Test
-    public void testAsignarIDNombreConEspacios() {
-        System.out.println("asignarIDNombreConEspacios");
-        Ruta prueba = new Ruta("Ruta Prueba", "Descripcion Prueba", 1, "Media", 1, usuario);
-        //Asignar ID se hace dentro del constructor
-        String expResult = prueba.getNombreRuta().replaceAll(" ", "") + prueba.getCreadorRuta().getIDUsuario();
-        String result = prueba.getIdRuta();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of asignarID method, of class Ruta.
-     */
-    @Test
-    public void testAsignarIDNombreVacio() {
-        System.out.println("asignarIDNombreConEspacios");
-        Ruta prueba = new Ruta("    ", "Descripcion Prueba", 1, "Media", 1, usuario);
-        //Asignar ID se hace dentro del constructor
-        String expResult = prueba.getCreadorRuta().getIDUsuario();
-        String result = prueba.getIdRuta();
-        assertEquals(expResult, result);
-    }
 }

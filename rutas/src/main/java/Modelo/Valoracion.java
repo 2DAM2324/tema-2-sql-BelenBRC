@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author BelenBRC
  */
 public class Valoracion implements Serializable{
-    private String ID_valoracion;       //TODO pasar a autoincremental
+    private Integer ID_valoracion;       
     private Ruta ruta;
     private Usuario usuario;
     private Integer puntuacion;
@@ -27,14 +27,14 @@ public class Valoracion implements Serializable{
      * @param usuario       Usuario que realiza la valoración
      * @param puntuacion    Puntuación de la ruta valorada
      * @param comentario    Comentario del usuario sobre la ruta valorada
-     * @post    El ID generado estará asignado en el atributo ID_valoracion
+     * @post    El ID será null
      */
     public Valoracion(Ruta ruta, Usuario usuario, Integer puntuacion, String comentario){
+        setIDValoracion(null);
         setRuta(ruta);
         setUsuario(usuario);
         setPuntuacion(puntuacion);
         setComentario(comentario);
-        asignarIDValoracion();
     }
 
     //Sets y gets
@@ -42,7 +42,7 @@ public class Valoracion implements Serializable{
      * @brief   Método que establece el código identificador único de la valoración
      * @param id    Código identificador único de la valoración
      */
-    private void setIDValoracion(String id){
+    private void setIDValoracion(Integer id){
         this.ID_valoracion = id;
     }
 
@@ -80,9 +80,9 @@ public class Valoracion implements Serializable{
 
     /**
      * @brief   Método que devuelve el código identificador único de la valoración
-     * @return  ID_valoracion    (String)    Código identificador único de la valoración
+     * @return  ID_valoracion    (Integer)    Código identificador único de la valoración
      */
-    public String getIDValoracion(){
+    public Integer getIDValoracion(){
         return this.ID_valoracion;
     }
 
@@ -117,17 +117,7 @@ public class Valoracion implements Serializable{
     public String getComentario(){
         return this.comentario;
     }
-
-    //Métodos propios internos
-    /**
-     * @brief   Método que asigna un código identificador único a la valoración
-     * @pre     El ID de la ruta valorada y el ID del usuario que realiza la valoración deben estar asignados
-     * @post    El ID generado estará asignado en el atributo ID_valoracion
-     */
-    private void asignarIDValoracion(){
-        setIDValoracion(getRuta().getIdRuta() + getUsuario().getIDUsuario());
-    }
-
+    
     //Métodos públicos
     @Override
     /**
