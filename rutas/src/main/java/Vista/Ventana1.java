@@ -10,6 +10,7 @@ import Modelo.Valoracion;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.NotSerializableException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -37,9 +38,18 @@ public final class Ventana1 extends javax.swing.JFrame {
      */
     public Ventana1() throws IOException, FileNotFoundException, ClassNotFoundException, NotSerializableException, SAXException {
         initComponents();
-        controladorVista = Controlador.newInstance();
-        controladorVista.getConector().conectar();
-        controladorVista.cargarDatosSistema();
+
+        try{
+            controladorVista = Controlador.newInstance();
+            controladorVista.getConector().conectar();
+            controladorVista.cargarDatosSistema();
+        }
+        catch(SQLException ex){
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos del sistema\n" + ex.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error inesperado al cargar los datos del sistema\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
         //Ocultar campos modificables en las pestañas
         ocultarCamposCategorias();
@@ -465,7 +475,15 @@ public final class Ventana1 extends javax.swing.JFrame {
 
         if (opcion == JOptionPane.YES_OPTION) {
             // Si el usuario confirma, cerrar la ventana y la aplicación
-            controladorVista.getConector().desconectar();
+            try{
+                controladorVista.getConector().desconectar();
+            }
+            catch(SQLException ex){
+                JOptionPane.showMessageDialog(this, "Error al desconectar de la base de datos\n" + ex.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al desconectar de la base de datos\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             dispose();
             System.exit(0); 
         }

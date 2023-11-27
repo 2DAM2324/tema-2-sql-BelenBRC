@@ -44,8 +44,10 @@ public class Controlador {
      * @brief   Constructor de un objeto de la clase Controlador
      * @post    Las listas de categorías, usuarios, fotos de perfil, rutas y valoraciones estarán vacías
      *          El conector estará inicializado y conectado a la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public Controlador(){
+    public Controlador() throws SQLException, Exception{
         listaCategoriasSistema      = new ArrayList<>();
         listaUsuariosSistema        = new ArrayList<>();
         listaFotosPerfilSistema     = new ArrayList<>();
@@ -276,8 +278,10 @@ public class Controlador {
     /**
      * @brief   Método que crea una instancia de la clase Controlador si no existe previamente
      * @return  Instancia de la clase Controlador
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public static Controlador newInstance() {
+    public static Controlador newInstance() throws SQLException, Exception{
         if (instancia == null) {
             instancia = new Controlador();
         }
@@ -329,9 +333,10 @@ public class Controlador {
      * @brief   Método que añade una categoría a la lista de categorías del sistema siempre que no exista ya
      * @param nombreCategoria   Nombre de la categoría a añadir a la lista de categorías del sistema
      * @throws SQLException     Excepción que se lanza si se produce un error en la base de datos
+     * @throws Exception        Excepción general
      * @post    Se actualiza el XML
      */
-    public void aniadirCategoria(String nombreCategoria) throws SQLException{
+    public void aniadirCategoria(String nombreCategoria) throws SQLException, Exception{
         boolean existeCategoria = false;
         Categoria categoria = new Categoria(nombreCategoria);
 
@@ -1000,8 +1005,10 @@ public class Controlador {
 
     /**
      * @brief   Método que obtiene toda la información de la base de datos y la almacena en las listas del sistema
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void cargarDatosSistema(){
+    public void cargarDatosSistema() throws SQLException, Exception{
         leerCategoriasBD();
         leerFotosPerfilBD();
         leerUsuariosBD();
@@ -1013,8 +1020,10 @@ public class Controlador {
      * @brief   Método que obtiene la lista de completa de categorías de la base de datos
      * @post    Se obtiene la lista de categorías de la base de datos
      * @post    Si la conexión con la base de datos falla, la lista de categorías del sistema se queda vacía
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void leerCategoriasBD(){
+    public void leerCategoriasBD() throws SQLException, Exception{
         listaCategoriasSistema.clear();
         listaCategoriasSistema = getConector().getTodasLasCategorias();
     }
@@ -1023,8 +1032,10 @@ public class Controlador {
      * @brief   Método que obtiene la lista de completa de fotos de perfil de la base de datos
      * @post    Se obtiene la lista de fotos de perfil de la base de datos
      * @post    Si la conexión con la base de datos falla, la lista de fotos de perfil del sistema se queda vacía
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void leerFotosPerfilBD(){
+    public void leerFotosPerfilBD() throws SQLException, Exception{
         listaFotosPerfilSistema.clear();
         listaFotosPerfilSistema = getConector().getTodasLasFotosPerfil();
     }
@@ -1033,8 +1044,10 @@ public class Controlador {
      * @brief   Método que obtiene la lista de completa de usuarios de la base de datos
      * @post    Se obtiene la lista de usuarios de la base de datos
      * @post    Si la conexión con la base de datos falla, la lista de usuarios del sistema se queda vacía
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void leerUsuariosBD(){
+    public void leerUsuariosBD() throws SQLException, Exception{
         listaUsuariosSistema.clear();
         listaUsuariosSistema = getConector().getTodosLosUsuarios();
     }
@@ -1043,8 +1056,10 @@ public class Controlador {
      * @brief   Método que obtiene la lista de completa de rutas de la base de datos
      * @post    Se obtiene la lista de rutas de la base de datos
      * @post    Si la conexión con la base de datos falla, la lista de rutas del sistema se queda vacía
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void leerRutasBD(){
+    public void leerRutasBD() throws SQLException, Exception{
         listaRutasSistema.clear();
         listaRutasSistema = getConector().getTodasLasRutas();
     }
@@ -1053,8 +1068,10 @@ public class Controlador {
      * @brief   Método que obtiene la lista de completa de valoraciones de la base de datos
      * @post    Se obtiene la lista de valoraciones de la base de datos
      * @post    Si la conexión con la base de datos falla, la lista de valoraciones del sistema se queda vacía
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void leerValoracionesBD(){
+    public void leerValoracionesBD() throws SQLException, Exception{
         listaValoracionesSistema.clear();
         listaValoracionesSistema = getConector().getTodasLasValoraciones();
     }

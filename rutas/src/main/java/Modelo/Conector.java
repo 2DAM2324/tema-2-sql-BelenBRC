@@ -217,18 +217,12 @@ public class Conector {
      * @pre     La base de datos debe existir
      * @post    Conexión con la base de datos
      * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
+     * @throws SQLException     Excepción de SQL
+     * @throws Exception        Excepción general
      */
-    public void conectar(){
+    public void conectar() throws SQLException, Exception{
         if(getConexion() == null){
-            try{
-                setConexion(DriverManager.getConnection("jdbc:sqlite:" + getUrl()));
-            }
-            catch(SQLException sqle){
-                sqle.printStackTrace();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
+            setConexion(DriverManager.getConnection("jdbc:sqlite:" + getUrl()));
         }
     }
 
@@ -236,25 +230,35 @@ public class Conector {
      * @brief   Método que cierra la conexión con la base de datos
      * @pre     La conexión debe estar abierta
      * @post    Conexión cerrada
+     * @throws SQLException     Excepción de SQL
+     * @throws Exception        Excepción general
      */
-    public void desconectar(){
-        try{
-            getConexion().close();
-            setConexion(null);
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
+    public void desconectar() throws SQLException, Exception{
+        getConexion().close();
+        setConexion(null);
     }
 
     /**
      * @brief   Método que cierra una sentencia de la base de datos si está abierta
-     * @param sentencia     (PreparedStatement) Sentencia de la base de datos
-     * @throws SQLException Excepción de SQL
+     * @param sentencia         (PreparedStatement)     Sentencia de la base de datos
+     * @throws SQLException     Excepción de SQL
+     * @throws Exception        Excepción general
      */
-    private void cerrarSentencia(PreparedStatement sentencia) throws SQLException{
+    private void cerrarSentencia(PreparedStatement sentencia) throws SQLException, Exception{
         if(sentencia != null){
             sentencia.close();
+        }
+    }
+
+    /**
+     * @brief   Método que cierra un resultado de la base de datos si está abierto
+     * @param resultado         (ResultSet)     Resultado de la base de datos
+     * @throws SQLException     Excepción de SQL
+     * @throws Exception        Excepción general
+     */
+    private void cerrarResultado(ResultSet resultado) throws SQLException, Exception{
+        if(resultado != null){
+            resultado.close();
         }
     }
 
@@ -263,8 +267,11 @@ public class Conector {
 
     /**
      * @brief   Método que obtiene toda la información de la base de datos
+     * @post    Los elementos de las listas de categorías, fotos de perfil, rutas, usuarios y valoraciones tendrán todos los datos de la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void bajarBaseDatos(){
+    public void bajarBaseDatos() throws SQLException, Exception{
         getFotosPerfilBaseDatos();
         getUsuariosBaseDatos();
         getRutasBaseDatos();
@@ -277,8 +284,10 @@ public class Conector {
      * @brief   Método que obtiene todas las fotos de perfil de la base de datos sin usuario
      * @post    Los elementos de la lista de fotos de perfil no tendrán asignado el usuario
      *          Se debe invocar seguidamente el método getUsuariosBaseDatos() para asignar el usuario
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void getFotosPerfilBaseDatos(){
+    public void getFotosPerfilBaseDatos() throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
@@ -286,38 +295,20 @@ public class Conector {
 
         getListaFotosPerfil().clear();
 
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
+        sentencia = getConexion().prepareStatement(sql);
+        resultado = sentencia.executeQuery();
 
-            while (resultado.next()) {
-                Integer id = resultado.getInt("id_foto_perfil");
-                String nombre = resultado.getString("nombre_foto");
-                Integer resolucionMp = resultado.getInt("resolucion_mpx");
-                Integer tamanioKb = resultado.getInt("tamanio_kb");
+        while (resultado.next()) {
+            Integer id = resultado.getInt("id_foto_perfil");
+            String nombre = resultado.getString("nombre_foto");
+            Integer resolucionMp = resultado.getInt("resolucion_mpx");
+            Integer tamanioKb = resultado.getInt("tamanio_kb");
 
-                FotoPerfil fotoPerfil = new FotoPerfil(id, nombre, resolucionMp, tamanioKb);
-                getListaFotosPerfil().add(fotoPerfil);
-            }
+            FotoPerfil fotoPerfil = new FotoPerfil(id, nombre, resolucionMp, tamanioKb);
+            getListaFotosPerfil().add(fotoPerfil);
         }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
-                }
-            }
-        }
+        cerrarResultado(resultado);
+        cerrarSentencia(sentencia);
     }
 
     /**
@@ -326,8 +317,10 @@ public class Conector {
      * @post    Los elementos de la lista de usuarios no tendrán asignadas las rutas ni las valoraciones
      *          Se debe invocar seguidamente el método getRutasBaseDatos() para asignar las rutas
      *          y posteriormente el método getValoracionesBaseDatos() para asignar las valoraciones
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void getUsuariosBaseDatos(){
+    public void getUsuariosBaseDatos() throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_USUARIO);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
@@ -335,54 +328,36 @@ public class Conector {
 
         getListaUsuarios().clear();
 
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
+        sentencia = getConexion().prepareStatement(sql);
+        resultado = sentencia.executeQuery();
 
-            while (resultado.next()) {
-                Integer id = resultado.getInt("id_usuario");
-                String nombre = resultado.getString("nombre");
-                String apellido1 = resultado.getString("apellido1");
-                String apellido2 = resultado.getString("apellido2");
-                String email = resultado.getString("email");
-                String contrasena = resultado.getString("password");
-                String dni = resultado.getString("dni");
-                Integer idFotoPerfil = resultado.getInt("id_foto_perfil");
+        while (resultado.next()) {
+            Integer id = resultado.getInt("id_usuario");
+            String nombre = resultado.getString("nombre");
+            String apellido1 = resultado.getString("apellido1");
+            String apellido2 = resultado.getString("apellido2");
+            String email = resultado.getString("email");
+            String contrasena = resultado.getString("password");
+            String dni = resultado.getString("dni");
+            Integer idFotoPerfil = resultado.getInt("id_foto_perfil");
 
-                Usuario usuario = new Usuario(id, nombre, apellido1, apellido2, email, contrasena, dni);
+            Usuario usuario = new Usuario(id, nombre, apellido1, apellido2, email, contrasena, dni);
 
-                if(idFotoPerfil != 0){
-                    //Vincular foto de perfil con usuario
-                    boolean encontrado = false;
-                    for(int i=0; i<getListaFotosPerfil().size() && !encontrado; i++){
-                        if(getListaFotosPerfil().get(i).getIDfoto() == idFotoPerfil){
-                            usuario.setFotoPerfil(getListaFotosPerfil().get(i));
-                            getListaFotosPerfil().get(i).setUsuario(usuario);
-                            encontrado = true;
-                        }
+            if(idFotoPerfil != 0){
+                //Vincular foto de perfil con usuario
+                boolean encontrado = false;
+                for(int i=0; i<getListaFotosPerfil().size() && !encontrado; i++){
+                    if(getListaFotosPerfil().get(i).getIDfoto() == idFotoPerfil){
+                        usuario.setFotoPerfil(getListaFotosPerfil().get(i));
+                        getListaFotosPerfil().get(i).setUsuario(usuario);
+                        encontrado = true;
                     }
-                }
-                getListaUsuarios().add(usuario);
-            }
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
                 }
             }
+            getListaUsuarios().add(usuario);
         }
+        cerrarResultado(resultado);
+        cerrarSentencia(sentencia);
     }
 
     /**
@@ -391,8 +366,10 @@ public class Conector {
      * @post    Los elementos de la lista de rutas no tendrán asignadas las categorías ni las valoraciones
      *          Se debe invocar seguidamente el método getCategoriasBaseDatos() para asignar las categorías
      *          y posteriormente el método getValoracionesBaseDatos() para asignar las valoraciones
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void getRutasBaseDatos(){
+    public void getRutasBaseDatos() throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_RUTA);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
@@ -400,99 +377,65 @@ public class Conector {
 
         getListaRutas().clear();
 
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
+        sentencia = getConexion().prepareStatement(sql);
+        resultado = sentencia.executeQuery();
 
-            while (resultado.next()) {
-                Integer id = resultado.getInt("id_ruta");
-                String nombre = resultado.getString("nombre_ruta");
-                String descripcion = resultado.getString("descripcion");
-                Double distancia = resultado.getDouble("distancia_km");
-                String dificultad = resultado.getString("dificultad");
-                Double tiempoH = resultado.getDouble("tiempo_h");
-                Double puntuacionMedia = resultado.getDouble("puntuacion_media");
-                Integer idUsuario = resultado.getInt("id_usuario");
-                
-                Ruta ruta = null;
-                Usuario usuario = null;
-                //Obtener el usuario creador de la lista de usuarios
-                boolean encontrado = false;
-                for(int i=0; i< getListaUsuarios().size() && !encontrado; i++){
-                    if(getListaUsuarios().get(i).getIDUsuario() == idUsuario){
-                        usuario = getListaUsuarios().get(i);
-                        ruta = new Ruta(id, nombre, descripcion, distancia, dificultad, tiempoH, puntuacionMedia, usuario);
-                        usuario.getListaRutas().add(ruta);
-                        encontrado = true;
-                    }
-                }
-
-                getListaRutas().add(ruta);
-            }
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
+        while (resultado.next()) {
+            Integer id = resultado.getInt("id_ruta");
+            String nombre = resultado.getString("nombre_ruta");
+            String descripcion = resultado.getString("descripcion");
+            Double distancia = resultado.getDouble("distancia_km");
+            String dificultad = resultado.getString("dificultad");
+            Double tiempoH = resultado.getDouble("tiempo_h");
+            Double puntuacionMedia = resultado.getDouble("puntuacion_media");
+            Integer idUsuario = resultado.getInt("id_usuario");
+            
+            Ruta ruta = null;
+            Usuario usuario = null;
+            //Obtener el usuario creador de la lista de usuarios
+            boolean encontrado = false;
+            for(int i=0; i< getListaUsuarios().size() && !encontrado; i++){
+                if(getListaUsuarios().get(i).getIDUsuario() == idUsuario){
+                    usuario = getListaUsuarios().get(i);
+                    ruta = new Ruta(id, nombre, descripcion, distancia, dificultad, tiempoH, puntuacionMedia, usuario);
+                    usuario.getListaRutas().add(ruta);
+                    encontrado = true;
                 }
             }
+
+            getListaRutas().add(ruta);
         }
+        cerrarResultado(resultado);
+        cerrarSentencia(sentencia);
     }
 
     /**
      * @brief   Método que obtiene todas las categorías de la base de datos, sin rutas asignadas
      * @post    Los elementos de la lista de categorías no tendrán asignadas las rutas
      *          Se debe invocar seguidamente el método vincularCategoriasConRutas() para asignar las rutas
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void getCategoriasBaseDatos(){
+    public void getCategoriasBaseDatos() throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_CATEGORIA);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
 
         getListaCategorias().clear();
+        
+        sentencia = getConexion().prepareStatement(sql);
+        resultado = sentencia.executeQuery();
 
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
+        while(resultado.next()){
+            Integer id = resultado.getInt("id_categoria");
+            String nombre = resultado.getString("nombre");
 
-            while(resultado.next()){
-                Integer id = resultado.getInt("id_categoria");
-                String nombre = resultado.getString("nombre");
-
-                Categoria categoria = new Categoria(nombre, id);
-                getListaCategorias().add(categoria);
-            }
+            Categoria categoria = new Categoria(nombre, id);
+            getListaCategorias().add(categoria);
         }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
-                }
-            }
-        }
+        cerrarResultado(resultado);
+        cerrarSentencia(sentencia);
     }
 
     /**
@@ -500,55 +443,39 @@ public class Conector {
      * @pre     Las categorías y las rutas deben estar en las listas correspondientes
      * @post    Los elementos de la lista de categorías tendrán asignadas las rutas
      *          Los elementos de la lista de rutas tendrán asignadas las categorías 
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void vincularCategoriasConRutas(){
+    public void vincularCategoriasConRutas() throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
 
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
+        sentencia = getConexion().prepareStatement(sql);
+        resultado = sentencia.executeQuery();
 
-            while(resultado.next()){
-                Integer idCategoria = resultado.getInt("id_categoria");
-                Integer idRuta = resultado.getInt("id_ruta");
+        while(resultado.next()){
+            Integer idCategoria = resultado.getInt("id_categoria");
+            Integer idRuta = resultado.getInt("id_ruta");
 
-                //Obtener la categoría de la lista de categorías
-                boolean encontrado = false;
-                for(int i=0; i< getListaCategorias().size() && !encontrado; i++){
-                    if(getListaCategorias().get(i).getIDCategoria() == idCategoria){
-                        //Obtener la ruta de la lista de rutas
-                        for(int j=0; j< getListaRutas().size() && !encontrado; j++){
-                            if(getListaRutas().get(j).getIdRuta() == idRuta){
-                                getListaCategorias().get(i).setRutaEnLista(getListaRutas().get(j));
-                                getListaRutas().get(j).setCategoriaEnLista(getListaCategorias().get(i));
-                                encontrado = true;
-                            }
+            //Obtener la categoría de la lista de categorías
+            boolean encontrado = false;
+            for(int i=0; i< getListaCategorias().size() && !encontrado; i++){
+                if(getListaCategorias().get(i).getIDCategoria() == idCategoria){
+                    //Obtener la ruta de la lista de rutas
+                    for(int j=0; j< getListaRutas().size() && !encontrado; j++){
+                        if(getListaRutas().get(j).getIdRuta() == idRuta){
+                            getListaCategorias().get(i).setRutaEnLista(getListaRutas().get(j));
+                            getListaRutas().get(j).setCategoriaEnLista(getListaCategorias().get(i));
+                            encontrado = true;
                         }
                     }
                 }
             }
         }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
-                }
-            }
-        }
+        cerrarResultado(resultado);
+        cerrarSentencia(sentencia);
     }
 
     /**
@@ -556,8 +483,10 @@ public class Conector {
      * @pre     Los usuarios y las rutas deben estar en las listas correspondientes
      * @post    Los elementos de la lista de usuarios tendrán asignadas las valoraciones
      *          Los elementos de la lista de rutas tendrán asignadas las valoraciones
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void getValoracionesBaseDatos(){
+    public void getValoracionesBaseDatos() throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_VALORACION);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
@@ -565,69 +494,53 @@ public class Conector {
 
         getListaValoraciones().clear();
 
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
+        sentencia = getConexion().prepareStatement(sql);
+        resultado = sentencia.executeQuery();
 
-            while(resultado.next()){
-                Integer idUsuario = resultado.getInt("id_usuario");
-                Integer idRuta = resultado.getInt("id_ruta");
-                String comentario = resultado.getString("comentario");
-                Integer puntuacion = resultado.getInt("puntuacion");
+        while(resultado.next()){
+            Integer idUsuario = resultado.getInt("id_usuario");
+            Integer idRuta = resultado.getInt("id_ruta");
+            String comentario = resultado.getString("comentario");
+            Integer puntuacion = resultado.getInt("puntuacion");
 
-                Usuario usuario = null;
-                Ruta ruta = null;
+            Usuario usuario = null;
+            Ruta ruta = null;
 
-                //Obtener el usuario de la lista de usuarios
-                boolean encontrado = false;
-                for(int i=0; i< getListaUsuarios().size() && !encontrado; i++){
-                    if(getListaUsuarios().get(i).getIDUsuario() == idUsuario){
-                        usuario = getListaUsuarios().get(i);
-                        encontrado = true;
-                    }
-                }
-
-                //Obtener la ruta de la lista de rutas
-                encontrado = false;
-                for(int i=0; i< getListaRutas().size() && !encontrado; i++){
-                    if(getListaRutas().get(i).getIdRuta() == idRuta){
-                        ruta = getListaRutas().get(i);
-                        encontrado = true;
-                    }
-                }
-
-                Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
-                usuario.getListaValoraciones().add(valoracion);
-                ruta.getListaValoraciones().add(valoracion);
-
-                getListaValoraciones().add(valoracion);
-            }
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
+            //Obtener el usuario de la lista de usuarios
+            boolean encontrado = false;
+            for(int i=0; i< getListaUsuarios().size() && !encontrado; i++){
+                if(getListaUsuarios().get(i).getIDUsuario() == idUsuario){
+                    usuario = getListaUsuarios().get(i);
+                    encontrado = true;
                 }
             }
+
+            //Obtener la ruta de la lista de rutas
+            encontrado = false;
+            for(int i=0; i< getListaRutas().size() && !encontrado; i++){
+                if(getListaRutas().get(i).getIdRuta() == idRuta){
+                    ruta = getListaRutas().get(i);
+                    encontrado = true;
+                }
+            }
+
+            Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
+            usuario.getListaValoraciones().add(valoracion);
+            ruta.getListaValoraciones().add(valoracion);
+
+            getListaValoraciones().add(valoracion);
         }
+        cerrarResultado(resultado);
+        cerrarSentencia(sentencia);
     }
 
     /**
      * @brief   Método que obtiene todas las categorías de la base de datos
      * @return  (ArrayList<Categoria>)    Lista de categorías de la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public ArrayList<Categoria> getTodasLasCategorias(){
+    public ArrayList<Categoria> getTodasLasCategorias() throws SQLException, Exception{
         bajarBaseDatos();
         return getListaCategorias();
     }
@@ -635,8 +548,10 @@ public class Conector {
     /**
      * @brief   Método que obtiene todas las fotos de perfil de la base de datos
      * @return  (ArrayList<FotoPerfil>)   Lista de fotos de perfil de la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public ArrayList<FotoPerfil> getTodasLasFotosPerfil(){
+    public ArrayList<FotoPerfil> getTodasLasFotosPerfil() throws SQLException, Exception{
         bajarBaseDatos();
         return getListaFotosPerfil();
     }
@@ -644,8 +559,10 @@ public class Conector {
     /**
      * @brief   Método que obtiene todas las rutas de la base de datos
      * @return  (ArrayList<Ruta>)   Lista de rutas de la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public ArrayList<Ruta> getTodasLasRutas(){
+    public ArrayList<Ruta> getTodasLasRutas() throws SQLException, Exception{
         bajarBaseDatos();
         return getListaRutas();
     }
@@ -653,8 +570,10 @@ public class Conector {
     /**
      * @brief   Método que obtiene todos los usuarios de la base de datos
      * @return  (ArrayList<Usuario>) Lista de usuarios de la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public ArrayList<Usuario> getTodosLosUsuarios(){
+    public ArrayList<Usuario> getTodosLosUsuarios() throws SQLException, Exception{
         bajarBaseDatos();
         return getListaUsuarios();
     }
@@ -662,8 +581,10 @@ public class Conector {
     /**
      * @brief   Método que obtiene todas las valoraciones de la base de datos
      * @return  (ArrayList<Valoracion>) Lista de valoraciones de la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public ArrayList<Valoracion> getTodasLasValoraciones(){
+    public ArrayList<Valoracion> getTodasLasValoraciones() throws SQLException, Exception{
         bajarBaseDatos();
         return getListaValoraciones();
     }
@@ -675,8 +596,9 @@ public class Conector {
      * @brief   Método que crea una categoría en la base de datos
      * @param categoria     (Categoria)    Categoría a crear
      * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
      */
-    public void createCategoria(Categoria categoria) throws SQLException{
+    public void createCategoria(Categoria categoria) throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_CATEGORIA);
         String sql = "INSERT INTO " + getNombreTabla() + " (nombre) VALUES (?)";
         PreparedStatement sentencia = null;
