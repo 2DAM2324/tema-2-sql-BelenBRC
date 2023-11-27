@@ -61,7 +61,7 @@ public class Controlador {
         conector.conectar();
 
         //Cargar datos de la base de datos
-        cargarDatosBD();
+        cargarDatosSistema();
     }
 
     //Sets y gets
@@ -1033,12 +1033,15 @@ public class Controlador {
         }
     }
 
-    private void cargarDatosBD(){
+    /**
+     * @brief   Método que obtiene toda la información de la base de datos y la almacena en las listas del sistema
+     */
+    public void cargarDatosSistema(){
         leerCategoriasBD();
-        //leerFotosPerfilBD();
-        //leerUsuariosBD();
-        //leerRutasBD();
-        //leerValoracionesBD();
+        leerFotosPerfilBD();
+        leerUsuariosBD();
+        leerRutasBD();
+        leerValoracionesBD();
     }
 
     /**
@@ -1048,7 +1051,47 @@ public class Controlador {
      */
     public void leerCategoriasBD(){
         listaCategoriasSistema.clear();
-        listaCategoriasSistema = getConector().getCategoriasDB();
+        listaCategoriasSistema = getConector().getTodasLasCategorias();
+    }
+
+    /**
+     * @brief   Método que obtiene la lista de completa de fotos de perfil de la base de datos
+     * @post    Se obtiene la lista de fotos de perfil de la base de datos
+     * @post    Si la conexión con la base de datos falla, la lista de fotos de perfil del sistema se queda vacía
+     */
+    public void leerFotosPerfilBD(){
+        listaFotosPerfilSistema.clear();
+        listaFotosPerfilSistema = getConector().getTodasLasFotosPerfil();
+    }
+
+    /**
+     * @brief   Método que obtiene la lista de completa de usuarios de la base de datos
+     * @post    Se obtiene la lista de usuarios de la base de datos
+     * @post    Si la conexión con la base de datos falla, la lista de usuarios del sistema se queda vacía
+     */
+    public void leerUsuariosBD(){
+        listaUsuariosSistema.clear();
+        listaUsuariosSistema = getConector().getTodosLosUsuarios();
+    }
+
+    /**
+     * @brief   Método que obtiene la lista de completa de rutas de la base de datos
+     * @post    Se obtiene la lista de rutas de la base de datos
+     * @post    Si la conexión con la base de datos falla, la lista de rutas del sistema se queda vacía
+     */
+    public void leerRutasBD(){
+        listaRutasSistema.clear();
+        listaRutasSistema = getConector().getTodasLasRutas();
+    }
+
+    /**
+     * @brief   Método que obtiene la lista de completa de valoraciones de la base de datos
+     * @post    Se obtiene la lista de valoraciones de la base de datos
+     * @post    Si la conexión con la base de datos falla, la lista de valoraciones del sistema se queda vacía
+     */
+    public void leerValoracionesBD(){
+        listaValoracionesSistema.clear();
+        listaValoracionesSistema = getConector().getTodasLasValoraciones();
     }
 
     /**

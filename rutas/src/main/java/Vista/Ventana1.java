@@ -39,6 +39,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         initComponents();
         controladorVista = Controlador.newInstance();
         controladorVista.getConector().conectar();
+        controladorVista.cargarDatosSistema();
         
         //Ocultar campos modificables en las pestañas
         ocultarCamposCategorias();

@@ -26,6 +26,12 @@ public class Conector {
     private ArrayList<Usuario>          listaUsuarios;
     private ArrayList<Valoracion>       listaValoraciones;
 
+    private ArrayList<Integer>          listaIDsCategorias;
+    private ArrayList<Integer>          listaIDsFotosPerfil;
+    private ArrayList<Integer>          listaIDsRutas;
+    private ArrayList<Integer>          listaIDsUsuarios;
+    private ArrayList<Integer>          listaIDsValoraciones;
+
     /**
      * @brief Constructor de la clase Conector con la url por defecto
      * @post  Conexión con url por defecto 
@@ -248,15 +254,201 @@ public class Conector {
         }
     }
 
+    /**
+     * @brief   Método que obtiene toda la información de la base de datos
+     */
+    public void bajarBaseDatos(){
+        getFotosPerfilBaseDatos();
+        getUsuariosBaseDatos();
+        getRutasBaseDatos();
+        getCategoriasBaseDatos();
+        vincularCategoriasConRutas();
+        getValoracionesBaseDatos();
+    }
 
     /**
-     * @brief   Método que lee las categorías de la base de datos y las almacena en una lista de categorías
-     * @return  (ArrayList<Categoria>)    Lista de categorías de la base de datos
-     * @post    La lista de categorías estará inicializada con las categorías de la base de datos
-     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
-     *          y devuelve una lista vacía
+     * @brief   Método que obtiene todas las fotos de perfil de la base de datos sin usuario
+     * @post    Los elementos de la lista de fotos de perfil no tendrán asignado el usuario
+     *          Se debe invocar seguidamente el método getUsuariosBaseDatos() para asignar el usuario
      */
-    public ArrayList<Categoria> getCategoriasDB(){
+    public void getFotosPerfilBaseDatos(){
+        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
+        String sql = "SELECT * FROM " + getNombreTabla();
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        getListaFotosPerfil().clear();
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next()) {
+                Integer id = resultado.getInt("id_foto_perfil");
+                String nombre = resultado.getString("nombre_foto");
+                Integer resolucionMp = resultado.getInt("resolucion_mpx");
+                Integer tamanioKb = resultado.getInt("tamanio_kb");
+
+                FotoPerfil fotoPerfil = new FotoPerfil(id, nombre, resolucionMp, tamanioKb);
+                getListaFotosPerfil().add(fotoPerfil);
+            }
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * @brief   Método que obtiene todos los usuarios de la base de datos con foto de perfil si la tiene, sin listas
+     * @post    Los elementos de la lista de fotos de perfil tendrán asignado el usuario
+     * @post    Los elementos de la lista de usuarios no tendrán asignadas las rutas ni las valoraciones
+     *          Se debe invocar seguidamente el método getRutasBaseDatos() para asignar las rutas
+     *          y posteriormente el método getValoracionesBaseDatos() para asignar las valoraciones
+     */
+    public void getUsuariosBaseDatos(){
+        setNombreTabla(NOMBRE_TABLA_USUARIO);
+        String sql = "SELECT * FROM " + getNombreTabla();
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        getListaUsuarios().clear();
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next()) {
+                Integer id = resultado.getInt("id_usuario");
+                String nombre = resultado.getString("nombre");
+                String apellido1 = resultado.getString("apellido1");
+                String apellido2 = resultado.getString("apellido2");
+                String email = resultado.getString("email");
+                String contrasena = resultado.getString("password");
+                String dni = resultado.getString("dni");
+                Integer idFotoPerfil = resultado.getInt("id_foto_perfil");
+
+                Usuario usuario = new Usuario(id, nombre, apellido1, apellido2, email, contrasena, dni);
+
+                if(idFotoPerfil != 0){
+                    //Vincular foto de perfil con usuario
+                    boolean encontrado = false;
+                    for(int i=0; i<getListaFotosPerfil().size() && !encontrado; i++){
+                        if(getListaFotosPerfil().get(i).getIDfoto() == idFotoPerfil){
+                            usuario.setFotoPerfil(getListaFotosPerfil().get(i));
+                            getListaFotosPerfil().get(i).setUsuario(usuario);
+                            encontrado = true;
+                        }
+                    }
+                }
+                getListaUsuarios().add(usuario);
+            }
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * @brief   Método que obtiene todas las rutas de la base de datos, con el creador asignado, pero sin categorías ni valoraciones
+     * @post    Los elementos de la lista de usuarios tendrán asignadas las rutas creadas
+     * @post    Los elementos de la lista de rutas no tendrán asignadas las categorías ni las valoraciones
+     *          Se debe invocar seguidamente el método getCategoriasBaseDatos() para asignar las categorías
+     *          y posteriormente el método getValoracionesBaseDatos() para asignar las valoraciones
+     */
+    public void getRutasBaseDatos(){
+        setNombreTabla(NOMBRE_TABLA_RUTA);
+        String sql = "SELECT * FROM " + getNombreTabla();
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        getListaRutas().clear();
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next()) {
+                Integer id = resultado.getInt("id_ruta");
+                String nombre = resultado.getString("nombre_ruta");
+                String descripcion = resultado.getString("descripcion");
+                Double distancia = resultado.getDouble("distancia_km");
+                String dificultad = resultado.getString("dificultad");
+                Double tiempoH = resultado.getDouble("tiempo_h");
+                Double puntuacionMedia = resultado.getDouble("puntuacion_media");
+                Integer idUsuario = resultado.getInt("id_usuario");
+                
+                Ruta ruta = null;
+                Usuario usuario = null;
+                //Obtener el usuario creador de la lista de usuarios
+                boolean encontrado = false;
+                for(int i=0; i< getListaUsuarios().size() && !encontrado; i++){
+                    if(getListaUsuarios().get(i).getIDUsuario() == idUsuario){
+                        usuario = getListaUsuarios().get(i);
+                        ruta = new Ruta(id, nombre, descripcion, distancia, dificultad, tiempoH, puntuacionMedia, usuario);
+                        usuario.getListaRutas().add(ruta);
+                        encontrado = true;
+                    }
+                }
+
+                getListaRutas().add(ruta);
+            }
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * @brief   Método que obtiene todas las categorías de la base de datos, sin rutas asignadas
+     * @post    Los elementos de la lista de categorías no tendrán asignadas las rutas
+     *          Se debe invocar seguidamente el método vincularCategoriasConRutas() para asignar las rutas
+     */
+    public void getCategoriasBaseDatos(){
         setNombreTabla(NOMBRE_TABLA_CATEGORIA);
         String sql = "SELECT * FROM " + getNombreTabla();
         PreparedStatement sentencia = null;
@@ -265,20 +457,16 @@ public class Conector {
         getListaCategorias().clear();
 
         try{
-
             sentencia = getConexion().prepareStatement(sql);
             resultado = sentencia.executeQuery();
 
-            while (resultado.next()) {
+            while(resultado.next()){
                 Integer id = resultado.getInt("id_categoria");
                 String nombre = resultado.getString("nombre");
 
-                ArrayList<Ruta> listaRutas = getRutasCategoria(id);
-                
-                Categoria categoria = new Categoria(nombre, id, listaRutas);
+                Categoria categoria = new Categoria(nombre, id);
                 getListaCategorias().add(categoria);
             }
-
         }
         catch(SQLException sqle){
             sqle.printStackTrace();
@@ -298,222 +486,178 @@ public class Conector {
                 }
             }
         }
+    }
 
+    /**
+     * @brief   Método que vincula las categorías y las rutas de la base de datos
+     * @pre     Las categorías y las rutas deben estar en las listas correspondientes
+     * @post    Los elementos de la lista de categorías tendrán asignadas las rutas
+     *          Los elementos de la lista de rutas tendrán asignadas las categorías 
+     */
+    public void vincularCategoriasConRutas(){
+        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
+        String sql = "SELECT * FROM " + getNombreTabla();
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            while(resultado.next()){
+                Integer idCategoria = resultado.getInt("id_categoria");
+                Integer idRuta = resultado.getInt("id_ruta");
+
+                //Obtener la categoría de la lista de categorías
+                boolean encontrado = false;
+                for(int i=0; i< getListaCategorias().size() && !encontrado; i++){
+                    if(getListaCategorias().get(i).getIDCategoria() == idCategoria){
+                        //Obtener la ruta de la lista de rutas
+                        for(int j=0; j< getListaRutas().size() && !encontrado; j++){
+                            if(getListaRutas().get(j).getIdRuta() == idRuta){
+                                getListaCategorias().get(i).setRutaEnLista(getListaRutas().get(j));
+                                getListaRutas().get(j).setCategoriaEnLista(getListaCategorias().get(i));
+                                encontrado = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * @brief   Método que obtiene todas las valoraciones de la base de datos, con usuario y ruta asignados
+     * @pre     Los usuarios y las rutas deben estar en las listas correspondientes
+     * @post    Los elementos de la lista de usuarios tendrán asignadas las valoraciones
+     *          Los elementos de la lista de rutas tendrán asignadas las valoraciones
+     */
+    public void getValoracionesBaseDatos(){
+        setNombreTabla(NOMBRE_TABLA_VALORACION);
+        String sql = "SELECT * FROM " + getNombreTabla();
+        PreparedStatement sentencia = null;
+        ResultSet resultado = null;
+
+        getListaValoraciones().clear();
+
+        try{
+            sentencia = getConexion().prepareStatement(sql);
+            resultado = sentencia.executeQuery();
+
+            while(resultado.next()){
+                Integer idUsuario = resultado.getInt("id_usuario");
+                Integer idRuta = resultado.getInt("id_ruta");
+                String comentario = resultado.getString("comentario");
+                Integer puntuacion = resultado.getInt("puntuacion");
+
+                Usuario usuario = null;
+                Ruta ruta = null;
+
+                //Obtener el usuario de la lista de usuarios
+                boolean encontrado = false;
+                for(int i=0; i< getListaUsuarios().size() && !encontrado; i++){
+                    if(getListaUsuarios().get(i).getIDUsuario() == idUsuario){
+                        usuario = getListaUsuarios().get(i);
+                        encontrado = true;
+                    }
+                }
+
+                //Obtener la ruta de la lista de rutas
+                encontrado = false;
+                for(int i=0; i< getListaRutas().size() && !encontrado; i++){
+                    if(getListaRutas().get(i).getIdRuta() == idRuta){
+                        ruta = getListaRutas().get(i);
+                        encontrado = true;
+                    }
+                }
+
+                Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
+                usuario.getListaValoraciones().add(valoracion);
+                ruta.getListaValoraciones().add(valoracion);
+
+                getListaValoraciones().add(valoracion);
+            }
+        }
+        catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        finally{
+            if(sentencia != null){
+                try{
+                    if(resultado != null){
+                        resultado.close();
+                    }
+                    if(sentencia != null){
+                        sentencia.close();
+                    }
+                }
+                catch(SQLException sqle){
+                    sqle.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * @brief   Método que obtiene todas las categorías de la base de datos
+     * @return  (ArrayList<Categoria>)    Lista de categorías de la base de datos
+     */
+    public ArrayList<Categoria> getTodasLasCategorias(){
+        bajarBaseDatos();
         return getListaCategorias();
     }
 
     /**
-     * @brief   Método que lee las fotos de perfil de la base de datos y las almacena en una lista de fotos de perfil
+     * @brief   Método que obtiene todas las fotos de perfil de la base de datos
      * @return  (ArrayList<FotoPerfil>)   Lista de fotos de perfil de la base de datos
-     * @post    La lista de fotos de perfil estará inicializada con las fotos de perfil de la base de datos
-     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
-     *          y devuelve una lista vacía
      */
-    public ArrayList<Ruta> getRutasCategoria(Integer idCategoria){
-        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
-        ArrayList<Ruta> listaRutas = new ArrayList<Ruta>();
-
-        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_categoria = " + idCategoria;
-        PreparedStatement sentencia = null;
-        ResultSet resultado = null;        
-
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
-
-            while (resultado.next()) {
-                Integer idRuta = resultado.getInt("id_ruta");
-                Ruta ruta = getRutaPorID(idRuta);
-                listaRutas.add(ruta);                
-            }
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
-                }
-            }
-        }
-
-        return listaRutas;
+    public ArrayList<FotoPerfil> getTodasLasFotosPerfil(){
+        bajarBaseDatos();
+        return getListaFotosPerfil();
     }
 
     /**
-     * @brief   Método que busca una ruta por su id
-     * @param idRuta    (Integer)   Código identificador único de la ruta
-     * @return  (Ruta)  Ruta con el id pasado por parámetro, con su usuario asignado 
-     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
-     *          y devuelve null
-     * @post    Si no se encuentra la ruta, devuelve null
-     * @post    NO ESTÁN ASIGNADAS LAS VALORACIONES NI LAS CATEGORIAS //TODO
+     * @brief   Método que obtiene todas las rutas de la base de datos
+     * @return  (ArrayList<Ruta>)   Lista de rutas de la base de datos
      */
-    public Ruta getRutaPorID(Integer idRuta){
-        setNombreTabla(NOMBRE_TABLA_RUTA);
-        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_ruta = " + idRuta;
-        PreparedStatement sentencia = null;
-        ResultSet resultado = null;
-
-        Ruta ruta = null;
-
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
-
-            Integer id = resultado.getInt("id_ruta");
-            String nombre = resultado.getString("nombre_ruta");
-            String descripcion = resultado.getString("descripcion");
-            Double distanciaKm = resultado.getDouble("distancia_km");
-            String dificultad = resultado.getString("dificultad");
-            Double tiempoH = resultado.getDouble("tiempo_h");
-            Double puntuacionMedia = resultado.getDouble("puntuacion_media");
-            Integer idUsuario = resultado.getInt("id_usuario");
-
-            Usuario usuario = getUsuarioPorID(idUsuario);
-
-            ruta = new Ruta(id, nombre, descripcion, distanciaKm, dificultad, tiempoH, puntuacionMedia, usuario);
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
-                }
-            }
-        }
-
-        return ruta;
+    public ArrayList<Ruta> getTodasLasRutas(){
+        bajarBaseDatos();
+        return getListaRutas();
     }
 
     /**
-     * @brief   Método que busca un usuario por su id
-     * @param idUsuario (Integer)   Código identificador único del usuario
-     * @return  (Usuario)   Usuario con el id pasado por parámetro, con su foto de perfil asignada si la tiene
-     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
-     *          y devuelve null
-     * @post    Si no se encuentra el usuario, devuelve null
-     * @post    NO ESTÁN ASIGNADAS LAS RUTAS NI LAS VALORACIONES //TODO
+     * @brief   Método que obtiene todos los usuarios de la base de datos
+     * @return  (ArrayList<Usuario>) Lista de usuarios de la base de datos
      */
-    public Usuario getUsuarioPorID(Integer idUsuario){
-        setNombreTabla(NOMBRE_TABLA_USUARIO);
-        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_usuario = " + idUsuario;
-        PreparedStatement sentencia = null;
-        ResultSet resultado = null;
-
-        Usuario usuario = null;
-
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
-
-            Integer id = resultado.getInt("id_usuario");
-            String nombre = resultado.getString("nombre");
-            String apellido1 = resultado.getString("apellido1");
-            String apellido2 = resultado.getString("apellido2");
-            String email = resultado.getString("email");
-            String contrasena = resultado.getString("password");
-            String dni = resultado.getString("dni");
-            Integer idFotoPerfil = resultado.getInt("id_foto_perfil");
-            System.out.println("idFotoPerfil: " + idFotoPerfil);
-
-            usuario = new Usuario(id, nombre, apellido1, apellido2, email, contrasena, dni);
-
-            if(idFotoPerfil != 0){
-                FotoPerfil fotoPerfil = getFotoPerfilPorID(idFotoPerfil);
-                fotoPerfil.setUsuario(usuario);
-                usuario.setFotoPerfil(fotoPerfil);
-            }
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
-                }
-            }
-        }
-
-        return usuario;
+    public ArrayList<Usuario> getTodosLosUsuarios(){
+        bajarBaseDatos();
+        return getListaUsuarios();
     }
 
     /**
-     * @brief   Método que busca una foto de perfil por su id
-     * @param idFotoPerfil  (Integer)   Código identificador único de la foto de perfil
-     * @return  (FotoPerfil)    Foto de perfil con el id pasado por parámetro, SIN USUARIO ASIGNADO
-     * @post    Si la conexión falla, se asegura de cerrar la conexión si se ha abierto
-     *          y devuelve null
-     * @post    Si no se encuentra la foto de perfil, devuelve null
-     * @post    Se debe asignar el usuario a la foto de perfil
+     * @brief   Método que obtiene todas las valoraciones de la base de datos
+     * @return  (ArrayList<Valoracion>) Lista de valoraciones de la base de datos
      */
-    public FotoPerfil getFotoPerfilPorID(Integer idFotoPerfil){
-        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
-        String sql = "SELECT * FROM " + getNombreTabla() + " WHERE id_foto_perfil = " + idFotoPerfil;
-        PreparedStatement sentencia = null;
-        ResultSet resultado = null;
-
-        FotoPerfil fotoPerfil = null;
-
-        try{
-            sentencia = getConexion().prepareStatement(sql);
-            resultado = sentencia.executeQuery();
-
-            Integer id = resultado.getInt("id_foto_perfil");
-            String nombre = resultado.getString("nombre_foto");
-            Integer resolucionMp = resultado.getInt("resolucion_mpx");
-            Integer tamanioKb = resultado.getInt("tamanio_kb");
-
-            fotoPerfil = new FotoPerfil(id, nombre, resolucionMp, tamanioKb);
-
-        }
-        catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        finally{
-            if(sentencia != null){
-                try{
-                    if(resultado != null){
-                        resultado.close();
-                    }
-                    if(sentencia != null){
-                        sentencia.close();
-                    }
-                }
-                catch(SQLException sqle){
-                    sqle.printStackTrace();
-                }
-            }
-        }
-
-        return fotoPerfil;
+    public ArrayList<Valoracion> getTodasLasValoraciones(){
+        bajarBaseDatos();
+        return getListaValoraciones();
     }
 }
