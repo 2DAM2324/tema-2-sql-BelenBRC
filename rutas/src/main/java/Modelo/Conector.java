@@ -186,6 +186,7 @@ public class Conector {
 
 
     //*********************************************************//
+    //*********************************************************//
 
     /**
      * @brief   Método que devuelve la instancia de la clase Conector con la url por defecto
@@ -245,6 +246,20 @@ public class Conector {
             sqle.printStackTrace();
         }
     }
+
+    /**
+     * @brief   Método que cierra una sentencia de la base de datos si está abierta
+     * @param sentencia     (PreparedStatement) Sentencia de la base de datos
+     * @throws SQLException Excepción de SQL
+     */
+    private void cerrarSentencia(PreparedStatement sentencia) throws SQLException{
+        if(sentencia != null){
+            sentencia.close();
+        }
+    }
+
+    //*********************************************************//
+    //*********************** READ ***************************//
 
     /**
      * @brief   Método que obtiene toda la información de la base de datos
@@ -651,5 +666,24 @@ public class Conector {
     public ArrayList<Valoracion> getTodasLasValoraciones(){
         bajarBaseDatos();
         return getListaValoraciones();
+    }
+
+    //*********************************************************//
+    //************************ CREATE *************************//
+
+    /**
+     * @brief   Método que crea una categoría en la base de datos
+     * @param categoria     (Categoria)    Categoría a crear
+     * @throws SQLException Excepción de SQL
+     */
+    public void createCategoria(Categoria categoria) throws SQLException{
+        setNombreTabla(NOMBRE_TABLA_CATEGORIA);
+        String sql = "INSERT INTO " + getNombreTabla() + " (nombre) VALUES (?)";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, categoria.getNombreCategoria());
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
     }
 }

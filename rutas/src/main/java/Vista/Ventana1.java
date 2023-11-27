@@ -1735,7 +1735,12 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
             else {
                 //Añadir la categoria al sistema
-                controladorVista.aniadirCategoria(jTextField_nombre_categoria.getText());
+                try{
+                    controladorVista.aniadirCategoria(jTextField_nombre_categoria.getText());
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Error al añadir la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 //Pintar los datos de la categoria
                 pintarDatosCategoria();
                 //Ocultar los botones de guardar y cancelar y el campo de texto

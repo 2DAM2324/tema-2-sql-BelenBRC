@@ -12,6 +12,7 @@ import Modelo.Valoracion;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -327,9 +328,10 @@ public class Controlador {
     /**
      * @brief   Método que añade una categoría a la lista de categorías del sistema siempre que no exista ya
      * @param nombreCategoria   Nombre de la categoría a añadir a la lista de categorías del sistema
+     * @throws SQLException     Excepción que se lanza si se produce un error en la base de datos
      * @post    Se actualiza el XML
      */
-    public void aniadirCategoria(String nombreCategoria){
+    public void aniadirCategoria(String nombreCategoria) throws SQLException{
         boolean existeCategoria = false;
         Categoria categoria = new Categoria(nombreCategoria);
 
@@ -341,7 +343,8 @@ public class Controlador {
         
         if(!existeCategoria){
             listaCategoriasSistema.add(categoria);
-            serializarCategoria();
+            conector.createCategoria(categoria);
+            conector.getTodasLasCategorias();
         }
     }
     
