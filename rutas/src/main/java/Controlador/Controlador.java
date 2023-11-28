@@ -779,11 +779,12 @@ public class Controlador {
      * @param nombreImagen          Nombre de la imagen de la foto de perfil
      * @param resolucionImagenMp    Resolución de la imagen de la foto de perfil
      * @param tamanioKb             Tamaño de la imagen de la foto de perfil
-     * @post    Se actualiza el XML
+     * @post    Se actualiza la base de datos
      * @post    Se actualiza la lista de fotos de perfil del usuario
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void aniadirFotoPerfil(String dniUsuario, String nombreImagen, Integer resolucionImagenMp, Integer tamanioKb){
-        boolean existeFotoPerfil = false;
+    public void aniadirFotoPerfil(String dniUsuario, String nombreImagen, Integer resolucionImagenMp, Integer tamanioKb) throws SQLException, Exception{
         //Buscar usuario con dni
         Usuario usuario = null;
         for(int i=0; i < listaUsuariosSistema.size(); i++){
@@ -794,18 +795,9 @@ public class Controlador {
 
         FotoPerfil fotoPerfil = new FotoPerfil(nombreImagen, resolucionImagenMp, tamanioKb, usuario);
 
-        for(int i=0; i < listaFotosPerfilSistema.size(); i++){
-            if(listaFotosPerfilSistema.get(i).getIDfoto().equals(fotoPerfil.getIDfoto())){
-                existeFotoPerfil = true;
-            }
-        }
-
-        if(!existeFotoPerfil){
-            listaFotosPerfilSistema.add(fotoPerfil);
-            usuario.setFotoPerfil(fotoPerfil);
-            serializarFotoPerfil();
-            serializarUsuario();
-        }
+        getConector().createFotoPerfil(fotoPerfil);
+        getConector().getTodasLasFotosPerfil();
+        getConector().getTodosLosUsuarios();
     }
 
     /**

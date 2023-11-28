@@ -631,7 +631,7 @@ public class Conector {
         sentencia.executeUpdate();
         cerrarSentencia(sentencia);
     }
-    
+
     /**
      * @brief   Método que crea una ruta en la base de datos
      * @param ruta          (Ruta)  Ruta a crear
@@ -653,6 +653,50 @@ public class Conector {
         sentencia.setInt(7, ruta.getCreadorRuta().getIDUsuario());
 
         sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
+
+    /**
+     * @brief   Método que crea una foto de perfil en la base de datos y la asigna a un usuario
+     * @param fotoPerfil    (FotoPerfil)    Foto de perfil a crear
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     * @post    La foto de perfil se asigna al usuario en la base de datos
+     */
+    public void createFotoPerfil(FotoPerfil fotoPerfil) throws SQLException, Exception{
+        //Transacción
+        getConexion().setAutoCommit(false);
+        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
+        String sql = "INSERT INTO " + getNombreTabla() + " (nombre_foto, resolucion_mpx, tamanio_kb) VALUES (?, ?, ?)";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, fotoPerfil.getNombreImagen());
+        sentencia.setInt(2, fotoPerfil.getResolucionImagenMp());
+        sentencia.setInt(3, fotoPerfil.getTamanioKb());
+
+        sentencia.executeUpdate();
+
+        //Obtener el id de la foto de perfil creada
+        ResultSet idFotoPerfil = sentencia.getGeneratedKeys();
+        idFotoPerfil.next();
+        Integer id = idFotoPerfil.getInt(1);
+  
+        cerrarSentencia(sentencia);
+
+        //Asignar la foto de perfil al usuario
+        setNombreTabla(NOMBRE_TABLA_USUARIO);
+        sql = "UPDATE " + getNombreTabla() + " SET id_foto_perfil = ? WHERE id_usuario = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, id);
+        sentencia.setInt(2, fotoPerfil.getUsuario().getIDUsuario());
+
+        sentencia.executeUpdate();
+        getConexion().commit();
+        getConexion().setAutoCommit(true);
+
         cerrarSentencia(sentencia);
     }
 }

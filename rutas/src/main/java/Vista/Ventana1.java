@@ -2210,7 +2210,15 @@ public final class Ventana1 extends javax.swing.JFrame {
                 
                 if(!existe && aniadiendo){
                     //Añadir la foto al sistema
-                    controladorVista.aniadirFotoPerfil(jComboBox_usuario_foto_perfil.getSelectedItem().toString(), jTextField_nombre_imagen_foto_perfil.getText(), Integer.valueOf(jTextField_reolucion_foto_perfil.getText()), Integer.valueOf(jTextField_tamanio_foto_perfil.getText()));
+                    try{
+                        controladorVista.aniadirFotoPerfil(jComboBox_usuario_foto_perfil.getSelectedItem().toString(), jTextField_nombre_imagen_foto_perfil.getText(), Integer.valueOf(jTextField_reolucion_foto_perfil.getText()), Integer.valueOf(jTextField_tamanio_foto_perfil.getText()));
+                    }
+                    catch(SQLException sqle){
+                        JOptionPane.showMessageDialog(this, "Error al añadir la foto de perfil + \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(this, "Error al añadir la foto de perfil", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else if(modificando){
                     //Modificar la foto en el sistema
