@@ -136,7 +136,7 @@ public class Conector {
      * @brief Devuelve la conexión con la base de datos
      * @return conexion  (Connection)    Conexión con la base de datos
      */
-    private Connection getConexion() {
+    public Connection getConexion() {
         return conexion;
     }
 

@@ -1671,22 +1671,34 @@ public final class Ventana1 extends javax.swing.JFrame {
      */
     private void jButton_borrar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoriaActionPerformed
         if (jTable_categoria.getSelectedRow() != -1) {
-                int fila = jTable_categoria.getSelectedRow();
-                Integer id = (Integer) jTable_categoria.getValueAt(fila, 0);
-                String nombre = (String) jTable_categoria.getValueAt(fila, 1);
+            int fila = jTable_categoria.getSelectedRow();
+            Integer id = (Integer) jTable_categoria.getValueAt(fila, 0);
+            String nombre = (String) jTable_categoria.getValueAt(fila, 1);
 
+            try{
+                controladorVista.borrarCategoria(id);
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al borrar la categoria. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
                 try{
-                    controladorVista.borrarCategoria(id);
+                controladorVista.getConector().getConexion().rollback();
                 }
-                catch(SQLException sqle){
-                    JOptionPane.showMessageDialog(this, "Error al borrar la categoria. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(this, "Error al borrar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error al borrar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+                try{
+                    controladorVista.getConector().getConexion().rollback();
                 }
-                
-                pintarDatosCategoria();
-                pintarDatosRuta();
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            
+            pintarDatosCategoria();
+            pintarDatosRuta();
         } 
         else {
                 JOptionPane.showMessageDialog(this, "Selecciona una categoria", "Error", JOptionPane.ERROR_MESSAGE);
@@ -2032,9 +2044,21 @@ public final class Ventana1 extends javax.swing.JFrame {
                 }
                 catch(SQLException sqle){
                     JOptionPane.showMessageDialog(this, "Error al añadir la valoración. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    try{
+                        controladorVista.getConector().getConexion().rollback();
+                    }
+                    catch(SQLException sqle2){
+                        JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 catch(Exception e){
                     JOptionPane.showMessageDialog(this, "Error inesperado al añadir la valoración", "Error", JOptionPane.ERROR_MESSAGE);
+                    try{
+                        controladorVista.getConector().getConexion().rollback();
+                    }
+                    catch(SQLException sqle2){
+                        JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
             else if(modificando){
@@ -2239,9 +2263,21 @@ public final class Ventana1 extends javax.swing.JFrame {
                     }
                     catch(SQLException sqle){
                         JOptionPane.showMessageDialog(this, "Error al añadir la foto de perfil + \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                        try{
+                            controladorVista.getConector().getConexion().rollback();
+                        }
+                        catch(SQLException sqle2){
+                            JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                     catch(Exception e){
                         JOptionPane.showMessageDialog(this, "Error al añadir la foto de perfil", "Error", JOptionPane.ERROR_MESSAGE);
+                        try{
+                            controladorVista.getConector().getConexion().rollback();
+                        }
+                        catch(SQLException sqle2){
+                            JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
                 else if(modificando){
@@ -2523,9 +2559,21 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
             catch(SQLException sqle){
                 JOptionPane.showMessageDialog(this, "Error al borrar el usuario\nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                try{
+                    controladorVista.getConector().getConexion().rollback();
+                }
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(this, "Error inesperado al borrar el usuario\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                try{
+                    controladorVista.getConector().getConexion().rollback();
+                }
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
 
             //Actualizar los combobox de usuarios
@@ -2843,11 +2891,23 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
             catch(SQLException sqle){
                 JOptionPane.showMessageDialog(this, "Error al borrar la ruta\nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                try{
+                    controladorVista.getConector().getConexion().rollback();
+                }
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(this, "Error inesperado al borrar la ruta\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                try{
+                    controladorVista.getConector().getConexion().rollback();
+                }
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            
+
             //Pintar los datos de la ruta
             pintarDatosRuta();
             pintarDatosCategoria();

@@ -492,7 +492,7 @@ public class Controlador {
         Ruta rutaEliminada = null;
         boolean encontrada = false;
 
-        for(int i=0; i < listaRutasSistema.size(); i++){
+        for(int i=0; i < listaRutasSistema.size() && !encontrada; i++){
             if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRutaEliminada) && listaRutasSistema.get(i).getCreadorRuta().getDNI().equals(dniCreadorRutaEliminada)){
                 rutaEliminada = listaRutasSistema.get(i);
                 encontrada=true;
