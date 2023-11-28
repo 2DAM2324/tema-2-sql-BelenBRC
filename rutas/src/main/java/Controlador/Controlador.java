@@ -710,44 +710,36 @@ public class Controlador {
      * @param idCategoria   ID de la categoría a eliminar de la ruta
      * @post    La ruta con el ID indicado se ha eliminado de la categoría con el ID indicado
      * @post    La categoría con el ID indicado se ha eliminado de la ruta con el ID indicado
-     * @post    Se actualizan los ficheros XML
+     * @post    Se actualiza la base de datos
      * @post    Se actualizan las listas del sistema
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void eliminarRutaDeCategoria(Integer idRuta, Integer idCategoria){
+    public void eliminarRutaDeCategoria(Integer idRuta, Integer idCategoria) throws SQLException, Exception{
         //Buscar la ruta en la lista de rutas del sistema
         Ruta ruta = null;
-        for(int i=0; i < listaRutasSistema.size(); i++){
+        boolean encontrado = false;
+        for(int i=0; i < listaRutasSistema.size() && !encontrado; i++){
             if(listaRutasSistema.get(i).getIdRuta().equals(idRuta)){
                 ruta = listaRutasSistema.get(i);
+                encontrado = true;
             }
         }
+
         //Buscar la categoría en la lista de categorías del sistema
         Categoria categoria = null;
-        for(int i=0; i < listaCategoriasSistema.size(); i++){
+        encontrado = false;
+        for(int i=0; i < listaCategoriasSistema.size() && !encontrado; i++){
             if(listaCategoriasSistema.get(i).getIDCategoria().equals(idCategoria)){
                 categoria = listaCategoriasSistema.get(i);
+                encontrado = true;
             }
         }
-        //Sobreescribir el array de rutas de la categoría ignorando esta ruta
-        ArrayList<Ruta> listaRutasAux = new ArrayList<>();
-        for(int i=0; i < categoria.getListaRutas().size(); i++){
-            if(!categoria.getListaRutas().get(i).getIdRuta().equals(idRuta)){
-                listaRutasAux.add(categoria.getListaRutas().get(i));
-            }
-        }
-        categoria.setListaRutas(listaRutasAux);
 
-        //Sobreescibir el array de categorías de la ruta ignorando esta categoría
-        ArrayList<Categoria> listaCategoriasAux = new ArrayList<>();
-        for(int i=0; i < ruta.getListaCategorias().size(); i++){
-            if(!ruta.getListaCategorias().get(i).getIDCategoria().equals(idCategoria)){
-                listaCategoriasAux.add(ruta.getListaCategorias().get(i));
-            }
-        }
-        ruta.setListaCategorias(listaCategoriasAux);
-
-        serializarCategoria();
-        serializarRuta();
+        getConector().deleteClasificacion(categoria, ruta);
+        leerRutasBD();
+        leerCategoriasBD();
+        getConector().vincularCategoriasConRutas();
     }
 
     /**

@@ -1840,8 +1840,17 @@ public final class Ventana1 extends javax.swing.JFrame {
             int fila = jTable_rutas_de_categoria.getSelectedRow();
             Integer id = (Integer) jTable_rutas_de_categoria.getValueAt(fila, 0);
             String nombre = (String) jTable_rutas_de_categoria.getValueAt(fila, 1);
-            controladorVista.eliminarRutaDeCategoria(id, idCategoria);
+            try{
+                controladorVista.eliminarRutaDeCategoria(id, idCategoria);
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al eliminar la ruta de la categoria. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al eliminar la ruta de la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             pintarDatosRuta();
+            pintarDatosCategoria();
             //Actualizar la tabla de rutas de categoria
             jTable_categoriaMouseClicked(null);        
         }
@@ -2370,7 +2379,7 @@ public final class Ventana1 extends javax.swing.JFrame {
             //Borrar la foto de perfil del sistema
             int fila = jTable_fotosPerfil.getSelectedRow();
             try{
-                controladorVista.getConector().borrarFotoPerfil((Integer) jTable_fotosPerfil.getValueAt(fila, 0));
+                controladorVista.borrarFotoPerfil((Integer) jTable_fotosPerfil.getValueAt(fila, 0));
             }
             catch(SQLException sqle){
                 JOptionPane.showMessageDialog(this, "Error al borrar la foto de perfil. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -3085,7 +3094,15 @@ public final class Ventana1 extends javax.swing.JFrame {
             int fila = jTable_categorias_ruta.getSelectedRow();
             Integer idCategoria = (Integer) jTable_categorias_ruta.getValueAt(fila, 0);
             Integer idRuta = controladorVista.getIDrutaSistema(jTextField_nombre_ruta.getText(), controladorVista.getIdUsuarioSistema(jComboBox_credor.getSelectedItem().toString()));
-            controladorVista.eliminarRutaDeCategoria(idRuta, idCategoria);
+            try{
+                controladorVista.eliminarRutaDeCategoria(idRuta, idCategoria);
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al eliminar la ruta de la categoría\nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al eliminar la ruta de la categoría\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             //Pintar los datos de la ruta
             pintarDatosRuta();
             pintarDatosCategoria();

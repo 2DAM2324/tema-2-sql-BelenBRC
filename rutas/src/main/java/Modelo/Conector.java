@@ -1096,4 +1096,24 @@ public class Conector {
         
         cerrarSentencia(sentencia);
     }
+
+    /**
+     * @brief   Método que elimina una clasificación de la base de datos
+     * @param categoria     (Categoria) Categoría de la clasificación a eliminar
+     * @param ruta          (Ruta)      Ruta de la clasificación a eliminar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void deleteClasificacion(Categoria categoria, Ruta ruta) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
+        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_categoria = ? AND id_ruta = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, categoria.getIDCategoria());
+        sentencia.setInt(2, ruta.getIdRuta());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
 }
