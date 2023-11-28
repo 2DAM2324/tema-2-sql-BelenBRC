@@ -822,6 +822,26 @@ public class Conector {
         cerrarSentencia(sentencia);
     }
 
+    /**
+     * @brief   Método que actualiza una valoración de la base de datos
+     * @param valoracion    (Valoracion)    Valoración a actualizar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void updateValoracion(Valoracion valoracion) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_VALORACION);
+        String sql = "UPDATE " + getNombreTabla() + " SET comentario = ?, puntuacion = ? WHERE id_usuario = ? AND id_ruta = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, valoracion.getComentario());
+        sentencia.setInt(2, valoracion.getPuntuacion());
+        sentencia.setInt(3, valoracion.getUsuario().getIDUsuario());
+        sentencia.setInt(4, valoracion.getRuta().getIdRuta());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
 
 
     //*********************************************************//

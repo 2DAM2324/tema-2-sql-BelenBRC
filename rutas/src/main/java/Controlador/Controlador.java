@@ -601,40 +601,26 @@ public class Controlador {
      * @param puntuacion        Puntuación de la valoración
      * @param comentario        Comentario de la valoración
      * @post    La valoración con el nombre de la ruta y el dni del usuario indicados tiene los datos modificados
-     * @post    El fichero XML contiene la lista de valoraciones del sistema actualizada
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void modificarValoracion(Ruta rutaValorada, String dniUsuario, Integer puntuacion, String comentario){
-        //Buscar la valoración en la lista de valoraciones del sistema
-        for(int i=0; i < listaValoracionesSistema.size(); i++){
-            if(listaValoracionesSistema.get(i).getRuta().getIdRuta().equals(rutaValorada.getIdRuta()) && listaValoracionesSistema.get(i).getUsuario().getDNI().equals(dniUsuario)){
-                //Sobreescribir el array del usuario sin esta valoracion
-                ArrayList<Valoracion> listaValoracionesAux = new ArrayList<>();
-                for(int j=0; j < listaValoracionesSistema.get(i).getUsuario().getListaValoraciones().size(); j++){
-                    if(!listaValoracionesSistema.get(i).getUsuario().getListaValoraciones().get(j).getIDValoracion().equals(listaValoracionesSistema.get(i).getIDValoracion())){
-                        listaValoracionesAux.add(listaValoracionesSistema.get(i).getUsuario().getListaValoraciones().get(j));
-                    }
-                }
-                listaValoracionesSistema.get(i).getUsuario().setListaValoraciones(listaValoracionesAux);
+    public void modificarValoracion(Ruta rutaValorada, String dniUsuario, Integer puntuacion, String comentario) throws SQLException, Exception{
+        Valoracion valoracion = null;
+        boolean encontrado = false;
 
-                //Sobreescribir el array de la ruta sin esta valoracion
-                listaValoracionesAux = new ArrayList<>();
-                for(int j=0; j < listaValoracionesSistema.get(i).getRuta().getListaValoraciones().size(); j++){
-                    if(!listaValoracionesSistema.get(i).getRuta().getListaValoraciones().get(j).getIDValoracion().equals(listaValoracionesSistema.get(i).getIDValoracion())){
-                        listaValoracionesAux.add(listaValoracionesSistema.get(i).getRuta().getListaValoraciones().get(j));
-                    }
-                }
-                listaValoracionesSistema.get(i).getRuta().setListaValoraciones(listaValoracionesAux);
-                listaValoracionesSistema.get(i).setPuntuacion(puntuacion);
-                listaValoracionesSistema.get(i).setComentario(comentario);
-                
-                //Añadir la valoración modificada a la lista de valoraciones del usuario
-                listaValoracionesSistema.get(i).getUsuario().setValoracionEnLista(listaValoracionesSistema.get(i));
-                //Añadir la valoración modificada a la lista de valoraciones de la ruta
-                listaValoracionesSistema.get(i).getRuta().setValoracionEnLista(listaValoracionesSistema.get(i));
+        //Buscar la valoración en la lista de valoraciones del sistema
+        for(int i=0; i < listaValoracionesSistema.size() && !encontrado; i++){
+            if(listaValoracionesSistema.get(i).getRuta().getIdRuta().equals(rutaValorada.getIdRuta()) && listaValoracionesSistema.get(i).getUsuario().getDNI().equals(dniUsuario)){
+                valoracion = listaValoracionesSistema.get(i);
+                encontrado = true;
             }
         }
-        serializarValoracion();
-        serializarRuta();
+
+        valoracion.setPuntuacion(puntuacion);
+        valoracion.setComentario(comentario);
+        getConector().updateValoracion(valoracion);
+        cargarDatosSistema();
     }
 
     /**

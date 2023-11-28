@@ -2063,7 +2063,15 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
             else if(modificando){
                 //Modificar la valoración en el sistema
-                controladorVista.modificarValoracion(ruta, jComboBox_usuario_valoracion.getSelectedItem().toString(), valoracion, jTextArea_comentario_valoracion.getText());
+                try{
+                    controladorVista.modificarValoracion(ruta, jComboBox_usuario_valoracion.getSelectedItem().toString(), valoracion, jTextArea_comentario_valoracion.getText());
+                }
+                catch(SQLException sqle){
+                    JOptionPane.showMessageDialog(this, "Error al modificar la valoración. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Error inesperado al modificar la valoración", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             //Pintar los datos de la valoración
             pintarDatosValoracion();
