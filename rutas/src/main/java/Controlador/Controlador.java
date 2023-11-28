@@ -506,31 +506,25 @@ public class Controlador {
      * @param tiempoHoras       Tiempo de la ruta a añadir a la lista de rutas del sistema
      * @param dificultad        Dificultad de la ruta a añadir a la lista de rutas del sistema
      * @param DNIcreadorRuta    DNI del creador de la ruta a añadir a la lista de rutas del sistema
-     * @post    Se actualiza el XML
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void aniadirRuta(String nombreRuta, String descripcion, double distanciaKm, double tiempoHoras, String dificultad, String DNIcreadorRuta){
+    public void aniadirRuta(String nombreRuta, String descripcion, double distanciaKm, double tiempoHoras, String dificultad, String DNIcreadorRuta) throws SQLException, Exception{
         boolean existeRuta = false;
         //Buscar usuario con IDcreadorRuta en listaUsuariosSistema
         Usuario creadorRuta = null;
-        for(int i=0; i < listaUsuariosSistema.size(); i++){
+        boolean encontrado = false;
+        for(int i=0; i < listaUsuariosSistema.size() && !encontrado; i++){
             if(listaUsuariosSistema.get(i).getDNI().equals(DNIcreadorRuta)){
                 creadorRuta = listaUsuariosSistema.get(i);
+                encontrado = true;
             }
         }
         Ruta ruta = new Ruta(nombreRuta, descripcion, distanciaKm, dificultad, tiempoHoras, creadorRuta);
 
-        for(int i=0; i < listaRutasSistema.size(); i++){
-            if(listaRutasSistema.get(i).getIdRuta().equals(ruta.getIdRuta())){
-                existeRuta = true;
-            }
-        }
-
-        if(!existeRuta){
-            listaRutasSistema.add(ruta);
-            creadorRuta.getListaRutas().add(ruta);
-            serializarRuta();
-            serializarUsuario();
-        }
+        getConector().createRuta(ruta);
+        getConector().getTodasLasRutas();
     }
 
     /**

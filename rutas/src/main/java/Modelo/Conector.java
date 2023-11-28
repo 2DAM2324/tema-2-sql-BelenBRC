@@ -631,4 +631,28 @@ public class Conector {
         sentencia.executeUpdate();
         cerrarSentencia(sentencia);
     }
+    
+    /**
+     * @brief   Método que crea una ruta en la base de datos
+     * @param ruta          (Ruta)  Ruta a crear
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void createRuta(Ruta ruta) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_RUTA);
+        String sql = "INSERT INTO " + getNombreTabla() + " (nombre_ruta, descripcion, distancia_km, dificultad, tiempo_h, puntuacion_media, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, ruta.getNombreRuta());
+        sentencia.setString(2, ruta.getDescripcion());
+        sentencia.setDouble(3, ruta.getDistanciaKm());
+        sentencia.setString(4, ruta.getDificultad());
+        sentencia.setDouble(5, ruta.getTiempoHoras());
+        sentencia.setDouble(6, ruta.getPuntuacionMedia());
+        sentencia.setInt(7, ruta.getCreadorRuta().getIDUsuario());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
 }

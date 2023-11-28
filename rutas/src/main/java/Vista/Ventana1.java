@@ -59,9 +59,9 @@ public final class Ventana1 extends javax.swing.JFrame {
         ocultarCamposFotosPerfil();
 
         //Establecer los valores del combobox de dificultad
-        jComboBox_dificultad_ruta.addItem("Baja");
-        jComboBox_dificultad_ruta.addItem("Media");
-        jComboBox_dificultad_ruta.addItem("Alta");
+        jComboBox_dificultad_ruta.addItem("BAJA");
+        jComboBox_dificultad_ruta.addItem("MEDIA");
+        jComboBox_dificultad_ruta.addItem("ALTA");
         
         //Pintar datos en las tablas
         pintarDatosCategoria();
@@ -2375,7 +2375,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         }
         //Comprobar que el DNI tiene 8 números y una letra correcta
         else if(!controladorVista.comprobarFormatoDNICorrecto(jTextField_dni_persona.getText())){
-            JOptionPane.showMessageDialog(this, "El DNI debe tener 8 números y una letra", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El DNI no tiene un formato correcto", "Error", JOptionPane.ERROR_MESSAGE);
         }
         //Comprobar que el nombre no está vacío
         else if(jTextField_nombre_usuario.getText().trim().equals("")){
@@ -2714,7 +2714,15 @@ public final class Ventana1 extends javax.swing.JFrame {
             else{
                 if(!existe && aniadiendo){
                     //Añadir la ruta al sistema
-                    controladorVista.aniadirRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), Double.parseDouble(jTextField_distancia_ruta.getText()), Double.parseDouble(jTextField_tiempo_ruta.getText()), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
+                    try{
+                        controladorVista.aniadirRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), Double.parseDouble(jTextField_distancia_ruta.getText()), Double.parseDouble(jTextField_tiempo_ruta.getText()), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
+                    }
+                    catch(SQLException ex){
+                        JOptionPane.showMessageDialog(this, "Error al añadir la ruta\n" + ex.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(this, "Error inesperado al añadir la ruta\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else if(modificando){
                     //Modificar la ruta en el sistema
