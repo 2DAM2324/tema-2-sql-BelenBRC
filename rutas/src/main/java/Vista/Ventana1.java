@@ -2011,7 +2011,15 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
             if(!existe && aniadiendo){
                 //Añadir la valoración al sistema
-                controladorVista.aniadirValoracion(ruta, jComboBox_usuario_valoracion.getSelectedItem().toString(), valoracion, jTextArea_comentario_valoracion.getText());
+                try{
+                    controladorVista.aniadirValoracion(ruta, jComboBox_usuario_valoracion.getSelectedItem().toString(), valoracion, jTextArea_comentario_valoracion.getText());
+                }
+                catch(SQLException sqle){
+                    JOptionPane.showMessageDialog(this, "Error al añadir la valoración. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Error inesperado al añadir la valoración", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             else if(modificando){
                 //Modificar la valoración en el sistema

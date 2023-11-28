@@ -645,11 +645,12 @@ public class Controlador {
      * @param dniUsuario    DNI del usuario que realiza la valoración
      * @param puntuacion    Puntuación de la valoración
      * @param comentario    Comentario de la valoración
-     * @post    Se actualiza el XML
+     * @post    Se actualiza la base de datos
      * @post    Se actualiza la puntuación media de la ruta
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void aniadirValoracion(Ruta ruta, String dniUsuario, Integer puntuacion, String comentario){
-        boolean existeValoracion = false;
+    public void aniadirValoracion(Ruta ruta, String dniUsuario, Integer puntuacion, String comentario) throws SQLException, Exception{
         //Buscar usuario con dni
         Usuario usuario = null;
         for(int i=0; i < listaUsuariosSistema.size(); i++){
@@ -657,23 +658,14 @@ public class Controlador {
                 usuario = listaUsuariosSistema.get(i);
             }
         }
-
+        
         Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
+        ruta.setValoracionEnLista(valoracion);      //Para actualizar la puntuación media de la ruta
 
-        for(int i=0; i < listaValoracionesSistema.size(); i++){
-            if(listaValoracionesSistema.get(i).getIDValoracion().equals(valoracion.getIDValoracion())){
-                existeValoracion = true;
-            }
-        }
-
-        if(!existeValoracion){
-            listaValoracionesSistema.add(valoracion);
-            usuario.getListaValoraciones().add(valoracion);
-            ruta.getListaValoraciones().add(valoracion);
-            serializarValoracion();
-            serializarUsuario();
-            serializarRuta();
-        }
+        getConector().createValoracion(valoracion);
+        getConector().getTodasLasValoraciones();
+        getConector().getTodasLasRutas();
+        getConector().getTodosLosUsuarios();
     }
     
     /**

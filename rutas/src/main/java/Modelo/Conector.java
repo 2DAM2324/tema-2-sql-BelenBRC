@@ -526,7 +526,7 @@ public class Conector {
 
             Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
             usuario.getListaValoraciones().add(valoracion);
-            ruta.getListaValoraciones().add(valoracion);
+            ruta.setValoracionEnLista(valoracion);
 
             getListaValoraciones().add(valoracion);
         }
@@ -699,4 +699,45 @@ public class Conector {
 
         cerrarSentencia(sentencia);
     }
+
+    /**
+     * @brief   Método que crea una valoración en la base de datos y la asigna a un usuario y a una ruta
+     * @param valoracion    (Valoracion)    Valoración a crear
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     * @post    Se actualiza la puntuación media de la ruta en la base de datos
+     */
+    public void createValoracion(Valoracion valoracion) throws SQLException, Exception{
+        //Transacción
+        getConexion().setAutoCommit(false);
+        setNombreTabla(NOMBRE_TABLA_VALORACION);
+        String sql = "INSERT INTO " + getNombreTabla() + " (id_usuario, id_ruta, comentario, puntuacion) VALUES (?, ?, ?, ?)";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, valoracion.getUsuario().getIDUsuario());
+        sentencia.setInt(2, valoracion.getRuta().getIdRuta());
+        sentencia.setString(3, valoracion.getComentario());
+        sentencia.setInt(4, valoracion.getPuntuacion());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Actualizar la puntuación media de la ruta
+        setNombreTabla(NOMBRE_TABLA_RUTA);
+        sql = "UPDATE " + getNombreTabla() + " SET puntuacion_media = ? WHERE id_ruta = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setDouble(1, valoracion.getRuta().getPuntuacionMedia());
+        sentencia.setInt(2, valoracion.getRuta().getIdRuta());
+
+        sentencia.executeUpdate();
+        getConexion().commit();
+        getConexion().setAutoCommit(true);
+
+        cerrarSentencia(sentencia);
+    }
+
+    //TODO create clasificacion
 }
