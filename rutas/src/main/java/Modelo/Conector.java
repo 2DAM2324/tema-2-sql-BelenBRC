@@ -838,4 +838,140 @@ public class Conector {
 
         cerrarSentencia(sentencia);
     }
+
+    /**
+     * @brief   Método que elimina un usuario de la base de datos
+     * @param usuario       (Usuario)   Usuario a eliminar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     * @post    Se eliminan las valoraciones del usuario en la base de datos
+     * @post    Se elimina la foto de perfil del usuario en la base de datos
+     * @post    Se eliminan las rutas del usuario en la base de datos
+     * @post    Se eliminan las valoraciones de las rutas del usuario en la base de datos
+     * @post    Se eliminan las clasificaciones de las rutas del usuario en la base de datos
+     * @post    Se elimina el usuario en la base de datos
+     */
+    public void deleteUsuario(Usuario usuario) throws SQLException, Exception{
+        //Transacción
+        getConexion().setAutoCommit(false);
+
+        //Eliminar las valoraciones del usuario
+        setNombreTabla(NOMBRE_TABLA_VALORACION);
+        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_usuario = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, usuario.getIDUsuario());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar la foto de perfil del usuario
+        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_foto_perfil = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, usuario.getFotoPerfil().getIDfoto());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar las valoraciones de las rutas del usuario
+        setNombreTabla(NOMBRE_TABLA_VALORACION);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_ruta IN (SELECT id_ruta FROM " + NOMBRE_TABLA_RUTA + " WHERE id_usuario = ?)";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, usuario.getIDUsuario());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar las clasificaciones de las rutas del usuario
+        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_ruta IN (SELECT id_ruta FROM " + NOMBRE_TABLA_RUTA + " WHERE id_usuario = ?)";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, usuario.getIDUsuario());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar las rutas del usuario
+        setNombreTabla(NOMBRE_TABLA_RUTA);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_usuario = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, usuario.getIDUsuario());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar el usuario
+        setNombreTabla(NOMBRE_TABLA_USUARIO);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_usuario = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, usuario.getIDUsuario());
+
+        sentencia.executeUpdate();
+        getConexion().commit();
+        getConexion().setAutoCommit(true);
+
+        cerrarSentencia(sentencia);
+    }
+
+    /**
+     * @brief   Método que elimina una ruta de la base de datos
+     * @param ruta          (Ruta)  Ruta a eliminar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     * @post    Se eliminan las valoraciones de la ruta en la base de datos
+     * @post    Se eliminan las clasificaciones de la ruta en la base de datos
+     * @post    Se elimina la ruta en la base de datos
+     */
+    public void deleteRuta(Ruta ruta) throws SQLException, Exception{
+        //Transacción
+        getConexion().setAutoCommit(false);
+
+        //Eliminar las valoraciones de la ruta
+        setNombreTabla(NOMBRE_TABLA_VALORACION);
+        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_ruta = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, ruta.getIdRuta());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar las clasificaciones de la ruta
+        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_ruta = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, ruta.getIdRuta());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar la ruta
+        setNombreTabla(NOMBRE_TABLA_RUTA);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_ruta = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, ruta.getIdRuta());
+
+        sentencia.executeUpdate();
+        getConexion().commit();
+        getConexion().setAutoCommit(true);
+
+        cerrarSentencia(sentencia);
+    }
 }

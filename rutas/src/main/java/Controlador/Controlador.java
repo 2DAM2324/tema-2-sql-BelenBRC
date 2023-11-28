@@ -431,70 +431,22 @@ public class Controlador {
      * @post    Se han borrado las rutas del usuario
      * @post    Se ha borrado la foto de perfil del usuario
      * @post    Se modifican todas las listas del sistema afectadas
-     * @post    Se actualizan todos los ficheros XML afectados
+     * @post    Se actualiza la base de datos
+     * @throws SQLException     Excepción que se lanza si se produce un error en la base de datos
+     * @throws Exception        Excepción general
      */
-    public void borrarUsuario(String dni){
-        //Borrar la foto de perfil del usuario
-        for(int i=0; i < listaFotosPerfilSistema.size(); i++){
-            if(listaFotosPerfilSistema.get(i).getUsuario().getDNI().equals(dni)){
-                listaFotosPerfilSistema.remove(i);
-            }
-        }
-
-        //Borrar las valoraciones del usuario
-        for(int i=0; i < listaValoracionesSistema.size(); i++){
-            if(listaValoracionesSistema.get(i).getUsuario().getDNI().equals(dni)){
-                listaValoracionesSistema.remove(i);
-                i--;
-            }
-        }
-
-        //Borrar las rutas del usuario
-        for(int i=0; i < listaRutasSistema.size(); i++){
-            if(listaRutasSistema.get(i).getCreadorRuta().getDNI().equals(dni)){
-                
-                //Borrar esa ruta de las listas de ruta de las categorías
-                for(int j=0; j < listaCategoriasSistema.size(); j++){
-                    for(int k=0; k < listaCategoriasSistema.get(j).getListaRutas().size(); k++){
-                        if(listaCategoriasSistema.get(j).getListaRutas().get(k).getIdRuta().equals(listaRutasSistema.get(i).getIdRuta())){
-                            listaCategoriasSistema.get(j).getListaRutas().remove(k);
-                        }
-                    }
-                }
-                //Borrar las valoraciones de esa ruta
-                for(int j=0; j < listaValoracionesSistema.size(); j++){
-                    if(listaValoracionesSistema.get(j).getRuta().getIdRuta().equals(listaRutasSistema.get(i).getIdRuta())){
-                        listaValoracionesSistema.remove(j);
-                        j--;
-                        //Borrar esa valoración de la lista de valoraciones de los usuarios
-                        for(int k=0; k < listaUsuariosSistema.size(); k++){
-                            for(int l=0; l < listaUsuariosSistema.get(k).getListaValoraciones().size(); l++){
-                                if(listaUsuariosSistema.get(k).getListaValoraciones().get(l).getIDValoracion().equals(listaValoracionesSistema.get(j).getIDValoracion())){
-                                    listaUsuariosSistema.get(k).getListaValoraciones().remove(l);
-                                    l--;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //Borrar esa ruta de la lista de rutas del sistema
-                listaRutasSistema.remove(i);
-                i--;
-            }
-        }
-
-        //Borrar el usuario
-        for(int i=0; i < listaUsuariosSistema.size(); i++){
+    public void borrarUsuario(String dni) throws SQLException, Exception{
+        Usuario usuarioEliminado = null;
+        boolean encontrado = false;
+        for(int i=0; i < listaUsuariosSistema.size() && !encontrado; i++){
             if(listaUsuariosSistema.get(i).getDNI().equals(dni)){
-                listaUsuariosSistema.remove(i);
+                usuarioEliminado = listaUsuariosSistema.get(i);
+                encontrado = true;
             }
         }
-        serializarUsuario();
-        serializarCategoria();
-        serializarRuta();
-        serializarValoracion();
-        serializarFotoPerfil();
+
+        getConector().deleteUsuario(usuarioEliminado);
+        cargarDatosSistema();
     }
 
     /**
@@ -532,83 +484,23 @@ public class Controlador {
      * @param dniCreadorRutaEliminada   DNI del creador de la ruta a borrar de la lista de rutas del sistema
      * @post    La ruta con el nombre y el dni del creador indicados se ha eliminado de la lista de rutas del sistema
      * @post    Se modifican todas las listas del sistema afectadas
-     * @post    Se actualizan todos los ficheros XML afectados
+     * @post    Se actualiza la base de datos
+     * @throws SQLException     Excepción que se lanza si se produce un error en la base de datos
+     * @throws Exception        Excepción general
      */
-    public void borrarRuta(String nombreRutaEliminada, String dniCreadorRutaEliminada){
-        Integer IDrutaEliminada = 0;
+    public void borrarRuta(String nombreRutaEliminada, String dniCreadorRutaEliminada) throws SQLException, Exception{
+        Ruta rutaEliminada = null;
+        boolean encontrada = false;
+
         for(int i=0; i < listaRutasSistema.size(); i++){
             if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRutaEliminada) && listaRutasSistema.get(i).getCreadorRuta().getDNI().equals(dniCreadorRutaEliminada)){
-                
-                IDrutaEliminada = listaRutasSistema.get(i).getIdRuta();
-
-                //Borrar esa ruta de las listas de ruta de las categorías
-                for(Categoria cat : listaCategoriasSistema){
-                    for(int j=0; j < cat.getListaRutas().size(); j++){
-                        if(cat.getListaRutas().get(j).getIdRuta().equals(listaRutasSistema.get(i).getIdRuta())){
-                            //Sobreescribir el array de rutas de la categoría ignorando esta ruta
-                            ArrayList<Ruta> listaRutasAux = new ArrayList<>();
-                            for(int k=0; k < cat.getListaRutas().size(); k++){
-                                if(!cat.getListaRutas().get(k).getIdRuta().equals(listaRutasSistema.get(i).getIdRuta())){
-                                    listaRutasAux.add(cat.getListaRutas().get(k));
-                                }
-                            }
-                            cat.setListaRutas(listaRutasAux);
-                        }
-                    }
-                }
-
-                //Borrar las valoraciones de esa ruta
-                for(Valoracion val : listaValoracionesSistema){
-                    if(val.getRuta().getIdRuta().equals(listaRutasSistema.get(i).getIdRuta())){
-                        //Borrar esa valoración de la lista de valoraciones de los usuarios
-                        for(Usuario usu : listaUsuariosSistema){
-                            for(int j=0; j < usu.getListaValoraciones().size(); j++){
-                                if(usu.getListaValoraciones().get(j).getIDValoracion().equals(val.getIDValoracion())){
-                                    //Sobreescribir el array de valoraciones del usuario ignorando esta valoración
-                                    ArrayList<Valoracion> listaValoracionesAux = new ArrayList<>();
-                                    for(int k=0; k < usu.getListaValoraciones().size(); k++){
-                                        if(!usu.getListaValoraciones().get(k).getIDValoracion().equals(val.getIDValoracion())){
-                                            listaValoracionesAux.add(usu.getListaValoraciones().get(k));
-                                        }
-                                    }
-                                    usu.setListaValoraciones(listaValoracionesAux);
-                                }
-                            }
-                        }
-                        //Sobreescribir la lista de valoraciones del sistema ingnorando esta valoración
-                        ArrayList<Valoracion> listaValoracionesAux = new ArrayList<>();
-                        for(int j=0; j < listaValoracionesSistema.size(); j++){
-                            if(!listaValoracionesSistema.get(j).getIDValoracion().equals(val.getIDValoracion())){
-                                listaValoracionesAux.add(listaValoracionesSistema.get(j));
-                            }
-                        }
-                        listaValoracionesSistema = listaValoracionesAux;
-                    }
-                }
-
-                //Borrar la ruta del array de rutas de su creador
-                for(Usuario creador : listaUsuariosSistema){
-                    for(Ruta rutaCreada : creador.getListaRutas()){
-                        if(rutaCreada.getIdRuta().equals(IDrutaEliminada)){
-                            //Sobreescribir el array de rutas del usuario ignorando esta ruta
-                            ArrayList<Ruta> listaRutasAux = new ArrayList<>();
-                            for(int j=0; j < creador.getListaRutas().size(); j++){
-                                if(!creador.getListaRutas().get(j).getIdRuta().equals(IDrutaEliminada)){
-                                    listaRutasAux.add(creador.getListaRutas().get(j));
-                                }
-                            }
-                            creador.setListaRutas(listaRutasAux);
-                        }
-                    }
-                }
-                //Borrar la ruta
-                listaRutasSistema.remove(i);
+                rutaEliminada = listaRutasSistema.get(i);
+                encontrada=true;
             }
         }
-        serializarRuta();
-        serializarCategoria();
-        serializarUsuario();
-        serializarValoracion();
+
+        getConector().deleteRuta(rutaEliminada);
+        cargarDatosSistema();
     }
 
     /**

@@ -2517,7 +2517,16 @@ public final class Ventana1 extends javax.swing.JFrame {
             //Borrar el usuario del sistema
             int fila = jTable_usuario.getSelectedRow();
             String dni = (String) jTable_usuario.getValueAt(fila, 0);
-            controladorVista.borrarUsuario(dni);
+
+            try{
+                controladorVista.borrarUsuario(dni);
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al borrar el usuario\nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al borrar el usuario\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
             //Actualizar los combobox de usuarios
             jComboBox_credor.removeAllItems();
@@ -2828,7 +2837,17 @@ public final class Ventana1 extends javax.swing.JFrame {
             int fila = jTable_rutas.getSelectedRow();
             String nombre = (String) jTable_rutas.getValueAt(fila, 0);
             String creador = (String) jTable_rutas.getValueAt(fila, 6);
-            controladorVista.borrarRuta(nombre, creador);
+            
+            try{
+                controladorVista.borrarRuta(nombre, creador);
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al borrar la ruta\nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al borrar la ruta\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
             //Pintar los datos de la ruta
             pintarDatosRuta();
             pintarDatosCategoria();
