@@ -395,23 +395,32 @@ public class Controlador {
      * @param correo        Correo electrónico del usuario a modificar
      * @param contrasenia   Contraseña del usuario a modificar
      * @post    El usuario con el DNI indicado tiene los datos modificados
-     * @post    El fichero XML contiene la lista de usuarios del sistema actualizada
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void modificarUsuario(String DNI, String apellido1, String apellido2, String correo, String contrasenia){
-        for(int i=0; i < listaUsuariosSistema.size(); i++){
+    public void modificarUsuario(String DNI, String apellido1, String apellido2, String correo, String contrasenia) throws SQLException, Exception{
+        Usuario usuario = null;
+        boolean encontrado = false;
+        for(int i=0; i < listaUsuariosSistema.size() && !encontrado; i++){
             if(listaUsuariosSistema.get(i).getDNI().equals(DNI)){
-                listaUsuariosSistema.get(i).setApellido1 (apellido1);
-                listaUsuariosSistema.get(i).setApellido2(apellido2);
-                listaUsuariosSistema.get(i).setCorreoElectronico(correo);
-                if(contrasenia.equals("********")){
-                    //No se ha modificado, no hacer nada
-                }
-                else{
-                    listaUsuariosSistema.get(i).setContrasenia(contrasenia);
-                }
+                usuario = listaUsuariosSistema.get(i);
+                encontrado = true;
             }
         }
-        serializarUsuario();
+
+        usuario.setApellido1 (apellido1);
+        usuario.setApellido2(apellido2);
+        usuario.setCorreoElectronico(correo);
+        if(contrasenia.equals("********")){
+            //No se ha modificado, no hacer nada
+        }
+        else{
+            usuario.setContrasenia(contrasenia);
+        }
+
+        getConector().updateUsuario(usuario);
+        leerUsuariosBD();
     }
 
     /**

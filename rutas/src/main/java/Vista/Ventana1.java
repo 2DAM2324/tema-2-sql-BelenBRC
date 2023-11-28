@@ -2456,7 +2456,15 @@ public final class Ventana1 extends javax.swing.JFrame {
                 }
                 else if(modificando){
                     //Modificar el usuario en el sistema
-                    controladorVista.modificarUsuario(jTextField_dni_persona.getText(), jTextField_apellido1_usuario.getText(), jTextField_apellido2_usuario.getText(), jTextField_correo_usuario.getText(), jPasswordField_contrasenia_usuario.getText());
+                    try{
+                        controladorVista.modificarUsuario(jTextField_dni_persona.getText(), jTextField_apellido1_usuario.getText(), jTextField_apellido2_usuario.getText(), jTextField_correo_usuario.getText(), jPasswordField_contrasenia_usuario.getText());
+                    }
+                    catch(SQLException ex){
+                        JOptionPane.showMessageDialog(this, "Error al modificar el usuario\nCódigo: " + ex.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(this, "Error inesperado al modificar el usuario\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 //Pintar los datos del usuario
                 pintarDatosUsuario();

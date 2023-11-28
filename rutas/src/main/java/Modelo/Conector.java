@@ -773,6 +773,29 @@ public class Conector {
     //*********************************************************//
     //************************ UPDATE *************************//
 
+    /**
+     * @brief   Método que actualiza un usuario de la base de datos
+     * @param usuario       (Usuario)   Usuario a actualizar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void updateUsuario(Usuario usuario) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_USUARIO);
+        String sql = "UPDATE " + getNombreTabla() + " SET nombre = ?, apellido1 = ?, apellido2 = ?, email = ?, password = ?, dni = ? WHERE id_usuario = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, usuario.getNombreUsuario());
+        sentencia.setString(2, usuario.getApellido1());
+        sentencia.setString(3, usuario.getApellido2());
+        sentencia.setString(4, usuario.getCorreoElectronico());
+        sentencia.setString(5, usuario.getContrasenia());
+        sentencia.setString(6, usuario.getDNI());
+        sentencia.setInt(7, usuario.getIDUsuario());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
 
 
 
