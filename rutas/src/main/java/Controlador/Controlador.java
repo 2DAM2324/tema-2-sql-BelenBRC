@@ -9,9 +9,6 @@ import Modelo.Ruta;
 import Modelo.Usuario;
 import Modelo.Valoracion;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -773,35 +770,7 @@ public class Controlador {
             getConector().getTodasLasRutas();
             getConector().vincularCategoriasConRutas();
         }
-    }
-
-    /**
-     * @brief   Método que serializa la lista de categorías del sistema
-     */
-    public void serializarCategoria(){
-        ObjectOutputStream serializador = null;
-        try{
-            serializador = new ObjectOutputStream(new FileOutputStream("Categorias.dat"));
-            serializador.writeObject(listaCategoriasSistema);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            System.out.println("Error al serializar la lista de categorías del sistema");
-        }
-        finally{
-            if(serializador != null){
-                try{
-                    serializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el serializador de la lista de categorías del sistema");
-                }
-            }
-        }
-    }
-
-   
+    }   
 
     /**
      * @brief   Método que obtiene toda la información de la base de datos y la almacena en las listas del sistema
@@ -875,110 +844,4 @@ public class Controlador {
         listaValoracionesSistema.clear();
         listaValoracionesSistema = getConector().getTodasLasValoraciones();
     }
-
-    /**
-     * @brief   Método que serializa la lista de fotos de perfil del sistema
-     */
-    public void serializarFotoPerfil(){
-        ObjectOutputStream serializador = null;
-        try{
-            serializador = new ObjectOutputStream(new FileOutputStream("FotosPerfil.dat"));
-            serializador.writeObject(listaFotosPerfilSistema);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            System.out.println("Error al serializar la lista de fotos de perfil del sistema");
-        }
-        finally{
-            if(serializador != null){
-                try{
-                    serializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el serializador de la lista de fotos de perfil del sistema");
-                }
-            }
-        }
-    }
-
-    /**
-     * @brief   Método que serializa la lista de rutas del sistema
-     */
-    public void serializarRuta(){
-        ObjectOutputStream serializador = null;
-        try{
-            serializador = new ObjectOutputStream(new FileOutputStream("Rutas.dat"));
-            serializador.writeObject(listaRutasSistema);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            System.out.println("Error al serializar la lista de rutas del sistema");
-        }
-        finally{
-            if(serializador != null){
-                try{
-                    serializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el serializador de la lista de rutas del sistema");
-                }
-            }
-        }
-    }
-
-    /**
-     * @brief   Método que serializa la lista de usuarios del sistema
-     */
-    public void serializarUsuario(){
-        ObjectOutputStream serializador = null;
-        try{
-            serializador = new ObjectOutputStream(new FileOutputStream("Usuarios.dat"));
-            serializador.writeObject(listaUsuariosSistema);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            System.out.println("Error al serializar la lista de usuarios del sistema");
-        }
-        finally{
-            if(serializador != null){
-                try{
-                    serializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el serializador de la lista de usuarios del sistema");
-                }
-            }
-        }
-    }
-
-    /**
-     * @brief   Método que serializa la lista de valoraciones del sistema
-     */
-    public void serializarValoracion(){
-        ObjectOutputStream serializador = null;
-        try{
-            serializador = new ObjectOutputStream(new FileOutputStream("Valoraciones.dat"));
-            serializador.writeObject(listaValoracionesSistema);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-            System.out.println("Error al serializar la lista de valoraciones del sistema");
-        }
-        finally{
-            if(serializador != null){
-                try{
-                    serializador.close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                    System.out.println("Error al cerrar el serializador de la lista de valoraciones del sistema");
-                }
-            }
-        }
-    }
-
-    
 }
