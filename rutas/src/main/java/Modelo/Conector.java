@@ -778,4 +778,41 @@ public class Conector {
 
     //*********************************************************//
     //************************ DELETE *************************//
+
+    /**
+     * @brief   Método que elimina una categoría de la base de datos
+     * @param categoria     (Categoria) Categoría a eliminar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     * @post    Se eliminan las clasificaciones de la categoría en la base de datos
+     */
+    public void deleteCategoria(Categoria categoria) throws SQLException, Exception{
+        //Transacción
+        getConexion().setAutoCommit(false);
+
+        //Eliminar la clasificación de la categoría
+        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
+        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_categoria = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, categoria.getIDCategoria());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar la categoría
+        setNombreTabla(NOMBRE_TABLA_CATEGORIA);
+        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_categoria = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, categoria.getIDCategoria());
+
+        sentencia.executeUpdate();
+        getConexion().commit();
+        getConexion().setAutoCommit(true);
+
+        cerrarSentencia(sentencia);
+    }
 }

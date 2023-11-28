@@ -1675,7 +1675,16 @@ public final class Ventana1 extends javax.swing.JFrame {
                 Integer id = (Integer) jTable_categoria.getValueAt(fila, 0);
                 String nombre = (String) jTable_categoria.getValueAt(fila, 1);
 
-                controladorVista.borrarCategoria(id);
+                try{
+                    controladorVista.borrarCategoria(id);
+                }
+                catch(SQLException sqle){
+                    JOptionPane.showMessageDialog(this, "Error al borrar la categoria. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Error al borrar la categoria", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                
                 pintarDatosCategoria();
                 pintarDatosRuta();
         } 

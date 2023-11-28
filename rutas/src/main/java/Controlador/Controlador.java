@@ -347,35 +347,25 @@ public class Controlador {
      * @brief   Método que borra una categoría de la lista de categorías del sistema
      * @param IDcategoriaEliminada  ID de la categoría a eliminar de la lista de categorías del sistema
      * @post    La categoría con el ID indicado se ha eliminado de la lista de categorías del sistema
-     * @post    El fichero XML contiene la lista de categorías del sistema actualizada
-     * @post    Las rutas que contenían la categoría eliminada ya no la contienen
-     *          El fchero XML de rutas contiene la lista de rutas del sistema actualizada
+     * @post    Se modifican todas las listas del sistema afectadas
+     * @post    Se actualiza la base de datos
+     * @throws SQLException     Excepción que se lanza si se produce un error en la base de datos
+     * @throws Exception        Excepción general
      */
-    public void borrarCategoria(Integer IDcategoriaEliminada){
-        for(int i=0; i < listaCategoriasSistema.size(); i++){
+    public void borrarCategoria(Integer IDcategoriaEliminada) throws SQLException, Exception{
+        Categoria categoriaEliminada = null;
+        boolean encontrado = false;
+        for(int i=0; i < listaCategoriasSistema.size() && !encontrado; i++){
             if(listaCategoriasSistema.get(i).getIDCategoria().equals(IDcategoriaEliminada)){
-                //Borrar la categoría de las rutas que la contengan
-                for(Ruta rutaSistema : listaRutasSistema){
-                    for(Categoria cat : rutaSistema.getListaCategorias()){
-                        if(cat.getIDCategoria().equals(IDcategoriaEliminada)){
-                            //Sobreescribir el array de categorías sin incluir la actual                                                        
-                            ArrayList<Categoria> listaCategoriasAux = new ArrayList<>();
-                            for(Categoria catAux : rutaSistema.getListaCategorias()){
-                                if(!catAux.getIDCategoria().equals(IDcategoriaEliminada)){
-                                    listaCategoriasAux.add(catAux);
-                                }
-                            }
-                            rutaSistema.setListaCategorias(listaCategoriasAux);
-                        }
-                    }
-                }
-
-                //Borrar la categoría de la lista de categorías del sistema
-                listaCategoriasSistema.remove(i);
+                categoriaEliminada = listaCategoriasSistema.get(i);
+                encontrado = true;
             }
         }
-        serializarCategoria();
-        serializarRuta();
+
+        getConector().deleteCategoria(categoriaEliminada);
+        getConector().getTodasLasCategorias();
+        getConector().getTodasLasRutas();
+        getConector().vincularCategoriasConRutas();
     }    
 
     /**
