@@ -26,6 +26,8 @@ public class Conector {
     private ArrayList<Usuario>          listaUsuarios;
     private ArrayList<Valoracion>       listaValoraciones;
 
+
+
     /**
      * @brief Constructor de la clase Conector con la url por defecto
      * @post  Conexión con url por defecto 
@@ -53,6 +55,8 @@ public class Conector {
         setListaUsuarios(new ArrayList<Usuario>());
         setListaValoraciones(new ArrayList<Valoracion>());
     }
+
+
 
     //Sets y gets
 
@@ -185,6 +189,7 @@ public class Conector {
     }
 
 
+
     //*********************************************************//
     //*********************************************************//
 
@@ -261,6 +266,8 @@ public class Conector {
             resultado.close();
         }
     }
+
+
 
     //*********************************************************//
     //*********************** READ ***************************//
@@ -589,6 +596,8 @@ public class Conector {
         return getListaValoraciones();
     }
 
+
+
     //*********************************************************//
     //************************ CREATE *************************//
 
@@ -739,5 +748,34 @@ public class Conector {
         cerrarSentencia(sentencia);
     }
 
-    //TODO create clasificacion
+    /**
+     * @brief   Método que crea una clasificación en la base de datos
+     * @param categoria     (Categoria) Categoría a crear
+     * @param ruta          (Ruta)      Ruta a crear
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void createClasificacion(Categoria categoria, Ruta ruta) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_CLASIFICACION);
+        String sql = "INSERT INTO " + getNombreTabla() + " (id_categoria, id_ruta) VALUES (?, ?)";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, categoria.getIDCategoria());
+        sentencia.setInt(2, ruta.getIdRuta());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
+
+
+
+    //*********************************************************//
+    //************************ UPDATE *************************//
+
+
+
+
+    //*********************************************************//
+    //************************ DELETE *************************//
 }

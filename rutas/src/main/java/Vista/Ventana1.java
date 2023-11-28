@@ -1923,8 +1923,15 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
             else{
                 //Añadir la ruta a la categoría
-                controladorVista.aniadirRutaACategoria(ruta, categoria);
-
+                try{
+                    controladorVista.aniadirRutaACategoria(ruta, categoria);
+                }
+                catch(SQLException sqle){
+                    JOptionPane.showMessageDialog(this, "Error al añadir la ruta a la categoría. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Error inesperado al añadir la ruta a la categoría", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 //Actualizar la tabla de categorías de la ruta
                 actualizarTablaRutasDeCategoria();
                 //Pintar la tabla de rutas
@@ -2995,7 +3002,15 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
             else{
                 //Añadir la categoría a la ruta
-                controladorVista.aniadirRutaACategoria(ruta, categoria);
+                try{
+                    controladorVista.aniadirRutaACategoria(ruta, categoria);
+                }
+                catch(SQLException sqle){
+                    JOptionPane.showMessageDialog(this, "Error al añadir la ruta a la categoría. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Error inesperado al añadir la ruta a la categoría", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 //Pintar los datos de la ruta
                 pintarDatosRuta();
                 pintarDatosCategoria();

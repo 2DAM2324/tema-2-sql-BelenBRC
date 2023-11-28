@@ -889,8 +889,11 @@ public class Controlador {
      * @brief   Método que añade una ruta a una categoría y una categoría a una ruta siempre que no estén ya añadidos
      * @param ruta      Ruta a añadir a la categoría
      * @param categoria Categoría a añadir a la ruta
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void aniadirRutaACategoria(Ruta ruta, Categoria categoria){
+    public void aniadirRutaACategoria(Ruta ruta, Categoria categoria) throws SQLException, Exception{
         boolean existeRuta = false;
         boolean existeCategoria = false;
         //Buscar la ruta en la lista de rutas del sistema
@@ -908,32 +911,11 @@ public class Controlador {
         }
 
         if(existeRuta && existeCategoria){
-            //Comprobar que no existe ya la ruta en la categoría
-            boolean existeRutaEnCategoria = false;
-            for(int i=0; i < categoria.getListaRutas().size(); i++){
-                if(categoria.getListaRutas().get(i).getIdRuta().equals(ruta.getIdRuta())){
-                    existeRutaEnCategoria = true;
-                }
-            }
-            if(!existeRutaEnCategoria){
-                //Añadir la ruta a la lista de rutas de la categoría
-                categoria.setRutaEnLista(ruta);
-            }
-
-            //Comprobar que no existe ya la categoría en la ruta
-            boolean existeCategoriaEnRuta = false;
-            for(int i=0; i < ruta.getListaCategorias().size(); i++){
-                if(ruta.getListaCategorias().get(i).getIDCategoria().equals(categoria.getIDCategoria())){
-                    existeCategoriaEnRuta = true;
-                }
-            }
-            if(!existeCategoriaEnRuta){
-                //Añadir la categoría a la lista de categorías de la ruta
-                ruta.setCategoriaEnLista(categoria);
-            }
+            getConector().createClasificacion(categoria, ruta);
+            getConector().getTodasLasCategorias();
+            getConector().getTodasLasRutas();
+            getConector().vincularCategoriasConRutas();
         }
-        serializarCategoria();
-        serializarRuta();
     }
 
     /**
