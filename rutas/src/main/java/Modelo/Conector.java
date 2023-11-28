@@ -823,6 +823,27 @@ public class Conector {
     }
 
     /**
+     * @brief   Método que actualiza una foto de perfil de la base de datos
+     * @param fotoPerfil    (FotoPerfil)    Foto de perfil a actualizar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void updateFotoPerfil(FotoPerfil fotoPerfil) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
+        String sql = "UPDATE " + getNombreTabla() + " SET nombre_foto = ?, resolucion_mpx = ?, tamanio_kb = ? WHERE id_foto_perfil = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, fotoPerfil.getNombreImagen());
+        sentencia.setInt(2, fotoPerfil.getResolucionImagenMp());
+        sentencia.setInt(3, fotoPerfil.getTamanioKb());
+        sentencia.setInt(4, fotoPerfil.getIDfoto());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
+
+    /**
      * @brief   Método que actualiza una valoración de la base de datos
      * @param valoracion    (Valoracion)    Valoración a actualizar
      * @throws SQLException Excepción de SQL
@@ -842,6 +863,8 @@ public class Conector {
         sentencia.executeUpdate();
         cerrarSentencia(sentencia);
     }
+
+
 
 
     //*********************************************************//
@@ -1035,6 +1058,42 @@ public class Conector {
         sentencia.setInt(1, valoracion.getIDValoracion());
 
         sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
+
+    /**
+     * @brief   Método que elimina una foto de perfil de la base de datos
+     * @param fotoPerfil    (FotoPerfil)    Foto de perfil a eliminar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     * @post    Se elimina la foto de perfil de la base de datos
+     */
+    public void deleteFotoPerfil(FotoPerfil fotoPerfil) throws SQLException, Exception{
+        //Transacción
+        getConexion().setAutoCommit(false);
+
+        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
+        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_foto_perfil = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, fotoPerfil.getIDfoto());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+
+        //Eliminar la foto de perfil del usuario
+        setNombreTabla(NOMBRE_TABLA_USUARIO);
+        sql = "UPDATE " + getNombreTabla() + " SET id_foto_perfil = NULL WHERE id_foto_perfil = ?";
+        sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, fotoPerfil.getIDfoto());
+
+        sentencia.executeUpdate();
+        getConexion().commit();
+        getConexion().setAutoCommit(true);
+        
         cerrarSentencia(sentencia);
     }
 }

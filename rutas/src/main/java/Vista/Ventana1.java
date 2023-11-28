@@ -2298,7 +2298,15 @@ public final class Ventana1 extends javax.swing.JFrame {
                 }
                 else if(modificando){
                     //Modificar la foto en el sistema
-                    controladorVista.modificarFotoPerfil(jComboBox_usuario_foto_perfil.getSelectedItem().toString(), jTextField_nombre_imagen_foto_perfil.getText(), Integer.valueOf(jTextField_reolucion_foto_perfil.getText()), Integer.valueOf(jTextField_tamanio_foto_perfil.getText()));
+                    try{
+                        controladorVista.modificarFotoPerfil(jComboBox_usuario_foto_perfil.getSelectedItem().toString(), jTextField_nombre_imagen_foto_perfil.getText(), Integer.valueOf(jTextField_reolucion_foto_perfil.getText()), Integer.valueOf(jTextField_tamanio_foto_perfil.getText()));
+                    }
+                    catch(SQLException sqle){
+                        JOptionPane.showMessageDialog(this, "Error al modificar la foto de perfil + \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(this, "Error al modificar la foto de perfil", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 //Pintar los datos de la foto
                 pintarDatosFotoPerfil();
@@ -2361,7 +2369,28 @@ public final class Ventana1 extends javax.swing.JFrame {
         else{
             //Borrar la foto de perfil del sistema
             int fila = jTable_fotosPerfil.getSelectedRow();
-            controladorVista.borrarFotoPerfil((Integer) jTable_fotosPerfil.getValueAt(fila, 0));
+            try{
+                controladorVista.getConector().borrarFotoPerfil((Integer) jTable_fotosPerfil.getValueAt(fila, 0));
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al borrar la foto de perfil. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                try{
+                    controladorVista.getConector().getConexion().rollback();
+                }
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al borrar la foto de perfil", "Error", JOptionPane.ERROR_MESSAGE);
+                try{
+                    controladorVista.getConector().getConexion().rollback();
+                }
+                catch(SQLException sqle2){
+                    JOptionPane.showMessageDialog(this, "Error al hacer rollback\nCódigo: " + sqle2.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
             //Pintar los datos de la foto de perfil
             pintarDatosFotoPerfil();
             pintarDatosUsuario();

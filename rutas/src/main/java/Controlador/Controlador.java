@@ -657,44 +657,51 @@ public class Controlador {
      * @param resolucionImagenMp    Resolución de la imagen de la foto de perfil
      * @param tamanioKb             Tamaño de la imagen de la foto de perfil
      * @post    La foto de perfil del usuario con el dni indicado tiene los datos modificados
-     * @post    El fichero XML contiene la lista de fotos de perfil del sistema actualizada
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void modificarFotoPerfil(String dniUsuario, String nombreImagen, Integer resolucionImagenMp, Integer tamanioKb){
+    public void modificarFotoPerfil(String dniUsuario, String nombreImagen, Integer resolucionImagenMp, Integer tamanioKb) throws SQLException, Exception{
+        FotoPerfil fotoPerfil = null;
+        boolean encontrado = false;
         //Buscar la foto de perfil en la lista de fotos de perfil del sistema
-        for(int i=0; i < listaFotosPerfilSistema.size(); i++){
+        for(int i=0; i < listaFotosPerfilSistema.size() && !encontrado; i++){
             if(listaFotosPerfilSistema.get(i).getUsuario().getDNI().equals(dniUsuario)){
-                listaFotosPerfilSistema.get(i).setNombreImagen(nombreImagen);
-                listaFotosPerfilSistema.get(i).setResolucionImagenMp(resolucionImagenMp);
-                listaFotosPerfilSistema.get(i).setTamanioKb(tamanioKb);
+                fotoPerfil = listaFotosPerfilSistema.get(i);
+                encontrado = true;
             }
         }
-        serializarFotoPerfil();
-        serializarUsuario();
+
+        fotoPerfil.setNombreImagen(nombreImagen);
+        fotoPerfil.setResolucionImagenMp(resolucionImagenMp);
+        fotoPerfil.setTamanioKb(tamanioKb);
+
+        getConector().updateFotoPerfil(fotoPerfil);
+        leerFotosPerfilBD();
     }
 
     /**
      * @brief   Método que borra una foto de perfil de la lista de fotos de perfil del sistema
      * @param idFotoEliminada   ID de la foto de perfil a eliminar de la lista de fotos de perfil del sistema
      * @post    La foto de perfil con el ID indicado se ha eliminado de la lista de fotos de perfil del sistema
-     * @post    El fichero XML contiene la lista de fotos de perfil del sistema actualizada
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void borrarFotoPerfil(Integer idFotoEliminada){
-        String dniUsuario = "";
-        //Eliminar la foto de perfil del sistema
-        for(int i=0; i < listaFotosPerfilSistema.size(); i++){
+    public void borrarFotoPerfil(Integer idFotoEliminada) throws SQLException, Exception{
+        FotoPerfil fotoPerfilEliminada = null;
+        boolean encontrado = false;
+
+        for(int i=0; i < listaFotosPerfilSistema.size() && ! encontrado; i++){
             if(listaFotosPerfilSistema.get(i).getIDfoto().equals(idFotoEliminada)){
-                dniUsuario = listaFotosPerfilSistema.get(i).getUsuario().getDNI();
-                listaFotosPerfilSistema.remove(i);
+                fotoPerfilEliminada = listaFotosPerfilSistema.get(i);
+                encontrado = true;
             }
         }
-        //Eliminar la foto de perfil del usuario
-        for(int i=0; i < listaUsuariosSistema.size(); i++){
-            if(listaUsuariosSistema.get(i).getDNI().equals(dniUsuario)){
-                listaUsuariosSistema.get(i).setFotoPerfil(null);
-            }
-        }
-        serializarFotoPerfil();
-        serializarUsuario();
+        
+        listaFotosPerfilSistema.remove(fotoPerfilEliminada);
+        leerUsuariosBD();
+        leerFotosPerfilBD();
     }
     
     /**
