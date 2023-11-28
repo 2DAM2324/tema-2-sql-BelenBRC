@@ -510,24 +510,35 @@ public class Controlador {
      * @param dificultad    Dificultad de la ruta a modificar
      * @param dniCreador    DNI del creador de la ruta a modificar
      * @post    La ruta con el nombre y el dni del creador indicados tiene los datos modificados
-     * @post    El fichero XML contiene la lista de rutas del sistema actualizada
+     * @post    La base de datos se ha actualizado
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void modificarRuta(String nombreRuta, String descripcion, String dificultad, String dniCreador){
+    public void modificarRuta(String nombreRuta, String descripcion, String dificultad, String dniCreador) throws SQLException, Exception{
         //Buscar ID del usuario creador de la ruta
         Integer IDcreadorRuta = 0;
-        for(int i=0; i < listaUsuariosSistema.size(); i++){
+        boolean encontrado = false;
+        for(int i=0; i < listaUsuariosSistema.size() && !encontrado; i++){
             if(listaUsuariosSistema.get(i).getDNI().equals(dniCreador)){
                 IDcreadorRuta = listaUsuariosSistema.get(i).getIDUsuario();
+                encontrado = true;
             }
         }
+
+        Ruta ruta = null;
+        encontrado = false;
         //Buscar la ruta en la lista de rutas del sistema por el nombre y el id del creador
-        for(int i=0; i < listaRutasSistema.size(); i++){
+        for(int i=0; i < listaRutasSistema.size() && !encontrado; i++){
             if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRuta) && listaRutasSistema.get(i).getCreadorRuta().getIDUsuario().equals(IDcreadorRuta)){
-                listaRutasSistema.get(i).setDescripcion(descripcion);
-                listaRutasSistema.get(i).setDificultad(dificultad);
+                ruta = listaRutasSistema.get(i);
+                encontrado = true;
             }
         }
-        serializarRuta();
+
+        ruta.setDescripcion(descripcion);
+        ruta.setDificultad(dificultad);
+        getConector().updateRuta(ruta);
+        leerRutasBD();
     }
 
     /**

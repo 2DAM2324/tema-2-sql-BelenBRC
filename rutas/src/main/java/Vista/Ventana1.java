@@ -2823,7 +2823,15 @@ public final class Ventana1 extends javax.swing.JFrame {
                 }
                 else if(modificando){
                     //Modificar la ruta en el sistema
-                    controladorVista.modificarRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
+                    try{
+                        controladorVista.modificarRuta(jTextField_nombre_ruta.getText(), jTextArea_descripcion_ruta.getText(), jComboBox_dificultad_ruta.getSelectedItem().toString(), jComboBox_credor.getSelectedItem().toString());
+                    }
+                    catch(SQLException ex){
+                        JOptionPane.showMessageDialog(this, "Error al modificar la ruta\nCódigo: " + ex.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch(Exception e){
+                        JOptionPane.showMessageDialog(this, "Error inesperado al modificar la ruta\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 //Pintar los datos de la ruta
                 pintarDatosRuta();

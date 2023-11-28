@@ -797,6 +797,31 @@ public class Conector {
         cerrarSentencia(sentencia);
     }
 
+    /**
+     * @brief   Método que actualiza una ruta de la base de datos
+     * @param ruta          (Ruta)  Ruta a actualizar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void updateRuta(Ruta ruta) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_RUTA);
+        String sql = "UPDATE " + getNombreTabla() + " SET nombre_ruta = ?, descripcion = ?, distancia_km = ?, dificultad = ?, tiempo_h = ?, puntuacion_media = ?, id_usuario = ? WHERE id_ruta = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setString(1, ruta.getNombreRuta());
+        sentencia.setString(2, ruta.getDescripcion());
+        sentencia.setDouble(3, ruta.getDistanciaKm());
+        sentencia.setString(4, ruta.getDificultad());
+        sentencia.setDouble(5, ruta.getTiempoHoras());
+        sentencia.setDouble(6, ruta.getPuntuacionMedia());
+        sentencia.setInt(7, ruta.getCreadorRuta().getIDUsuario());
+        sentencia.setInt(8, ruta.getIdRuta());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
+
 
 
     //*********************************************************//
