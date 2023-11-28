@@ -999,4 +999,22 @@ public class Conector {
 
         cerrarSentencia(sentencia);
     }
+
+    /**
+     * @brief   Método que elimina valoracón de la base de datos
+     * @param valoracion    (Valoracion)    Valoración a eliminar
+     * @throws SQLException Excepción de SQL
+     * @throws Exception    Excepción general
+     */
+    public void deleteValoracion(Valoracion valoracion) throws SQLException, Exception{
+        setNombreTabla(NOMBRE_TABLA_VALORACION);
+        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_valoracion = ?";
+        PreparedStatement sentencia = null;
+
+        sentencia = getConexion().prepareStatement(sql);
+        sentencia.setInt(1, valoracion.getIDValoracion());
+
+        sentencia.executeUpdate();
+        cerrarSentencia(sentencia);
+    }
 }

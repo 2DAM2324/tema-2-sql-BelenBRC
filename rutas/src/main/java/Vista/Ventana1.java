@@ -2166,7 +2166,15 @@ public final class Ventana1 extends javax.swing.JFrame {
         else{
             //Borrar la valoración del sistema
             int fila = jTable_valoraciones.getSelectedRow();
-            controladorVista.borrarValoracion((String) jTable_valoraciones.getValueAt(fila, 0), (String) jTable_valoraciones.getValueAt(fila, 1));
+            try{    
+                controladorVista.borrarValoracion((String) jTable_valoraciones.getValueAt(fila, 0), (String) jTable_valoraciones.getValueAt(fila, 1));
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al borrar la valoración. \nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al borrar la valoración", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             //Pintar los datos de la valoración
             pintarDatosValoracion();
             pintarDatosUsuario();

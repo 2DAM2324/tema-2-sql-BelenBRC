@@ -575,53 +575,23 @@ public class Controlador {
      * @param nombreRuta    Nombre de la ruta a la que se le borra la valoración
      * @param usuario       DNI del usuario que realiza la valoración
      * @post    La valoración con el nombre de la ruta y el dni del usuario indicados se ha eliminado de la lista de valoraciones del sistema
-     * @post    El fichero XML contiene la lista de valoraciones del sistema actualizada
+     * @post    Se actualiza la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
      */
-    public void borrarValoracion(String nombreRuta, String usuario){
-        Integer IDvaloracionEliminada = 0;
+    public void borrarValoracion(String nombreRuta, String usuario) throws SQLException, Exception{
+        Valoracion valoracionEliminada = null;
+        boolean encontrado = false;
         //Buscar la valoración en el sistema
-        for(int i=0; i < listaValoracionesSistema.size(); i++){
+        for(int i=0; i < listaValoracionesSistema.size() && !encontrado; i++){
             if(listaValoracionesSistema.get(i).getRuta().getNombreRuta().equals(nombreRuta) && listaValoracionesSistema.get(i).getUsuario().getDNI().equals(usuario)){
-                IDvaloracionEliminada = listaValoracionesSistema.get(i).getIDValoracion();
-                //Eliminar la valoración de la lista de valoraciones del usuario
-                for(Usuario usu : listaUsuariosSistema){
-                    for(Valoracion val : usu.getListaValoraciones()){
-                        if(val.getIDValoracion().equals(IDvaloracionEliminada)){
-                            //Sobreescribir el array de valoraciones del usuario ignorando esta valoración
-                            ArrayList<Valoracion> listaValoracionesAux = new ArrayList<>();
-                            for(int j=0; j < usu.getListaValoraciones().size(); j++){
-                                if(!usu.getListaValoraciones().get(j).getIDValoracion().equals(IDvaloracionEliminada)){
-                                    listaValoracionesAux.add(usu.getListaValoraciones().get(j));
-                                }
-                            }
-                            usu.setListaValoraciones(listaValoracionesAux);
-                        }
-                    }
-                }
-
-                //Eliminar la valoración de la lista de valoraciones de la ruta
-                for(Ruta ruta : listaRutasSistema){
-                    for(Valoracion val : ruta.getListaValoraciones()){
-                        if(val.getIDValoracion().equals(IDvaloracionEliminada)){
-                            //Sobreescribir el array de valoraciones de la ruta ignorando esta valoración
-                            ArrayList<Valoracion> listaValoracionesAux = new ArrayList<>();
-                            for(int j=0; j < ruta.getListaValoraciones().size(); j++){
-                                if(!ruta.getListaValoraciones().get(j).getIDValoracion().equals(IDvaloracionEliminada)){
-                                    listaValoracionesAux.add(ruta.getListaValoraciones().get(j));
-                                }
-                            }
-                            ruta.setListaValoraciones(listaValoracionesAux);
-                        }
-                    }
-                }
-
-                //Eliminar la valoración de la lista de valoraciones del sistema
-                listaValoracionesSistema.remove(i);
+                valoracionEliminada = listaValoracionesSistema.get(i);
+                encontrado = true;
             }
         }
-        serializarValoracion();
-        serializarRuta();
-        serializarUsuario();
+        
+        getConector().deleteValoracion(valoracionEliminada);
+        cargarDatosSistema();
     }
 
     /**
