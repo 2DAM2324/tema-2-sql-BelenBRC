@@ -42,32 +42,6 @@ public class Categoria implements Serializable{
         setListaRutas(new ArrayList<Ruta>());
     }
 
-    /**
-     * @brief   Constructor de un objeto de la clase Categoria con parámetros y con rutas asignadas
-     * @param nombre    Nombre de la categoría
-     * @param lista     Lista de rutas que pertenecen a la categoría
-     * @post    El ID será null
-     *          La lista de rutas estará inicializada con las rutas pasados por parámetro
-     */
-    public Categoria(String nombre, ArrayList<Ruta> lista){
-        setNombreCategoria(nombre);
-        setIDCategoria(null);
-        setListaRutas(lista);
-    }
-
-    /**
-     * @brief   Constructor de un objeto de la clase Categoria con parámetros y con rutas asignadas
-     * @param nombre    Nombre de la categoría
-     * @param id        Código identificador único de la categoría
-     * @param lista     Lista de rutas que pertenecen a la categoría
-     * @post    La lista de rutas estará inicializada con las rutas pasados por parámetro
-     */
-    public Categoria(String nombre, Integer id, ArrayList<Ruta> lista){
-        setNombreCategoria(nombre);
-        setIDCategoria(id);
-        setListaRutas(lista);
-    }
-
     //Sets y gets
     /**
      * @brief   Método que establece el código identificador único de la categoría
@@ -134,24 +108,5 @@ public class Categoria implements Serializable{
      */
     public ArrayList<Ruta> getListaRutas(){
         return this.listaRutas;
-    }
-
-    /**
-     * @brief   Método que devuelve una ruta de la lista de rutas que pertenecen a la categoría
-     * @param posicion  Posición de la ruta en la lista de rutas que pertenecen a la categoría
-     * @return  ruta   (Ruta)   Ruta de la lista de rutas que pertenecen a la categoría
-     */
-    public Ruta getRutaEnLista(Integer posicion){
-        return getListaRutas().get(posicion);
-    }
-
-    //Métodos públicos
-    /**
-     * @brief   Método que permite imprimir por pantalla el nombre de la categoría pasando un objeto de la clase Categoria
-     *              al método println() o print().
-     * @return  (String)    Nombre de la categoría
-     */
-    public String toString(){
-        return getNombreCategoria();
     }
 }
