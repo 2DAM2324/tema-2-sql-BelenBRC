@@ -137,15 +137,4 @@ public class FotoPerfil implements Serializable{
     public Usuario getUsuario(){
         return this.usuario;
     }
-    
-    //Métodos públicos
-    /**
-     * @brief   Método que permite imprimir nombre, resolución y tamaño de una foto de perfil pasando un objeto 
-     *                  de la clase Usuario al método System.out.print o printline.
-     * @return  (String)    Nombre, resolución y tamaño de la foto de perfil
-     */
-    @Override
-    public String toString(){
-        return getNombreImagen() + "\t" + getResolucionImagenMp() + " Mp\t" + getTamanioKb() + " kb";
-    }
 }
