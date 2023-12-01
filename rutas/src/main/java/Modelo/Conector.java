@@ -204,6 +204,18 @@ public class Conector {
         return instancia;
     }
 
+    /**
+     * @brief   Método que devuelve la instancia de la clase Conector con parámetros
+     * @param url   (String)    Url de la base de datos
+     * @return  (Conector)  Instancia de la clase Conector
+     */
+    public static Conector newInstance(String url){
+        if(instancia == null){
+            instancia = new Conector(url);
+        }
+        return instancia;
+    }
+
     //Métodos
     /**
      * @brief   Método que establece la conexión con la base de datos

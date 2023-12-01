@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ConectorTest {
 
     static public Conector conector;
+    private static String url = "C:\\Users\\belen\\Documents\\NetBeansProjects\\BRC-2DAM-AD\\tema-2-sql-BelenBRC\\rutas\\tests.db";
     
     public ConectorTest() {
     }
@@ -27,7 +28,7 @@ public class ConectorTest {
     @BeforeAll
     public static void setUpClass() {
         try{
-            conector = Conector.newInstance();
+            conector = Conector.newInstance(url);
             conector.conectar();
         }
         catch(Exception e){
@@ -143,6 +144,12 @@ public class ConectorTest {
             fail("No se esperaba una excepción al desconectar");
         }
     }
+
+
+
+
+
+    //*******************************************************************//
 
     /**
      * Test of bajarBaseDatos method, of class Conector.
