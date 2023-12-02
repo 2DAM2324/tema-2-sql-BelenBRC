@@ -15,8 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-//TODO 2. Tests unitarios
-
 /**
  * Clase Controlador con atributos:
  * listaCategoriasSistema      Lista de categorías del sistema
@@ -44,7 +42,7 @@ public class Controlador {
      * @throws  SQLException     Excepción de SQL
      * @throws  Exception        Excepción general
      */
-    public Controlador() throws SQLException, Exception{
+    private Controlador() throws SQLException, Exception{
         listaCategoriasSistema      = new ArrayList<>();
         listaUsuariosSistema        = new ArrayList<>();
         listaFotosPerfilSistema     = new ArrayList<>();
@@ -52,6 +50,28 @@ public class Controlador {
         listaValoracionesSistema    = new ArrayList<>();
 
         conector = Conector.newInstance();
+        conector.conectar();
+
+        //Cargar datos de la base de datos
+        cargarDatosSistema();
+    }
+
+    /**
+     * @brief   Constructor de un objeto de la clase Controlador
+     * @param url   URL de la base de datos
+     * @post    Las listas de categorías, usuarios, fotos de perfil, rutas y valoraciones estarán vacías
+     *          El conector estará inicializado y conectado a la base de datos
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
+     */
+    private Controlador(String url) throws SQLException, Exception{
+        listaCategoriasSistema      = new ArrayList<>();
+        listaUsuariosSistema        = new ArrayList<>();
+        listaFotosPerfilSistema     = new ArrayList<>();
+        listaRutasSistema           = new ArrayList<>();
+        listaValoracionesSistema    = new ArrayList<>();
+
+        conector = Conector.newInstance(url);
         conector.conectar();
 
         //Cargar datos de la base de datos
@@ -162,23 +182,6 @@ public class Controlador {
     }
 
     /**
-     * @brief   Método que devuelve la lista de rutas de una categoría del sistema
-     * @param IDcategoria   ID de la categoría de la que se quiere obtener la lista de rutas
-     * @return  Lista de rutas de la categoría indicada
-     */
-    public ArrayList<Ruta> getListaRutasCategoria(Integer IDcategoria){
-        ArrayList<Ruta> listaRutasCategoria = new ArrayList<>();
-
-        for(int i=0; i < listaCategoriasSistema.size(); i++){
-            if(listaCategoriasSistema.get(i).getIDCategoria().equals(IDcategoria)){
-                listaRutasCategoria = listaCategoriasSistema.get(i).getListaRutas();
-            }
-        }
-
-        return listaRutasCategoria;
-    }
-
-    /**
      * @brief   Método que devuelve la lista de usuarios del sistema
      * @return  Lista de usuarios del sistema
      */
@@ -281,6 +284,20 @@ public class Controlador {
     public static Controlador newInstance() throws SQLException, Exception{
         if (instancia == null) {
             instancia = new Controlador();
+        }
+        return instancia;
+    }
+
+    /**
+     * @brief   Método que crea una instancia de la clase Controlador si no existe previamente
+     * @param url   URL de la base de datos
+     * @return  Instancia de la clase Controlador
+     * @throws  SQLException     Excepción de SQL
+     * @throws  Exception        Excepción general
+     */
+    public static Controlador newInstance(String url) throws SQLException, Exception{
+        if (instancia == null) {
+            instancia = new Controlador(url);
         }
         return instancia;
     }

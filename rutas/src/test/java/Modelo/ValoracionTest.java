@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author belen
  */
-public class RutaTest {
+public class ValoracionTest {
     
-    public RutaTest() {
+    public ValoracionTest() {
     }
     
     @BeforeAll
@@ -33,18 +33,19 @@ public class RutaTest {
     }
 
     //TODO implementar tests que sean necesarios
- 
+
     /**
-     * Test of calcularPuntuacionMedia method, of class Ruta.
+     * Test of toString method, of class Valoracion.
      */
     @Test
-    public void testCalcularPuntuacionMedia() {
-        System.out.println("calcularPuntuacionMedia");
-        Ruta instance = null;
-        instance.calcularPuntuacionMedia();
+    public void testToString() {
+        System.out.println("toString");
+        Valoracion instance = null;
+        String expResult = "";
+        String result = instance.toString();
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
- 
+    
 }
