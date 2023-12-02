@@ -1304,4 +1304,191 @@ public class ConectorTest {
     }
 
     //*******************************************************************//
+
+    /**
+     * Test of updateUsuario method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testUpdateUsuarioExcepciones() {
+        System.out.println("updateUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        Usuario usuarioAux = new Usuario(usuario.getIDUsuario(), usuario.getApellido1(), "Nuevo apellido1", usuario.getApellido2(), usuario.getCorreoElectronico(), usuario.getContrasenia(), usuario.getDNI());
+
+        try{
+            conector.updateUsuario(usuarioAux);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al actualizar el usuario");
+        }
+    }
+
+    /**
+     * Test of updateUsuario method, of class Conector.
+     * Prueba que el usuario se ha actualizado correctamente
+     */
+    @Test
+    public void testUpdateUsuario() throws Exception {
+        System.out.println("updateUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        Usuario usuarioAux = new Usuario(usuario.getIDUsuario(), usuario.getApellido1(), "Nuevo apellido1", usuario.getApellido2(), usuario.getCorreoElectronico(), usuario.getContrasenia(), usuario.getDNI());
+
+        conector.updateUsuario(usuarioAux);
+        conector.getTodosLosUsuarios();
+        boolean actualizado = false;
+        for(Usuario usuarioAux2 : conector.getListaUsuarios()){
+            if(usuarioAux2.getIDUsuario().equals(usuario.getIDUsuario())){
+                if(usuarioAux2.getApellido1().equals(usuarioAux.getApellido1())){
+                    actualizado = true;
+                }
+            }
+        }
+
+        assertTrue(actualizado);
+    }
+
+    /**
+     * Test of updateRuta method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testUpdateRutaExcepciones() {
+        System.out.println("updateRuta");
+        Ruta ruta = conector.getListaRutas().get(0);
+        Ruta rutaAux = new Ruta(ruta.getIdRuta(), "Nuevo nombre ruta", ruta.getDescripcion(), ruta.getDistanciaKm(), ruta.getDificultad(), ruta.getTiempoHoras(), ruta.getPuntuacionMedia(), ruta.getCreadorRuta());
+
+        try{
+            conector.updateRuta(rutaAux);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al actualizar la ruta");
+        }
+    }
+
+    /**
+     * Test of updateRuta method, of class Conector.
+     * Prueba que la ruta se ha actualizado correctamente
+     */
+    @Test
+    public void testUpdateRuta() throws Exception {
+        System.out.println("updateRuta");
+        Ruta ruta = conector.getListaRutas().get(0);
+        Ruta rutaAux = new Ruta(ruta.getIdRuta(), "Nuevo nombre ruta", ruta.getDescripcion(), ruta.getDistanciaKm(), ruta.getDificultad(), ruta.getTiempoHoras(), ruta.getPuntuacionMedia(), ruta.getCreadorRuta());
+
+        conector.updateRuta(rutaAux);
+        conector.getTodasLasRutas();
+        boolean actualizada = false;
+        for(Ruta rutaAux2 : conector.getListaRutas()){
+            if(rutaAux2.getIdRuta().equals(ruta.getIdRuta())){
+                if(rutaAux2.getNombreRuta().equals(rutaAux.getNombreRuta())){
+                    actualizada = true;
+                }
+            }
+        }
+
+        assertTrue(actualizada);
+    }
+
+    /**
+     * Test of updateFotoPerfil method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    public void testUpdateFotoPerfilExcepciones() {
+        System.out.println("updateFotoPerfil");
+        FotoPerfil fotoPerfil = conector.getListaFotosPerfil().get(0);
+        FotoPerfil fotoPerfilAux = new FotoPerfil(fotoPerfil.getIDfoto(), "Nuevo nombre imagen", fotoPerfil.getResolucionImagenMp(), fotoPerfil.getTamanioKb());
+
+        try{
+            conector.updateFotoPerfil(fotoPerfilAux);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al actualizar la foto de perfil");
+        }
+    }
+
+    /**
+     * Test of updateFotoPerfil method, of class Conector.
+     * Prueba que la foto de perfil se ha actualizado correctamente
+     */
+    @Test
+    public void testUpdateFotoPerfil() throws Exception {
+        System.out.println("updateFotoPerfil");
+        FotoPerfil fotoPerfil = conector.getListaFotosPerfil().get(0);
+        FotoPerfil fotoPerfilAux = new FotoPerfil(fotoPerfil.getIDfoto(), "Nuevo nombre imagen", fotoPerfil.getResolucionImagenMp(), fotoPerfil.getTamanioKb());
+
+        conector.updateFotoPerfil(fotoPerfilAux);
+        conector.getTodasLasFotosPerfil();
+        boolean actualizada = false;
+        for(FotoPerfil fotoPerfilAux2 : conector.getListaFotosPerfil()){
+            if(fotoPerfilAux2.getIDfoto().equals(fotoPerfil.getIDfoto())){
+                if(fotoPerfilAux2.getNombreImagen().equals(fotoPerfilAux.getNombreImagen())){
+                    actualizada = true;
+                }
+            }
+        }
+
+        assertTrue(actualizada);
+    }
+
+    /**
+     * Test of updateValoracion method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testUpdateValoracionExcepciones() {
+        System.out.println("updateValoracion");
+        Valoracion valoracion = conector.getListaValoraciones().get(0);
+        valoracion.setComentario("Nuevo comentario");
+
+        try{
+            conector.updateValoracion(valoracion);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al actualizar la valoración");
+        }
+    }
+
+    /**
+     * Test of updateValoracion method, of class Conector.
+     * Prueba que la valoración se ha actualizado correctamente
+     */
+    @Test
+    public void testUpdateValoracion() throws Exception {
+        System.out.println("updateValoracion");
+        Valoracion valoracion = conector.getListaValoraciones().get(0);
+        valoracion.setComentario("Nuevo comentario");
+
+        conector.updateValoracion(valoracion);
+        conector.getTodasLasValoraciones();
+        boolean actualizada = false;
+        for(Valoracion valoracionAux : conector.getListaValoraciones()){
+            if(valoracionAux.getUsuario().getIDUsuario().equals(valoracion.getUsuario().getIDUsuario()) && valoracionAux.getRuta().getIdRuta().equals(valoracion.getRuta().getIdRuta())){
+                if(valoracionAux.getComentario().equals(valoracion.getComentario())){
+                    actualizada = true;
+                }
+            }
+        }
+
+        assertTrue(actualizada);
+    }
 }
