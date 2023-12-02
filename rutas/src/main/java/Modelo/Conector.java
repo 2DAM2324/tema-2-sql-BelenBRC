@@ -156,7 +156,7 @@ public class Conector {
      * @brief Devuelve la lista de categorías de la base de datos
      * @return (ArrayList<Categoria>)    Lista de categorías
      */
-    private ArrayList<Categoria> getListaCategorias() {
+    public ArrayList<Categoria> getListaCategorias() {
         return listaCategorias;
     }
 
@@ -164,7 +164,7 @@ public class Conector {
      * @brief Devuelve la lista de fotos de perfil de la base de datos
      * @return (ArrayList<FotoPerfil>)   Lista de fotos de perfil
      */
-    private ArrayList<FotoPerfil> getListaFotosPerfil() {
+    public ArrayList<FotoPerfil> getListaFotosPerfil() {
         return listaFotosPerfil;
     }
 
@@ -172,7 +172,7 @@ public class Conector {
      * @brief Devuelve la lista de rutas de la base de datos
      * @return (ArrayList<Ruta>)   Lista de rutas
      */
-    private ArrayList<Ruta> getListaRutas() {
+    public ArrayList<Ruta> getListaRutas() {
         return listaRutas;
     }
 
@@ -180,7 +180,7 @@ public class Conector {
      * @brief Devuelve la lista de usuarios de la base de datos
      * @return (ArrayList<Usuario>) Lista de usuarios
      */
-    private ArrayList<Usuario> getListaUsuarios() {
+    public ArrayList<Usuario> getListaUsuarios() {
         return listaUsuarios;
     }
 
@@ -188,7 +188,7 @@ public class Conector {
      * @brief Devuelve la lista de valoraciones de la base de datos
      * @return (ArrayList<Valoracion>) Lista de valoraciones
      */
-    private ArrayList<Valoracion> getListaValoraciones() {
+    public ArrayList<Valoracion> getListaValoraciones() {
         return listaValoraciones;
     }
 
@@ -285,6 +285,7 @@ public class Conector {
      * @throws  Exception        Excepción general
      */
     public void bajarBaseDatos() throws SQLException, Exception{
+        conectar();
         getFotosPerfilBaseDatos();
         getUsuariosBaseDatos();
         getRutasBaseDatos();
@@ -307,6 +308,8 @@ public class Conector {
         ResultSet resultado = null;
 
         getListaFotosPerfil().clear();
+
+        conectar();
 
         sentencia = getConexion().prepareStatement(sql);
         resultado = sentencia.executeQuery();
@@ -436,6 +439,7 @@ public class Conector {
         ResultSet resultado = null;
 
         getListaCategorias().clear();
+        conectar();
         
         sentencia = getConexion().prepareStatement(sql);
         resultado = sentencia.executeQuery();

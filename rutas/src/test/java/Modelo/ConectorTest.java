@@ -51,6 +51,7 @@ public class ConectorTest {
         //Restaurar la base de datos al estado inicial con backup
         try{
             conector.recuperarBackup(backup);
+            conector.conectar();
         }
         catch(IOException ioe){
             System.out.println("Error al leer el fichero de backup");
@@ -209,6 +210,7 @@ public class ConectorTest {
      */
     @Test
     public void testBajarBaseDatosThrows(){
+        System.out.println("bajarBaseDatos");
         try{
             conector.bajarBaseDatos();
         }
@@ -244,222 +246,667 @@ public class ConectorTest {
         }
     }
 
-
+    /**
+     * Test of recuperarBackup method, of class Conector.
+     * Prueba que todos los arrays tienen tamaño > 0
+     */
+    @Test
+    public void testRecuperarBackupDatos() throws Exception{
+        System.out.println("recuperarBackup");
+        conector.recuperarBackup(backup);
+        assertTrue(conector.getTodasLasCategorias().size() > 0);
+        assertTrue(conector.getTodosLosUsuarios().size() > 0);
+        assertTrue(conector.getTodasLasRutas().size() > 0);
+        assertTrue(conector.getTodasLasValoraciones().size() > 0);
+        assertTrue(conector.getTodasLasFotosPerfil().size() > 0);
+    }
 
     /**
      * Test of getFotosPerfilBaseDatos method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetFotosPerfilBaseDatos() throws Exception {
+    public void testGetFotosPerfilBaseDatosExcepciones() {
         System.out.println("getFotosPerfilBaseDatos");
+        try{
+            conector.getFotosPerfilBaseDatos();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener las fotos de perfil");
+        }
+    }
+
+    /**
+     * Test of getFotosPerfilBaseDatos method, of class Conector.
+     * Prueba que ninguna foto de perfil tenga un usuario asignado
+     */
+    @Test
+    public void testGetFotosPerfilBaseDatosUsuarioNull() throws Exception{
+        System.out.println("getFotosPerfilBaseDatos");
+        conector.getFotosPerfilBaseDatos();
+        for (FotoPerfil fotoPerfil : conector.getListaFotosPerfil()){
+            assertNull(fotoPerfil.getUsuario());
+        }
+    }
+
+    /**
+     * Test of getFotosPerfilBaseDatos method, of class Conector.
+     * Prueba que el array de fotos de perfil contenga al menos una foto
+     */
+    @Test
+    public void testGetFotosPerfilBaseDatosTam() throws Exception{
+        System.out.println("getFotosPerfilBaseDatos");
+        conector.getFotosPerfilBaseDatos();
+        assertTrue(conector.getListaFotosPerfil().size() > 0);
     }
 
     /**
      * Test of getUsuariosBaseDatos method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetUsuariosBaseDatos() throws Exception {
+    public void testGetUsuariosBaseDatosExcepciones() {
         System.out.println("getUsuariosBaseDatos");
+        try{
+            conector.getUsuariosBaseDatos();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener los usuarios");
+        }
+    }
+
+    /**
+     * Test of getUsuariosBaseDatos method, of class Conector.
+     * Prueba que el array de usuarios contenga al menos un usuario
+     */
+    @Test
+    public void testGetUsuariosBaseDatosTam() throws Exception{
+        System.out.println("getUsuariosBaseDatos");
+        conector.getUsuariosBaseDatos();
+        assertTrue(conector.getListaUsuarios().size() > 0);
+    }
+
+    /**
+     * Test of getUsuariosBaseDatos method, of class Conector.
+     * Prueba que todas las listas de rutas de los usuarios están vacías
+     */
+    @Test
+    public void testGetUsuariosBaseDatosRutasVacias() throws Exception{
+        System.out.println("getUsuariosBaseDatos");
+        conector.getUsuariosBaseDatos();
+        for(Usuario usuario : conector.getListaUsuarios()){
+            assertTrue(usuario.getListaRutas().isEmpty());
+        }
+    }
+
+    /**
+     * Test of getUsuariosBaseDatos method, of class Conector.
+     * Prueba que todas las listas de valoraciones de los usuarios están vacías
+     */
+    @Test
+    public void testGetUsuariosBaseDatosValoracionesVacias() throws Exception{
+        System.out.println("getUsuariosBaseDatos");
+        conector.getUsuariosBaseDatos();
+        for(Usuario usuario : conector.getListaUsuarios()){
+            assertTrue(usuario.getListaValoraciones().isEmpty());
+        }
+    }
+
+    /**
+     * Test of getUsuariosBaseDatos method, of class Conector.
+     * Prueba que al menos un usuario tenga una foto de perfil asignada
+     */
+    @Test
+    public void testGetUsuariosBaseDatosFotoPerfilVinculada() throws Exception{
+        System.out.println("getUsuariosBaseDatos");
+        conector.getUsuariosBaseDatos();
+        for(Usuario usuario : conector.getListaUsuarios()){
+            if(usuario.getFotoPerfil() != null){
+                assertTrue(conector.getListaFotosPerfil().contains(usuario.getFotoPerfil()));
+                assertTrue(usuario.getFotoPerfil().getUsuario().equals(usuario));
+            }
+        }
     }
 
     /**
      * Test of getRutasBaseDatos method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetRutasBaseDatos() throws Exception {
+    public void testGetRutasBaseDatosExcepciones() {
         System.out.println("getRutasBaseDatos");
+        try{
+            conector.getRutasBaseDatos();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener las rutas");
+        }
+    }
+
+    /**
+     * Test of getRutasBaseDatos method, of class Conector.
+     * Prueba que el array de rutas contenga al menos una ruta
+     */
+    @Test
+    public void testGetRutasBaseDatosTam() throws Exception{
+        System.out.println("getRutasBaseDatos");
+        conector.getRutasBaseDatos();
+        assertTrue(conector.getListaRutas().size() > 0);
+    }
+
+    /**
+     * Test of getRutasBaseDatos method, of class Conector.
+     * Prueba que todas las listas de valoraciones de las rutas están vacías
+     */
+    @Test
+    public void testGetRutasBaseDatosValoracionesVacias() throws Exception{
+        System.out.println("getRutasBaseDatos");
+        conector.getRutasBaseDatos();
+        for(Ruta ruta : conector.getListaRutas()){
+            assertTrue(ruta.getListaValoraciones().isEmpty());
+        }
+    }
+
+    /**
+     * Test of getRutasBaseDatos method, of class Conector.
+     * Prueba que todas las listas de categorías de las rutas están vacías
+     */
+    @Test
+    public void testGetRutasBaseDatosCategoriasVacias() throws Exception{
+        System.out.println("getRutasBaseDatos");
+        conector.getRutasBaseDatos();
+        for(Ruta ruta : conector.getListaRutas()){
+            assertTrue(ruta.getListaCategorias().isEmpty());
+        }
+    }
+
+    /**
+     * Test of getRutasBaseDatos method, of class Conector.
+     * Prueba que se han vinculado correctamente las rutas con los usuarios
+     */
+    @Test
+    public void testGetRutasBaseDatosUsuariosVinculados() throws Exception{
+        System.out.println("getRutasBaseDatos");
+        conector.getRutasBaseDatos();
+        for(Ruta ruta : conector.getListaRutas()){
+            assertTrue(conector.getListaUsuarios().contains(ruta.getCreadorRuta()));
+            assertTrue(ruta.getCreadorRuta().getListaRutas().contains(ruta));
+        }
     }
 
     /**
      * Test of getCategoriasBaseDatos method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetCategoriasBaseDatos() throws Exception {
+    public void testGetCategoriasBaseDatosExcepciones() {
         System.out.println("getCategoriasBaseDatos");
+        try{
+            conector.getCategoriasBaseDatos();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener las categorías");
+        }
+    }
+
+    /**
+     * Test of getCategoriasBaseDatos method, of class Conector.
+     * Prueba que el array de categorías contenga al menos una categoría
+     */
+    @Test
+    public void testGetCategoriasBaseDatosTam() throws Exception{
+        System.out.println("getCategoriasBaseDatos");
+        conector.getCategoriasBaseDatos();
+        assertTrue(conector.getListaCategorias().size() > 0);
+    }
+
+    /**
+     * Test of getCategoriasBaseDatos method, of class Conector.
+     * Prueba que todas las listas de rutas de las categorías están vacías
+     */
+    @Test
+    public void testGetCategoriasBaseDatosRutasVacias() throws Exception{
+        System.out.println("getCategoriasBaseDatos");
+        conector.getCategoriasBaseDatos();
+        for(Categoria categoria : conector.getListaCategorias()){
+            assertTrue(categoria.getListaRutas().isEmpty());
+        }
     }
 
     /**
      * Test of vincularCategoriasConRutas method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testVincularCategoriasConRutas() throws Exception {
+    public void testVincularCategoriasConRutasExcepciones() {
         System.out.println("vincularCategoriasConRutas");
+        try{
+            conector.vincularCategoriasConRutas();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al vincular las rutas con las categorías");
+        }
+    }
+
+    /**
+     * Test of vincularCategoriasConRutas method, of class Conector.
+     * Prueba que las categorías se han vinculado correctamente con las rutas
+     */
+    @Test
+    public void testVincularCategoriasConRutas() throws Exception{
+        System.out.println("vincularCategoriasConRutas");
+        conector.vincularCategoriasConRutas();
+        for(Categoria categoria : conector.getListaCategorias()){
+            for(Ruta ruta : categoria.getListaRutas()){
+                assertTrue(ruta.getListaCategorias().contains(categoria));
+            }
+        }
+    }
+
+    /**
+     * Test of vincularCategoriasConRutas method, of class Conector.
+     * Prueba que las rutas se han vinculado correctamente con las categorías
+     */
+    @Test
+    public void testVincularCategoriasConRutasInverso() throws Exception{
+        System.out.println("vincularCategoriasConRutas");
+        conector.vincularCategoriasConRutas();
+        for(Ruta ruta : conector.getListaRutas()){
+            for(Categoria categoria : ruta.getListaCategorias()){
+                assertTrue(categoria.getListaRutas().contains(ruta));
+            }
+        }
     }
 
     /**
      * Test of getValoracionesBaseDatos method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetValoracionesBaseDatos() throws Exception {
+    public void testGetValoracionesBaseDatosExcepciones() {
         System.out.println("getValoracionesBaseDatos");
+        try{
+            conector.getValoracionesBaseDatos();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener las valoraciones");
+        }
+    }
+
+    /**
+     * Test of getValoracionesBaseDatos method, of class Conector.
+     * Prueba que el array de valoraciones contenga al menos una valoración
+     */
+    @Test
+    public void testGetValoracionesBaseDatosTam() throws Exception{
+        System.out.println("getValoracionesBaseDatos");
+        conector.getValoracionesBaseDatos();
+        assertTrue(conector.getListaValoraciones().size() > 0);
+    }
+
+    /**
+     * Test of getValoracionesBaseDatos method, of class Conector.
+     * Prueba que se han vinculado correctamente las valoraciones con las rutas
+     */
+    @Test
+    public void testGetValoracionesBaseDatosRutasVinculadas() throws Exception{
+        System.out.println("getValoracionesBaseDatos");
+        conector.getValoracionesBaseDatos();
+        for(Valoracion valoracion : conector.getListaValoraciones()){
+            assertTrue(conector.getListaRutas().contains(valoracion.getRuta()));
+            assertTrue(valoracion.getRuta().getListaValoraciones().contains(valoracion));
+        }
+    }
+
+    /**
+     * Test of getValoracionesBaseDatos method, of class Conector.
+     * Prueba que se han vinculado correctamente las valoraciones con los usuarios
+     */
+    @Test
+    public void testGetValoracionesBaseDatosUsuariosVinculados() throws Exception{
+        System.out.println("getValoracionesBaseDatos");
+        conector.getValoracionesBaseDatos();
+        for(Valoracion valoracion : conector.getListaValoraciones()){
+            assertTrue(conector.getListaUsuarios().contains(valoracion.getUsuario()));
+            assertTrue(valoracion.getUsuario().getListaValoraciones().contains(valoracion));
+        }
     }
 
     /**
      * Test of getTodasLasCategorias method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetTodasLasCategorias() throws Exception {
+    public void testGetTodasLasCategoriasExcepciones() {
         System.out.println("getTodasLasCategorias");
+        try{
+            conector.getTodasLasCategorias();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener todas las categorías");
+        }
+    }
+
+    /**
+     * Test of getTodasLasCategorias method, of class Conector.
+     * Prueba que el array de categorías contenga al menos una categoría
+     */
+    @Test
+    public void testGetTodasLasCategoriasTam() throws Exception{
+        System.out.println("getTodasLasCategorias");
+        assertTrue(conector.getTodasLasCategorias().size() > 0);
+    }
+
+    /**
+     * Test of getTodasLasCategorias method, of class Conector.
+     * Prueba que al menos una categoría tenga una ruta asignada
+     */
+    @Test
+    public void testGetTodasLasCategoriasRutasVinculadas() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodasLasCategorias");
+        for(Categoria categoria : conector.getTodasLasCategorias()){
+            if(!categoria.getListaRutas().isEmpty()){
+                if(categoria.getListaRutas().get(0).getListaCategorias().contains(categoria)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
     }
 
     /**
      * Test of getTodasLasFotosPerfil method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetTodasLasFotosPerfil() throws Exception {
+    public void testGetTodasLasFotosPerfilExcepciones() {
         System.out.println("getTodasLasFotosPerfil");
+        try{
+            conector.getTodasLasFotosPerfil();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener todas las fotos de perfil");
+        }
+    }
+
+    /**
+     * Test of getTodasLasFotosPerfil method, of class Conector.
+     * Prueba que el array de fotos de perfil contenga al menos una foto
+     */
+    @Test
+    public void testGetTodasLasFotosPerfilTam() throws Exception{
+        System.out.println("getTodasLasFotosPerfil");
+        assertTrue(conector.getTodasLasFotosPerfil().size() > 0);
+    }
+
+    /**
+     * Test of getTodasLasFotosPerfil method, of class Conector.
+     * Prueba que al menos una foto de perfil tenga un usuario asignado
+     */
+    @Test
+    public void testGetTodasLasFotosPerfilUsuariosVinculados() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodasLasFotosPerfil");
+        for(FotoPerfil fotoPerfil : conector.getTodasLasFotosPerfil()){
+            if(fotoPerfil.getUsuario() != null){
+                if(fotoPerfil.getUsuario().getFotoPerfil().equals(fotoPerfil)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
     }
 
     /**
      * Test of getTodasLasRutas method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetTodasLasRutas() throws Exception {
+    public void testGetTodasLasRutasExcepciones() {
         System.out.println("getTodasLasRutas");
+        try{
+            conector.getTodasLasRutas();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener todas las rutas");
+        }
+    }
+
+    /**
+     * Test of getTodasLasRutas method, of class Conector.
+     * Prueba que el array de rutas contenga al menos una ruta
+     */
+    @Test
+    public void testGetTodasLasRutasTam() throws Exception{
+        System.out.println("getTodasLasRutas");
+        assertTrue(conector.getTodasLasRutas().size() > 0);
+    }
+
+    /**
+     * Test of getTodasLasRutas method, of class Conector.
+     * Prueba que al menos una ruta tenga una categoría asignada
+     */
+    @Test
+    public void testGetTodasLasRutasCategoriasVinculadas() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodasLasRutas");
+        for(Ruta ruta : conector.getTodasLasRutas()){
+            if(!ruta.getListaCategorias().isEmpty()){
+                if(ruta.getListaCategorias().get(0).getListaRutas().contains(ruta)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
+    }
+
+    /**
+     * Test of getTodasLasRutas method, of class Conector.
+     * Prueba que al menos una ruta tenga una valoración asignada
+     */
+    @Test
+    public void testGetTodasLasRutasValoracionesVinculadas() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodasLasRutas");
+        for(Ruta ruta : conector.getTodasLasRutas()){
+            if(!ruta.getListaValoraciones().isEmpty()){
+                if(ruta.getListaValoraciones().get(0).getRuta().equals(ruta)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
+    }
+
+    /**
+     * Test of getTodasLasRutas method, of class Conector.
+     * Prueba que al menos una ruta tenga un usuario asignado
+     */
+    @Test
+    public void testGetTodasLasRutasUsuariosVinculados() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodasLasRutas");
+        for(Ruta ruta : conector.getTodasLasRutas()){
+            if(ruta.getCreadorRuta() != null){
+                if(ruta.getCreadorRuta().getListaRutas().contains(ruta)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
     }
 
     /**
      * Test of getTodosLosUsuarios method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetTodosLosUsuarios() throws Exception {
+    public void testGetTodosLosUsuariosExcepciones() {
         System.out.println("getTodosLosUsuarios");
+        try{
+            conector.getTodosLosUsuarios();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener todos los usuarios");
+        }
+    }
+
+    /**
+     * Test of getTodosLosUsuarios method, of class Conector.
+     * Prueba que el array de usuarios contenga al menos un usuario
+     */
+    @Test
+    public void testGetTodosLosUsuariosTam() throws Exception{
+        System.out.println("getTodosLosUsuarios");
+        assertTrue(conector.getTodosLosUsuarios().size() > 0);
+    }
+
+    /**
+     * Test of getTodosLosUsuarios method, of class Conector.
+     * Prueba que al menos un usuario tenga una ruta asignada
+     */
+    @Test
+    public void testGetTodosLosUsuariosRutasVinculadas() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodosLosUsuarios");
+        for(Usuario usuario : conector.getTodosLosUsuarios()){
+            if(!usuario.getListaRutas().isEmpty()){
+                if(usuario.getListaRutas().get(0).getCreadorRuta().equals(usuario)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
+    }
+
+    /**
+     * Test of getTodosLosUsuarios method, of class Conector.
+     * Prueba que al menos un usuario tenga una valoración asignada
+     */
+    @Test
+    public void testGetTodosLosUsuariosValoracionesVinculadas() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodosLosUsuarios");
+        for(Usuario usuario : conector.getTodosLosUsuarios()){
+            if(!usuario.getListaValoraciones().isEmpty()){
+                if(usuario.getListaValoraciones().get(0).getUsuario().equals(usuario)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
+    }
+
+    /**
+     * Test of getTodosLosUsuarios method, of class Conector.
+     * Prueba que al menos un usuario tenga una foto de perfil asignada
+     */
+    @Test
+    public void testGetTodosLosUsuariosFotosPerfilVinculadas() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodosLosUsuarios");
+        for(Usuario usuario : conector.getTodosLosUsuarios()){
+            if(usuario.getFotoPerfil() != null){
+                if(usuario.getFotoPerfil().getUsuario().equals(usuario)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
     }
 
     /**
      * Test of getTodasLasValoraciones method, of class Conector.
+     * Prueba que no se lancen excepciones
      */
     @Test
-    public void testGetTodasLasValoraciones() throws Exception {
+    public void testGetTodasLasValoracionesExcepciones() {
         System.out.println("getTodasLasValoraciones");
+        try{
+            conector.getTodasLasValoraciones();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al obtener todas las valoraciones");
+        }
     }
 
     /**
-     * Test of createCategoria method, of class Conector.
+     * Test of getTodasLasValoraciones method, of class Conector.
+     * Prueba que el array de valoraciones contenga al menos una valoración
      */
     @Test
-    public void testCreateCategoria() throws Exception {
-        System.out.println("createCategoria");
+    public void testGetTodasLasValoracionesTam() throws Exception{
+        System.out.println("getTodasLasValoraciones");
+        assertTrue(conector.getTodasLasValoraciones().size() > 0);
     }
 
     /**
-     * Test of createUsuario method, of class Conector.
+     * Test of getTodasLasValoraciones method, of class Conector.
+     * Prueba que al menos una valoración tenga una ruta asignada
      */
     @Test
-    public void testCreateUsuario() throws Exception {
-        System.out.println("createUsuario");
+    public void testGetTodasLasValoracionesRutasVinculadas() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodasLasValoraciones");
+        for(Valoracion valoracion : conector.getTodasLasValoraciones()){
+            if(valoracion.getRuta() != null){
+                if(valoracion.getRuta().getListaValoraciones().contains(valoracion)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
     }
 
     /**
-     * Test of createRuta method, of class Conector.
+     * Test of getTodasLasValoraciones method, of class Conector.
+     * Prueba que al menos una valoración tenga un usuario asignado
      */
     @Test
-    public void testCreateRuta() throws Exception {
-        System.out.println("createRuta");
+    public void testGetTodasLasValoracionesUsuariosVinculados() throws Exception{
+        boolean vinculada = false;
+        System.out.println("getTodasLasValoraciones");
+        for(Valoracion valoracion : conector.getTodasLasValoraciones()){
+            if(valoracion.getUsuario() != null){
+                if(valoracion.getUsuario().getListaValoraciones().contains(valoracion)){
+                    vinculada = true;
+                }
+            }
+        }
+        assertTrue(vinculada);
     }
-
-    /**
-     * Test of createFotoPerfil method, of class Conector.
-     */
-    @Test
-    public void testCreateFotoPerfil() throws Exception {
-        System.out.println("createFotoPerfil");
-    }
-
-    /**
-     * Test of createValoracion method, of class Conector.
-     */
-    @Test
-    public void testCreateValoracion() throws Exception {
-        System.out.println("createValoracion");
-    }
-
-    /**
-     * Test of createClasificacion method, of class Conector.
-     */
-    @Test
-    public void testCreateClasificacion() throws Exception {
-        System.out.println("createClasificacion");
-    }
-
-    /**
-     * Test of updateUsuario method, of class Conector.
-     */
-    @Test
-    public void testUpdateUsuario() throws Exception {
-        System.out.println("updateUsuario");
-    }
-
-    /**
-     * Test of updateRuta method, of class Conector.
-     */
-    @Test
-    public void testUpdateRuta() throws Exception {
-        System.out.println("updateRuta");
-    }
-
-    /**
-     * Test of updateFotoPerfil method, of class Conector.
-     */
-    @Test
-    public void testUpdateFotoPerfil() throws Exception {
-        System.out.println("updateFotoPerfil");
-    }
-
-    /**
-     * Test of updateValoracion method, of class Conector.
-     */
-    @Test
-    public void testUpdateValoracion() throws Exception {
-        System.out.println("updateValoracion");
-    }
-
-    /**
-     * Test of deleteCategoria method, of class Conector.
-     */
-    @Test
-    public void testDeleteCategoria() throws Exception {
-        System.out.println("deleteCategoria");
-    }
-
-    /**
-     * Test of deleteUsuario method, of class Conector.
-     */
-    @Test
-    public void testDeleteUsuario() throws Exception {
-        System.out.println("deleteUsuario");
-    }
-
-    /**
-     * Test of deleteRuta method, of class Conector.
-     */
-    @Test
-    public void testDeleteRuta() throws Exception {
-        System.out.println("deleteRuta");
-    }
-
-    /**
-     * Test of deleteValoracion method, of class Conector.
-     */
-    @Test
-    public void testDeleteValoracion() throws Exception {
-        System.out.println("deleteValoracion");
-    }
-
-    /**
-     * Test of deleteFotoPerfil method, of class Conector.
-     */
-    @Test
-    public void testDeleteFotoPerfil() throws Exception {
-        System.out.println("deleteFotoPerfil");
-    }
-
-    /**
-     * Test of deleteClasificacion method, of class Conector.
-     */
-    @Test
-    public void testDeleteClasificacion() throws Exception {
-        System.out.println("deleteClasificacion");
-    }
-    
 }
