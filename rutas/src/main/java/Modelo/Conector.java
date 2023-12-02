@@ -1060,11 +1060,12 @@ public class Conector {
      */
     public void deleteValoracion(Valoracion valoracion) throws SQLException, Exception{
         setNombreTabla(NOMBRE_TABLA_VALORACION);
-        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_valoracion = ?";
+        String sql = "DELETE FROM " + getNombreTabla() + " WHERE id_usuario = ? AND id_ruta = ?";
         PreparedStatement sentencia = null;
 
         sentencia = getConexion().prepareStatement(sql);
-        sentencia.setInt(1, valoracion.getIDValoracion());
+        sentencia.setInt(1, valoracion.getUsuario().getIDUsuario());
+        sentencia.setInt(2, valoracion.getRuta().getIdRuta());
 
         sentencia.executeUpdate();
         cerrarSentencia(sentencia);

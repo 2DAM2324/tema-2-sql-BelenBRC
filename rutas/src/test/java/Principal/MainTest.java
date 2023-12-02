@@ -36,14 +36,18 @@ public class MainTest {
 
     /**
      * Test of main method, of class Main.
+     * Comprueba que se ejecuta el main sin errores
      */
     @Test
     public void testMain() {
         System.out.println("main");
         String[] args = null;
-        Main.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        try{
+            Main.main(args);
+        }
+        catch(Exception e){
+            fail("Error al ejecutar el main.");
+        }    
+    }  
     
 }

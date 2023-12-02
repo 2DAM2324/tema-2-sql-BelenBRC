@@ -459,7 +459,6 @@ public class Controlador {
      * @throws  Exception        Excepción general
      */
     public void aniadirRuta(String nombreRuta, String descripcion, double distanciaKm, double tiempoHoras, String dificultad, String DNIcreadorRuta) throws SQLException, Exception{
-        boolean existeRuta = false;
         //Buscar usuario con IDcreadorRuta en listaUsuariosSistema
         Usuario creadorRuta = null;
         boolean encontrado = false;

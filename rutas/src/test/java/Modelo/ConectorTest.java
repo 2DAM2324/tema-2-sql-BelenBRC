@@ -1164,11 +1164,10 @@ public class ConectorTest {
     public void testCreateFotoPerfilUsuario() throws Exception {
         System.out.println("createFotoPerfil");
         FotoPerfil fotoPerfil = new FotoPerfil("Prueba", 24, 24, conector.getListaUsuarios().get(0));
+        Integer idUsuario = conector.getListaUsuarios().get(0).getIDUsuario();
         conector.createFotoPerfil(fotoPerfil);
         conector.getTodasLasFotosPerfil();
         boolean vinculada = false;
-
-        Integer idUsuario = conector.getListaUsuarios().get(0).getIDUsuario();
 
         conector.getTodosLosUsuarios();
 
@@ -1490,5 +1489,668 @@ public class ConectorTest {
         }
 
         assertTrue(actualizada);
+    }
+
+    //*******************************************************************//
+
+    /**
+     * Test of deleteCategoria method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testDeleteCategoriaExcepciones() {
+        System.out.println("deleteCategoria");
+        Categoria categoria = conector.getListaCategorias().get(0);
+        try{
+            conector.deleteCategoria(categoria);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al eliminar la categoría");
+        }
+    }
+
+    /**
+     * Test of deleteCategoria method, of class Conector.
+     * Prueba que la categoría se ha eliminado correctamente
+     */
+    @Test
+    public void testDeleteCategoria() throws Exception {
+        System.out.println("deleteCategoria");
+        Categoria categoria = conector.getListaCategorias().get(0);
+        conector.deleteCategoria(categoria);
+        conector.getTodasLasCategorias();
+        boolean eliminada = true;
+        for(Categoria categoriaAux : conector.getListaCategorias()){
+            if(categoriaAux.getIDCategoria().equals(categoria.getIDCategoria())){
+                 eliminada = false;
+            }
+        }
+
+        assertTrue(eliminada);
+    }
+
+    /**
+     * Test of deleteCategoria method, of class Conector.
+     * Prueba que hay una categoría menos en la base de datos
+     */
+    @Test
+    public void testDeleteCategoriaTam() throws Exception {
+        System.out.println("deleteCategoria");
+        int tam = conector.getTodasLasCategorias().size();
+        Categoria categoria = conector.getListaCategorias().get(0);
+        conector.deleteCategoria(categoria);
+        conector.getTodasLasCategorias();
+
+        assertEquals(tam - 1, conector.getListaCategorias().size());
+    }
+
+    /**
+     * Test of deleteCategoria method, of class Conector.
+     * Prueba que ninguna ruta tiene la categoría eliminada
+     */
+    @Test
+    public void testDeleteCategoriaRutasVinculadas() throws Exception {
+        System.out.println("deleteCategoria");
+        Categoria categoria = conector.getListaCategorias().get(0);
+        conector.deleteCategoria(categoria);
+        conector.getTodasLasCategorias();
+        boolean vinculada = false;
+        for(Ruta ruta : conector.getListaRutas()){
+            if(ruta.getListaCategorias().contains(categoria)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testDeleteUsuarioExcepciones() {
+        System.out.println("deleteUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        try{
+            conector.deleteUsuario(usuario);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al eliminar el usuario");
+        }
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que el usuario se ha eliminado correctamente
+     */
+    @Test
+    public void testDeleteUsuario() throws Exception {
+        System.out.println("deleteUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        conector.deleteUsuario(usuario);
+        conector.getTodosLosUsuarios();
+        boolean eliminado = true;
+        for(Usuario usuarioAux : conector.getListaUsuarios()){
+            if(usuarioAux.getIDUsuario().equals(usuario.getIDUsuario())){
+                 eliminado = false;
+            }
+        }
+
+        assertTrue(eliminado);
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que hay un usuario menos en la base de datos
+     */
+    @Test
+    public void testDeleteUsuarioTam() throws Exception {
+        System.out.println("deleteUsuario");
+        int tam = conector.getTodosLosUsuarios().size();
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        conector.deleteUsuario(usuario);
+        conector.getTodosLosUsuarios();
+
+        assertEquals(tam - 1, conector.getListaUsuarios().size());
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que ninguna ruta tiene el usuario eliminado, es decir, que se han eliminado las rutas creadas por el usuario
+     */
+    @Test
+    public void testDeleteUsuarioRutasVinculadas() throws Exception {
+        System.out.println("deleteUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        conector.deleteUsuario(usuario);
+        conector.getTodosLosUsuarios();
+        boolean vinculada = false;
+        for(Ruta ruta : conector.getListaRutas()){
+            if(ruta.getCreadorRuta().equals(usuario)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que se ha eliminado la foto de perfil del usuario eliminado
+     */
+    @Test
+    public void testDeleteUsuarioFotoPerfilVinculada() throws Exception {
+        System.out.println("deleteUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        conector.deleteUsuario(usuario);
+        conector.getTodosLosUsuarios();
+        boolean vinculada = false;
+        for(FotoPerfil fotoPerfil : conector.getListaFotosPerfil()){
+            if(fotoPerfil.getUsuario().equals(usuario)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que se han eliminado las valoraciones del usuario eliminado
+     */
+    @Test
+    public void testDeleteUsuarioValoracionesVinculadas() throws Exception {
+        System.out.println("deleteUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        conector.deleteUsuario(usuario);
+        conector.getTodosLosUsuarios();
+        boolean vinculada = false;
+        for(Valoracion valoracion : conector.getListaValoraciones()){
+            if(valoracion.getUsuario().equals(usuario)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que se ha eliminado las valoraciones de las rutas creadas por el usuario eliminado
+     */
+    @Test
+    public void testDeleteUsuarioValoracionesRutasVinculadas() throws Exception {
+        System.out.println("deleteUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        Integer idRuta = usuario.getListaRutas().get(0).getIdRuta();
+        conector.deleteUsuario(usuario);
+        conector.getTodosLosUsuarios();
+        boolean vinculada = false;
+        for(Valoracion valoracion : conector.getListaValoraciones()){
+            if(valoracion.getRuta().getIdRuta().equals(idRuta)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteUsuario method, of class Conector.
+     * Prueba que se ha eliminado las clasificaciones de las rutas creadas por el usuario eliminado
+     * Es decir, que ninguna categoría tiene la ruta creada por el usuario eliminado
+     */
+    @Test
+    public void testDeleteUsuarioClasificacionesVinculadas() throws Exception {
+        System.out.println("deleteUsuario");
+        Usuario usuario = conector.getListaUsuarios().get(0);
+        Integer idRuta = usuario.getListaRutas().get(0).getIdRuta();
+        conector.deleteUsuario(usuario);
+        conector.getTodosLosUsuarios();
+        boolean vinculada = false;
+        for(Categoria categoria : conector.getListaCategorias()){
+            for(Ruta ruta : categoria.getListaRutas()){
+                if(ruta.getIdRuta().equals(idRuta)){
+                    vinculada = true;
+                }
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteRuta method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testDeleteRutaExcepciones() {
+        System.out.println("deleteRuta");
+        Ruta ruta = conector.getListaRutas().get(0);
+        try{
+            conector.deleteRuta(ruta);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al eliminar la ruta");
+        }
+    }
+
+    /**
+     * Test of deleteRuta method, of class Conector.
+     * Prueba que la ruta se ha eliminado correctamente
+     */
+    @Test
+    public void testDeleteRuta() throws Exception {
+        System.out.println("deleteRuta");
+        Ruta ruta = conector.getListaRutas().get(0);
+        conector.deleteRuta(ruta);
+        conector.getTodasLasRutas();
+        boolean eliminada = true;
+        for(Ruta rutaAux : conector.getListaRutas()){
+            if(rutaAux.getIdRuta().equals(ruta.getIdRuta())){
+                 eliminada = false;
+            }
+        }
+
+        assertTrue(eliminada);
+    }
+
+    /**
+     * Test of deleteRuta method, of class Conector.
+     * Prueba que hay una ruta menos en la base de datos
+     */
+    @Test
+    public void testDeleteRutaTam() throws Exception {
+        System.out.println("deleteRuta");
+        int tam = conector.getTodasLasRutas().size();
+        Ruta ruta = conector.getListaRutas().get(0);
+        conector.deleteRuta(ruta);
+        conector.getTodasLasRutas();
+
+        assertEquals(tam - 1, conector.getListaRutas().size());
+    }
+
+    /**
+     * Test of deleteRuta method, of class Conector.
+     * Prueba que ninguna categoría tiene la ruta eliminada
+     */
+    @Test
+    public void testDeleteRutaCategoriasVinculadas() throws Exception {
+        System.out.println("deleteRuta");
+        Ruta ruta = conector.getListaRutas().get(0);
+        conector.deleteRuta(ruta);
+        conector.getTodasLasRutas();
+        boolean vinculada = false;
+        for(Categoria categoria : conector.getListaCategorias()){
+            if(categoria.getListaRutas().contains(ruta)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteRuta method, of class Conector.
+     * Prueba que se han eliminado las valoraciones de la ruta eliminada
+     */
+    @Test
+    public void testDeleteRutaValoracionesVinculadas() throws Exception {
+        System.out.println("deleteRuta");
+        Ruta ruta = conector.getListaRutas().get(0);
+        conector.conectar();
+        conector.deleteRuta(ruta);
+        conector.getTodasLasRutas();
+        boolean vinculada = false;
+        for(Valoracion valoracion : conector.getListaValoraciones()){
+            if(valoracion.getRuta().equals(ruta)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteFotoPerfil method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testDeleteFotoPerfilExcepciones() {
+        System.out.println("deleteFotoPerfil");
+        FotoPerfil fotoPerfil = conector.getListaFotosPerfil().get(0);
+        try{
+            conector.deleteFotoPerfil(fotoPerfil);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al eliminar la foto de perfil");
+        }
+    }
+
+    /**
+     * Test of deleteFotoPerfil method, of class Conector.
+     * Prueba que la foto de perfil se ha eliminado correctamente
+     */
+    @Test
+    public void testDeleteFotoPerfil() throws Exception {
+        System.out.println("deleteFotoPerfil");
+        FotoPerfil fotoPerfil = conector.getListaFotosPerfil().get(0);
+        conector.deleteFotoPerfil(fotoPerfil);
+        conector.getTodasLasFotosPerfil();
+        boolean eliminada = true;
+        for(FotoPerfil fotoPerfilAux : conector.getListaFotosPerfil()){
+            if(fotoPerfilAux.getIDfoto().equals(fotoPerfil.getIDfoto())){
+                 eliminada = false;
+            }
+        }
+
+        assertTrue(eliminada);
+    }
+
+    /**
+     * Test of deleteFotoPerfil method, of class Conector.
+     * Prueba que hay una foto de perfil menos en la base de datos
+     */
+    @Test
+    public void testDeleteFotoPerfilTam() throws Exception {
+        System.out.println("deleteFotoPerfil");
+        int tam = conector.getTodasLasFotosPerfil().size();
+        FotoPerfil fotoPerfil = conector.getListaFotosPerfil().get(0);
+        conector.deleteFotoPerfil(fotoPerfil);
+        conector.getTodasLasFotosPerfil();
+
+        assertEquals(tam - 1, conector.getListaFotosPerfil().size());
+    }
+
+    /**
+     * Test of deleteFotoPerfil method, of class Conector.
+     * Prueba que ningún usuario tiene la foto de perfil eliminada
+     */
+    @Test
+    public void testDeleteFotoPerfilUsuariosVinculados() throws Exception {
+        System.out.println("deleteFotoPerfil");
+        FotoPerfil fotoPerfil = conector.getListaFotosPerfil().get(0);
+        Integer idFotoPerfil = fotoPerfil.getIDfoto();
+
+        conector.deleteFotoPerfil(fotoPerfil);
+        conector.getTodosLosUsuarios();
+
+        boolean vinculada = false;
+        for(Usuario usuarioAux : conector.getListaUsuarios()){
+            if(usuarioAux.getFotoPerfil() != null && usuarioAux.getFotoPerfil().getIDfoto().equals(idFotoPerfil)){
+                vinculada = true;
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteFotoPerfil method, of class Conector.
+     * Prueba que el usuario que tenía la foto de perfil eliminada tiene la foto de perfil null
+     */
+    @Test
+    public void testDeleteFotoPerfilUsuarioNull() throws Exception {
+        System.out.println("deleteFotoPerfil");
+        conector.getTodasLasFotosPerfil();
+        conector.getTodosLosUsuarios();
+        FotoPerfil fotoPerfil = conector.getListaFotosPerfil().get(0);
+        Integer idUsuario = fotoPerfil.getUsuario().getIDUsuario();
+
+        conector.deleteFotoPerfil(fotoPerfil);
+        conector.getTodasLasFotosPerfil();
+        conector.getTodosLosUsuarios();
+
+        boolean vinculada = false;
+        for(Usuario usuarioAux : conector.getListaUsuarios()){
+            if(usuarioAux.getIDUsuario().equals(idUsuario)){
+                if(usuarioAux.getFotoPerfil() == null){
+                    vinculada = true;
+                }
+            }
+        }
+
+        assertTrue(vinculada);
+    }
+
+    /**
+     * Test of deleteValoracion method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testDeleteValoracionExcepciones() {
+        System.out.println("deleteValoracion");
+        Valoracion valoracion = conector.getListaValoraciones().get(0);
+        try{
+            conector.deleteValoracion(valoracion);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al eliminar la valoración");
+        }
+    }
+
+    /**
+     * Test of deleteValoracion method, of class Conector.
+     * Prueba que la valoración se ha eliminado correctamente
+     */
+    @Test
+    public void testDeleteValoracion() throws Exception {
+        System.out.println("deleteValoracion");
+        Valoracion valoracion = conector.getListaValoraciones().get(0);
+        conector.deleteValoracion(valoracion);
+        conector.getTodasLasValoraciones();
+        boolean eliminada = true;
+        for(Valoracion valoracionAux : conector.getListaValoraciones()){
+            if(valoracionAux.getUsuario().getIDUsuario().equals(valoracion.getUsuario().getIDUsuario()) && valoracionAux.getRuta().getIdRuta().equals(valoracion.getRuta().getIdRuta())){
+                 eliminada = false;
+            }
+        }
+
+        assertTrue(eliminada);
+    }
+
+    /**
+     * Test of deleteValoracion method, of class Conector.
+     * Prueba que hay una valoración menos en la base de datos
+     */
+    @Test
+    public void testDeleteValoracionTam() throws Exception {
+        System.out.println("deleteValoracion");
+        int tam = conector.getTodasLasValoraciones().size();
+        Valoracion valoracion = conector.getListaValoraciones().get(0);
+        conector.deleteValoracion(valoracion);
+        conector.getTodasLasValoraciones();
+
+        assertEquals(tam - 1, conector.getListaValoraciones().size());
+    }
+
+    /**
+     * Test of deleteValoracion method, of class Conector.
+     * Prueba que la valoración media de la ruta ha cambiado
+     */
+    @Test
+    public void testDeleteValoracionMedia() throws Exception {
+        System.out.println("deleteValoracion");
+        Ruta ruta = conector.getListaRutas().get(4);
+        Double valoracionMedia = ruta.getPuntuacionMedia();
+        Integer idRuta = ruta.getIdRuta();
+        Valoracion valoracion = new Valoracion(ruta, conector.getListaUsuarios().get(0), 1, "Prueba");
+        conector.deleteValoracion(valoracion);
+        conector.bajarBaseDatos();
+
+        for(Ruta rutaAux : conector.getListaRutas()){
+            if(rutaAux.getIdRuta().equals(idRuta)){
+                assertNotEquals(valoracionMedia, rutaAux.getPuntuacionMedia());
+            }
+        }
+    }
+
+    /**
+     * Test of deleteValoracion method, of class Conector.
+     * Prueba que el usuario que tenía la valoración eliminada tiene una valoración menos en su lista de valoraciones
+     */
+    @Test
+    public void testDeleteValoracionUsuario() throws Exception {
+        System.out.println("deleteValoracion");
+        Usuario usuario = conector.getListaUsuarios().get(2);
+        Integer id = usuario.getIDUsuario();
+        Integer tam = usuario.getListaValoraciones().size();
+
+        conector.deleteValoracion(usuario.getListaValoraciones().get(0));
+        conector.getTodasLasValoraciones();
+        conector.getTodosLosUsuarios();
+
+        for(Usuario usuarioAux : conector.getListaUsuarios()){
+            if(usuarioAux.getIDUsuario().equals(id)){
+                assertEquals(tam - 1, usuarioAux.getListaValoraciones().size());
+            }
+        }
+    }
+
+    /**
+     * Test of deleteValoracion method, of class Conector.
+     * Prueba que la ruta que tenía la valoración eliminada tiene una valoración menos en su lista de valoraciones
+     */
+    @Test
+    public void testDeleteValoracionRuta() throws Exception {
+        System.out.println("deleteValoracion");
+        Ruta ruta = conector.getListaRutas().get(4);
+        Integer id = ruta.getIdRuta();
+        Integer tam = ruta.getListaValoraciones().size();
+
+        conector.deleteValoracion(ruta.getListaValoraciones().get(0));
+        conector.getTodasLasValoraciones();
+        conector.getTodasLasRutas();
+
+        for(Ruta rutaAux : conector.getListaRutas()){
+            if(rutaAux.getIdRuta().equals(id)){
+                assertEquals(tam - 1, rutaAux.getListaValoraciones().size());
+            }
+        }
+    }
+
+    /**
+     * Test of deleteClasificacion method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testDeleteClasificacionExcepciones() {
+        System.out.println("deleteClasificacion");
+        Categoria categoria = conector.getListaCategorias().get(0);
+        Ruta ruta = conector.getListaRutas().get(0);
+        try{
+            conector.deleteClasificacion(categoria, ruta);
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            fail("Excepción inesperada al eliminar la clasificación");
+        }
+    }
+
+    /**
+     * Test of deleteClasificacion method, of class Conector.
+     * Prueba que la clasificación se ha eliminado correctamente
+     */
+    @Test
+    public void testDeleteClasificacion() throws Exception {
+        System.out.println("deleteClasificacion");
+        Categoria categoria = conector.getListaCategorias().get(0);
+        Ruta ruta = conector.getListaRutas().get(0);
+        conector.deleteClasificacion(categoria, ruta);
+        conector.getTodasLasCategorias();
+        conector.getTodasLasRutas();
+        boolean eliminada = true;
+        for(Categoria categoriaAux : conector.getListaCategorias()){
+            if(categoriaAux.getIDCategoria().equals(categoria.getIDCategoria())){
+                for(Ruta rutaAux : categoriaAux.getListaRutas()){
+                    if(rutaAux.getIdRuta().equals(ruta.getIdRuta())){
+                        eliminada = false;
+                    }
+                }
+            }
+        }
+
+        assertTrue(eliminada);
+    }
+
+    /**
+     * Test of deleteClasificacion method, of class Conector.
+     * Prueba que la ruta ya no contiene la categoría
+     */
+    @Test
+    public void testDeleteClasificacionRuta() throws Exception {
+        System.out.println("deleteClasificacion");
+        Integer idRuta = conector.getListaCategorias().get(0).getListaRutas().get(0).getIdRuta();
+        conector.deleteClasificacion(conector.getListaCategorias().get(0), conector.getListaCategorias().get(0).getListaRutas().get(0));
+
+        conector.getTodasLasCategorias();
+        conector.getTodasLasRutas();
+
+        boolean vinculada = false;
+        for(Ruta rutaAux : conector.getListaRutas()){
+            if(rutaAux.getIdRuta().equals(idRuta)){
+                if(rutaAux.getListaCategorias().contains(conector.getListaCategorias().get(0))){
+                    vinculada = true;
+                }
+            }
+        }
+
+        assertFalse(vinculada);
+    }
+
+    /**
+     * Test of deleteClasificacion method, of class Conector.
+     * Prueba que la categoría ya no contiene la ruta
+     */
+    @Test
+    public void testDeleteClasificacionCategoria() throws Exception {
+        System.out.println("deleteClasificacion");
+        Integer idCategoria = conector.getListaRutas().get(0).getListaCategorias().get(0).getIDCategoria();
+        conector.deleteClasificacion(conector.getListaRutas().get(0).getListaCategorias().get(0), conector.getListaRutas().get(0));
+
+        conector.getTodasLasCategorias();
+        conector.getTodasLasRutas();
+
+        boolean vinculada = false;
+
+        for(Categoria categoriaAux : conector.getListaCategorias()){
+            if(categoriaAux.getIDCategoria().equals(idCategoria)){
+                if(categoriaAux.getListaRutas().contains(conector.getListaRutas().get(0))){
+                    vinculada = true;
+                }
+            }
+        }
+
+        assertFalse(vinculada);
     }
 }

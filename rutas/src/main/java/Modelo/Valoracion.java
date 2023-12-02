@@ -6,15 +6,13 @@ import java.io.Serializable;
 
 /**
  * Clase Valoracion con atributos:
- * ID_valoracion           Código identificador único para cada valoración
  * ruta                    Ruta valorada
  * usuario                 Usuario que realiza la valoración
  * puntuacion              Puntuación de la ruta valorada
  * comentario              Comentario del usuario sobre la ruta valorada
  * @author BelenBRC
  */
-public class Valoracion implements Serializable{
-    private Integer ID_valoracion;       
+public class Valoracion implements Serializable{     
     private Ruta ruta;
     private Usuario usuario;
     private Integer puntuacion;
@@ -27,10 +25,8 @@ public class Valoracion implements Serializable{
      * @param usuario       Usuario que realiza la valoración
      * @param puntuacion    Puntuación de la ruta valorada
      * @param comentario    Comentario del usuario sobre la ruta valorada
-     * @post    El ID será null
      */
     public Valoracion(Ruta ruta, Usuario usuario, Integer puntuacion, String comentario){
-        setIDValoracion(null);
         setRuta(ruta);
         setUsuario(usuario);
         setPuntuacion(puntuacion);
@@ -38,13 +34,6 @@ public class Valoracion implements Serializable{
     }
 
     //Sets y gets
-    /**
-     * @brief   Método que establece el código identificador único de la valoración
-     * @param id    Código identificador único de la valoración
-     */
-    private void setIDValoracion(Integer id){
-        this.ID_valoracion = id;
-    }
 
     /**
      * @brief   Método que establece la ruta valorada
@@ -76,14 +65,6 @@ public class Valoracion implements Serializable{
      */
     public void setComentario(String comentario){
         this.comentario = comentario;
-    }
-
-    /**
-     * @brief   Método que devuelve el código identificador único de la valoración
-     * @return  ID_valoracion    (Integer)    Código identificador único de la valoración
-     */
-    public Integer getIDValoracion(){
-        return this.ID_valoracion;
     }
 
     /**
