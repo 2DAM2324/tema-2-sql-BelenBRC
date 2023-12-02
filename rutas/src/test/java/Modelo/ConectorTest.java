@@ -3,7 +3,6 @@ package Modelo;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -909,4 +908,400 @@ public class ConectorTest {
         }
         assertTrue(vinculada);
     }
+
+    //*******************************************************************//
+
+    /**
+     * Test of createCategoria method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testCreateCategoriaExcepciones() {
+        System.out.println("createCategoria");
+        Categoria categoria = new Categoria("categoria");
+        try{
+            conector.createCategoria(categoria);
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+            sqle.printStackTrace();
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al crear la categoría");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test of createCategoria method, of class Conector.
+     * Prueba que la categoría se ha creado correctamente
+     */
+    @Test
+    public void testCreateCategoria() throws Exception {
+        System.out.println("createCategoria");
+        Categoria categoria = new Categoria("categoria");
+        conector.createCategoria(categoria);
+        conector.getTodasLasCategorias();
+        boolean creada = false;
+        for(Categoria categoriaAux : conector.getListaCategorias()){
+            if(categoriaAux.getNombreCategoria().equals(categoria.getNombreCategoria())){
+                 creada = true;
+            }
+        }
+
+        assertTrue(creada);
+    }
+
+    /**
+     * Test of createCategoria method, of class Conector.
+     * Prueba que hay una categoría más en la base de datos
+     */
+    @Test
+    public void testCreateCategoriaTam() throws Exception {
+        System.out.println("createCategoria");
+        int tam = conector.getTodasLasCategorias().size();
+
+        Categoria categoria = new Categoria("categoria");
+        conector.createCategoria(categoria);
+        conector.getTodasLasCategorias();
+
+        assertEquals(tam + 1, conector.getListaCategorias().size());
+    }
+
+    /**
+     * Test of createUsuario method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testCreateUsuarioExcepciones() {
+        System.out.println("createUsuario");
+        Usuario usuario = new Usuario("Prueba", "Prueba", "Prueba", "ahd@sda.cs", "Prueba", "99999999R");
+        try{
+            conector.createUsuario(usuario);
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+            sqle.printStackTrace();
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al crear el usuario");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test of createUsuario method, of class Conector.
+     * Prueba que el usuario se ha creado correctamente
+     */
+    @Test
+    public void testCreateUsuario() throws Exception {
+        System.out.println("createUsuario");
+        Usuario usuario = new Usuario("Prueba", "Prueba", "Prueba", "ahd@sda.cs", "Prueba", "99999999R");
+        conector.createUsuario(usuario);
+        conector.getTodosLosUsuarios();
+        boolean creado = false;
+        for(Usuario usuarioAux : conector.getListaUsuarios()){
+            if(usuarioAux.getDNI().equals(usuario.getDNI())){
+                 creado = true;
+            }
+        }
+
+        assertTrue(creado);
+    }
+
+    /**
+     * Test of createUsuario method, of class Conector.
+     * Prueba que hay un usuario más en la base de datos
+     */
+    @Test
+    public void testCreateUsuarioTam() throws Exception {
+        System.out.println("createUsuario");
+        int tam = conector.getTodosLosUsuarios().size();
+        Usuario usuario = new Usuario("Prueba", "Prueba", "Prueba", "ahd@sda.cs", "Prueba", "99999999R");
+        conector.createUsuario(usuario);
+        conector.getTodosLosUsuarios();
+
+        assertEquals(tam + 1, conector.getListaUsuarios().size());
+    }
+
+    /**
+     * Test of createRuta method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testCreateRutaExcepciones() {
+        System.out.println("createRuta");
+        Ruta ruta = new Ruta("Prueba", "Ruta de prueba", 0.1, "BAJA", 0.1, conector.getListaUsuarios().get(0));
+        try{
+            conector.createRuta(ruta);
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+            sqle.printStackTrace();
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al crear la ruta");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test of createRuta method, of class Conector.
+     * Prueba que la ruta se ha creado correctamente
+     */
+    @Test
+    public void testCreateRuta() throws Exception {
+        System.out.println("createRuta");
+        Ruta ruta = new Ruta("Prueba", "Ruta de prueba", 0.1, "BAJA", 0.1, conector.getListaUsuarios().get(0));
+        conector.createRuta(ruta);
+        conector.getTodasLasRutas();
+        boolean creada = false;
+        for(Ruta rutaAux : conector.getListaRutas()){
+            if(rutaAux.getNombreRuta().equals(ruta.getNombreRuta())){
+                 creada = true;
+            }
+        }
+
+        assertTrue(creada);
+    }
+
+    /**
+     * Test of createRuta method, of class Conector.
+     * Prueba que hay una ruta más en la base de datos
+     */
+    @Test
+    public void testCreateRutaTam() throws Exception {
+        System.out.println("createRuta");
+        int tam = conector.getTodasLasRutas().size();
+        Ruta ruta = new Ruta("Prueba", "Ruta de prueba", 0.1, "BAJA", 0.1, conector.getListaUsuarios().get(0));
+        conector.createRuta(ruta);
+        conector.getTodasLasRutas();
+
+        assertEquals(tam + 1, conector.getListaRutas().size());
+    }
+
+    /**
+     * Test of createRuta method, of class Conector.
+     * Prueba que la ruta creada tiene el usuario correcto asignado
+     */
+    @Test
+    public void testCreateRutaUsuario() throws Exception {
+        System.out.println("createRuta");
+        Ruta ruta = new Ruta("Prueba", "Ruta de prueba", 0.1, "BAJA", 0.1, conector.getListaUsuarios().get(0));
+        conector.createRuta(ruta);
+        conector.getTodasLasRutas();
+        boolean creada = false;
+        for(Ruta rutaAux : conector.getListaRutas()){
+            if(rutaAux.getNombreRuta().equals(ruta.getNombreRuta())){
+                 creada = true;
+                 assertEquals(rutaAux.getCreadorRuta().getIDUsuario(), ruta.getCreadorRuta().getIDUsuario());
+            }
+        }
+
+        assertTrue(creada);
+    }
+
+    /**
+     * Test of createFotoPerfil method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testCreateFotoPerfilExcepciones() {
+        System.out.println("createFotoPerfil");
+        FotoPerfil fotoPerfil = new FotoPerfil("Prueba", 24, 24, conector.getListaUsuarios().get(0));
+        try{
+            conector.createFotoPerfil(fotoPerfil);
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+            sqle.printStackTrace();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test of createFotoPerfil method, of class Conector.
+     * Prueba que la foto de perfil se ha creado correctamente
+     */
+    @Test
+    public void testCreateFotoPerfil() throws Exception {
+        System.out.println("createFotoPerfil");
+        FotoPerfil fotoPerfil = new FotoPerfil("Prueba", 24, 24, conector.getListaUsuarios().get(0));
+        conector.createFotoPerfil(fotoPerfil);
+        conector.getTodasLasFotosPerfil();
+        boolean creada = false;
+        for(FotoPerfil fotoPerfilAux : conector.getListaFotosPerfil()){
+            if(fotoPerfilAux.getNombreImagen().equals(fotoPerfil.getNombreImagen()) && fotoPerfilAux.getUsuario().getIDUsuario().equals(fotoPerfil.getUsuario().getIDUsuario())){
+                 creada = true;
+            }
+        }
+
+        assertTrue(creada);
+    }
+
+    /**
+     * Test of createFotoPerfil method, of class Conector.
+     * Prueba que hay una foto de perfil más en la base de datos
+     */
+    @Test
+    public void testCreateFotoPerfilTam() throws Exception {
+        System.out.println("createFotoPerfil");
+        int tam = conector.getTodasLasFotosPerfil().size();
+        FotoPerfil fotoPerfil = new FotoPerfil("Prueba", 24, 24, conector.getListaUsuarios().get(0));
+        conector.createFotoPerfil(fotoPerfil);
+        conector.getTodasLasFotosPerfil();
+
+        assertEquals(tam + 1, conector.getListaFotosPerfil().size());
+    }
+
+    /**
+     * Test of createFotoPerfil method, of class Conector.
+     * Prueba que se ha asignado la foto de perfil al usuario correcto
+     */
+    @Test
+    public void testCreateFotoPerfilUsuario() throws Exception {
+        System.out.println("createFotoPerfil");
+        FotoPerfil fotoPerfil = new FotoPerfil("Prueba", 24, 24, conector.getListaUsuarios().get(0));
+        conector.createFotoPerfil(fotoPerfil);
+        conector.getTodasLasFotosPerfil();
+        boolean vinculada = false;
+
+        Integer idUsuario = conector.getListaUsuarios().get(0).getIDUsuario();
+
+        conector.getTodosLosUsuarios();
+
+        for(Usuario usuarioAux : conector.getListaUsuarios()){
+            if(usuarioAux.getIDUsuario().equals(idUsuario)){
+                if(usuarioAux.getFotoPerfil().getNombreImagen().equals(fotoPerfil.getNombreImagen())){
+                    vinculada = true;
+                }
+            }
+        }
+
+        assertTrue(vinculada);
+    }
+
+    /**
+     * Test of createValoracion method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testCreateValoracionExcepciones() {
+        System.out.println("createValoracion");
+        Valoracion valoracion = new Valoracion(conector.getListaRutas().get(6), conector.getListaUsuarios().get(0), 5, "Prueba");
+        try{
+            conector.createValoracion(valoracion);
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+            sqle.printStackTrace();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test of createValoracion method, of class Conector.
+     * Prueba que la valoración se ha creado correctamente
+     */
+    @Test
+    public void testCreateValoracion() throws Exception {
+        System.out.println("createValoracion");
+        Valoracion valoracion = new Valoracion(conector.getListaRutas().get(6), conector.getListaUsuarios().get(0), 5, "Prueba");
+        conector.createValoracion(valoracion);
+        conector.getTodasLasValoraciones();
+        boolean creada = false;
+        for(Valoracion valoracionAux : conector.getListaValoraciones()){
+            if(valoracionAux.getRuta().getIdRuta().equals(conector.getListaRutas().get(6).getIdRuta()) && valoracionAux.getUsuario().getIDUsuario().equals(valoracion.getUsuario().getIDUsuario())){
+                 creada = true;
+            }
+        }
+
+        assertTrue(creada);
+    }
+
+    /**
+     * Test of createValoracion method, of class Conector.
+     * Prueba que hay una valoración más en la base de datos
+     */
+    @Test
+    public void testCreateValoracionTam() throws Exception {
+        System.out.println("createValoracion");
+        int tam = conector.getTodasLasValoraciones().size();
+        Valoracion valoracion = new Valoracion(conector.getListaRutas().get(6), conector.getListaUsuarios().get(0), 5, "Prueba");
+        conector.createValoracion(valoracion);
+        conector.getTodasLasValoraciones();
+
+        assertEquals(tam + 1, conector.getListaValoraciones().size());
+    }
+
+    /**
+     * Test of createValoracion method, of class Conector.
+     * Prueba que la valoración media de la ruta ha cambiado
+     */
+    @Test
+    public void testCreateValoracionMedia() throws Exception {
+        System.out.println("createValoracion");
+        Ruta ruta = conector.getListaRutas().get(6);
+        Double valoracionMedia = ruta.getPuntuacionMedia();
+        Integer idRuta = ruta.getIdRuta();
+        Valoracion valoracion = new Valoracion(ruta, conector.getListaUsuarios().get(0), 1, "Prueba");
+        conector.createValoracion(valoracion);
+        conector.getTodasLasValoraciones();
+        conector.getTodasLasRutas();
+
+        for(Ruta rutaAux : conector.getListaRutas()){
+            if(rutaAux.getIdRuta().equals(idRuta)){
+                assertNotEquals(valoracionMedia, rutaAux.getPuntuacionMedia());
+            }
+        }
+    }
+
+    /**
+     * Test of getClasificacion method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testCreateClasificacionExcepciones() {
+        System.out.println("createClasificacion");
+        try{
+            conector.createClasificacion(conector.getListaCategorias().get(10), conector.getListaRutas().get(0));
+        }
+        catch (SQLException sqle){
+            sqle.printStackTrace();
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Test of getClasificacion method, of class Conector.
+     * Prueba que la clasificación se ha creado correctamente
+     */
+    @Test
+    public void testCreateClasificacion() throws Exception {
+        System.out.println("createClasificacion");
+        conector.createClasificacion(conector.getListaCategorias().get(10), conector.getListaRutas().get(0));
+        conector.getTodasLasCategorias();
+        conector.getTodasLasRutas();
+        boolean creada = false;
+        for(Categoria categoriaAux : conector.getListaCategorias()){
+            if(categoriaAux.getIDCategoria().equals(conector.getListaCategorias().get(10).getIDCategoria())){
+                for(Ruta rutaAux : categoriaAux.getListaRutas()){
+                    if(rutaAux.getIdRuta().equals(conector.getListaRutas().get(0).getIdRuta())){
+                        creada = true;
+                    }
+                }
+            }
+        }
+
+        assertTrue(creada);
+    }
+
+    //*******************************************************************//
 }
