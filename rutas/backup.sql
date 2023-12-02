@@ -1,5 +1,13 @@
-PRAGMA foreign_keys = ON;
+PRAGMA encoding = "UTF-8";
 BEGIN TRANSACTION;
+
+DROP TABLE IF EXISTS clasificacion;
+DROP TABLE IF EXISTS valoracion;
+DROP TABLE IF EXISTS ruta;
+DROP TABLE IF EXISTS categoria;
+DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS foto_perfil;
+
 CREATE TABLE foto_perfil(
     id_foto_perfil  INTEGER         PRIMARY KEY AUTOINCREMENT,
     nombre_foto     VARCHAR(100)    NOT NULL,
@@ -19,7 +27,7 @@ CREATE TABLE usuario(
     email           VARCHAR(100)    NOT NULL    CHECK (email GLOB '*@*.*'),
     password        VARCHAR(100)    NOT NULL    CHECK (LENGTH(password) > 3),
     dni             VARCHAR(9)      NOT NULL    CHECK (LENGTH(dni) = 9) UNIQUE,
-    id_foto_perfil  INTEGER,   -- OptimizaciÃ³n 1:1
+    id_foto_perfil  INTEGER,   
     FOREIGN KEY (id_foto_perfil)   REFERENCES foto_perfil(id_foto_perfil)
 );
 INSERT INTO usuario VALUES(1,'Belén','Robustillo','Carmona','brc@gmail.com','1234','00000001R',1);
@@ -37,8 +45,8 @@ CREATE TABLE ruta(
     dificultad          VARCHAR(5)      NOT NULL    CHECK (dificultad IN ('BAJA', 'MEDIA', 'ALTA')),
     tiempo_h            DECIMAL(2,2)    NOT NULL    CHECK (tiempo_h > 0),
     puntuacion_media    DECIMAL(2,2)                CHECK (puntuacion_media >= 0 AND puntuacion_media <= 5),
-    id_usuario          INTEGER         NOT NULL,   -- OptimizaciÃ³n 1:N
-    UNIQUE (nombre_ruta, id_usuario),               -- Asegurar que no hay dos rutas con el mismo nombre para un mismo usuario
+    id_usuario          INTEGER         NOT NULL,   
+    UNIQUE (nombre_ruta, id_usuario),               
     FOREIGN KEY (id_usuario)    REFERENCES usuario(id_usuario)
 );
 INSERT INTO ruta VALUES(1,'Ruta 1','Ruta por el bosque helado',10,'BAJA',2,NULL,1);
@@ -64,7 +72,7 @@ INSERT INTO categoria VALUES(9,'Otoño');
 INSERT INTO categoria VALUES(10,'Pet Friendly');
 INSERT INTO categoria VALUES(11,'Accesible');
 INSERT INTO categoria VALUES(12,'Familiar');
-CREATE TABLE valoracion(                          -- RelaciÃ³n N:M
+CREATE TABLE valoracion(                          
     id_usuario      INTEGER             NOT NULL,
     id_ruta         INTEGER             NOT NULL,
     comentario      VARCHAR(500),
@@ -98,7 +106,7 @@ INSERT INTO valoracion VALUES(4,5,'No me ha gustado',2);
 INSERT INTO valoracion VALUES(2,6,'Muy bonita',4);
 INSERT INTO valoracion VALUES(3,6,'Me ha gustado',3);
 INSERT INTO valoracion VALUES(7,7,'Me ha encantado',5);
-CREATE TABLE clasificacion(                       -- RelaciÃ³n N:M
+CREATE TABLE clasificacion(                       
     id_categoria        INTEGER             NOT NULL,
     id_ruta             INTEGER             NOT NULL,
     PRIMARY KEY (id_categoria, id_ruta),

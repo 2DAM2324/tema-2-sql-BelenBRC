@@ -5,8 +5,6 @@ DROP TABLE IF EXISTS ruta;
 DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS foto_perfil;
 
--- -----------------------------------------------------
-
 CREATE TABLE IF NOT EXISTS foto_perfil(
     id_foto_perfil  INTEGER         PRIMARY KEY AUTOINCREMENT,
     nombre_foto     VARCHAR(100)    NOT NULL,
@@ -22,7 +20,7 @@ CREATE TABLE IF NOT EXISTS usuario(
     email           VARCHAR(100)    NOT NULL    CHECK (email GLOB '*@*.*'),
     password        VARCHAR(100)    NOT NULL    CHECK (LENGTH(password) > 3),
     dni             VARCHAR(9)      NOT NULL    CHECK (LENGTH(dni) = 9) UNIQUE,
-    id_foto_perfil  INTEGER,   -- Optimización 1:1
+    id_foto_perfil  INTEGER,   
     FOREIGN KEY (id_foto_perfil)   REFERENCES foto_perfil(id_foto_perfil)
 );
 
@@ -34,8 +32,8 @@ CREATE TABLE IF NOT EXISTS ruta(
     dificultad          VARCHAR(5)      NOT NULL    CHECK (dificultad IN ('BAJA', 'MEDIA', 'ALTA')),
     tiempo_h            DECIMAL(2,2)    NOT NULL    CHECK (tiempo_h > 0),
     puntuacion_media    DECIMAL(2,2)                CHECK (puntuacion_media >= 0 AND puntuacion_media <= 5),
-    id_usuario          INTEGER         NOT NULL,   -- Optimización 1:N
-    UNIQUE (nombre_ruta, id_usuario),               -- Asegurar que no hay dos rutas con el mismo nombre para un mismo usuario
+    id_usuario          INTEGER         NOT NULL,   
+    UNIQUE (nombre_ruta, id_usuario),               
     FOREIGN KEY (id_usuario)    REFERENCES usuario(id_usuario)
 );
 
@@ -44,7 +42,7 @@ CREATE TABLE IF NOT EXISTS categoria(
     nombre          VARCHAR(50)     NOT NULL    UNIQUE  CHECK (nombre GLOB '*[a-zA-Z]*')
 );
 
-CREATE TABLE IF NOT EXISTS valoracion(                          -- Relación N:M
+CREATE TABLE IF NOT EXISTS valoracion(                          
     id_usuario      INTEGER             NOT NULL,
     id_ruta         INTEGER             NOT NULL,
     comentario      VARCHAR(500),
@@ -54,15 +52,13 @@ CREATE TABLE IF NOT EXISTS valoracion(                          -- Relación N:M
     FOREIGN KEY (id_ruta)       REFERENCES ruta(id_ruta)
 );
 
-CREATE TABLE IF NOT EXISTS clasificacion(                       -- Relación N:M
+CREATE TABLE IF NOT EXISTS clasificacion(                       
     id_categoria        INTEGER             NOT NULL,
     id_ruta             INTEGER             NOT NULL,
     PRIMARY KEY (id_categoria, id_ruta),
     FOREIGN KEY (id_categoria)  REFERENCES categoria(id_categoria),
     FOREIGN KEY (id_ruta)       REFERENCES ruta(id_ruta)
 );
-
--- -----------------------------------------------------
 
 INSERT INTO foto_perfil(nombre_foto, resolucion_mpx, tamanio_kb) VALUES
     ('foto_perfil_1.jpg', 12, 100),
@@ -152,5 +148,3 @@ INSERT INTO clasificacion(id_categoria, id_ruta) VALUES
     (10, 1),
     (12, 1),
     (12, 7);
-
--- -----------------------------------------------------

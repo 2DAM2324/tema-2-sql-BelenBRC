@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package Modelo;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -21,6 +19,7 @@ public class ConectorTest {
 
     static public Conector conector;
     private static String url = "C:\\Users\\belen\\Documents\\NetBeansProjects\\BRC-2DAM-AD\\tema-2-sql-BelenBRC\\rutas\\tests.db";
+    private static String backup = "C:\\Users\\belen\\Documents\\NetBeansProjects\\BRC-2DAM-AD\\tema-2-sql-BelenBRC\\rutas\\DatabaseFile.sql";
     
     public ConectorTest() {
     }
@@ -30,6 +29,7 @@ public class ConectorTest {
         try{
             conector = Conector.newInstance(url);
             conector.conectar();
+            conector.bajarBaseDatos();
         }
         catch(Exception e){
             System.out.println("Error al conectar con la base de datos");
@@ -48,6 +48,22 @@ public class ConectorTest {
     
     @BeforeEach
     public void setUp() {
+        //Restaurar la base de datos al estado inicial con backup
+        try{
+            conector.recuperarBackup(backup);
+        }
+        catch(IOException ioe){
+            System.out.println("Error al leer el fichero de backup");
+            ioe.printStackTrace();
+        }
+        catch(SQLException sqle){
+            System.out.println("Error al ejecutar la sentencia SQL");
+            sqle.printStackTrace();
+        }
+        catch(Exception e){
+            System.out.println("Error inesperado al restaurar la base de datos");
+            e.printStackTrace();
+        }
     }
     
     @AfterEach
@@ -94,7 +110,7 @@ public class ConectorTest {
      */
     @Test
     public void testConectar() {
-        // Prueba la conexión exitosa
+        System.out.println("conectar");
         assertNotNull(conector.getConexion());
     }
 
@@ -105,7 +121,7 @@ public class ConectorTest {
      */
     @Test
     public void testReconectar() {
-        // Prueba la reconexión exitosa
+        System.out.println("reconectar");
         try {
             conector.conectar();
             assertEquals(conector.getConexion(), conector.getConexion());
@@ -120,7 +136,7 @@ public class ConectorTest {
      */
     @Test
     public void testDesconectar() {
-        // Prueba la desconexión exitosa
+        System.out.println("desconectar");
         try {
             conector.desconectar();
             assertNull(conector.getConexion(), "La conexión debe ser nula después de desconectar");
@@ -135,7 +151,7 @@ public class ConectorTest {
      */
     @Test
     public void testDesconectarDoble() {
-        // Prueba la desconexión doble
+        System.out.println("desconectar");
         try {
             conector.desconectar();
             conector.desconectar();
@@ -153,11 +169,82 @@ public class ConectorTest {
 
     /**
      * Test of bajarBaseDatos method, of class Conector.
+     * Prueba que, tras instanciarlo, todos los arrays tienen tamaño > 0
      */
     @Test
     public void testBajarBaseDatos() throws Exception {
         System.out.println("bajarBaseDatos");
+        conector.bajarBaseDatos();
+        assertTrue(conector.getTodasLasCategorias().size() > 0);
+        assertTrue(conector.getTodosLosUsuarios().size() > 0);
+        assertTrue(conector.getTodasLasRutas().size() > 0);
+        assertTrue(conector.getTodasLasValoraciones().size() > 0);
+        assertTrue(conector.getTodasLasFotosPerfil().size() > 0);
     }
+
+    /**
+     * Test of bajarBaseDatos method, of class Conector.
+     * Prueba de consistencia. Al llamarlo dos veces, los arrays deben tener el mismo tamaño
+     */
+    @Test
+    public void testBajarBaseDatosConsistencia() throws Exception {
+        System.out.println("bajarBaseDatos");
+        conector.bajarBaseDatos();
+        int tamCategorias = conector.getTodasLasCategorias().size();
+        int tamUsuarios = conector.getTodosLosUsuarios().size();
+        int tamRutas = conector.getTodasLasRutas().size();
+        int tamValoraciones = conector.getTodasLasValoraciones().size();
+        int tamFotosPerfil = conector.getTodasLasFotosPerfil().size();
+        conector.bajarBaseDatos();
+        assertEquals(tamCategorias, conector.getTodasLasCategorias().size());
+        assertEquals(tamUsuarios, conector.getTodosLosUsuarios().size());
+        assertEquals(tamRutas, conector.getTodasLasRutas().size());
+        assertEquals(tamValoraciones, conector.getTodasLasValoraciones().size());
+        assertEquals(tamFotosPerfil, conector.getTodasLasFotosPerfil().size());
+    }
+
+    /**
+     * Test of bajarBaseDatos method, of class Conector.
+     * Prueba que no se lancen excepciones
+     */
+    @Test
+    public void testBajarBaseDatosThrows(){
+        try{
+            conector.bajarBaseDatos();
+        }
+        catch (SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+        }
+        catch (Exception e){
+            fail("Excepción inesperada al bajar la base de datos");
+        }
+    }
+
+    /**
+     * Test of recuperarBackup method, of class Conector.
+     * Prueba que no se lancen excepciones al restaurar la base de datos
+     */
+    @Test
+    public void testRecuperarBackup() {
+        System.out.println("recuperarBackup");
+        try{
+            conector.recuperarBackup(backup);
+        }
+        catch(IOException ioe){
+            fail("No se esperaba una excepción al leer el fichero de backup");
+            ioe.printStackTrace();
+        }
+        catch(SQLException sqle){
+            fail("No se esperaba una excepción al ejecutar la sentencia SQL");
+            sqle.printStackTrace();
+        }
+        catch(Exception e){
+            fail("Excepción inesperada al restaurar la base de datos");
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * Test of getFotosPerfilBaseDatos method, of class Conector.

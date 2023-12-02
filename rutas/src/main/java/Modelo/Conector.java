@@ -1,5 +1,9 @@
 package Modelo;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -1117,5 +1121,43 @@ public class Conector {
 
         sentencia.executeUpdate();
         cerrarSentencia(sentencia);
+    }
+
+
+
+    //*********************************************************//
+    //************************ BACKUP *************************//
+    
+    /**
+     * @brief   Método que realiza un backup de la base de datos
+     * @param urlBackup     (String)    Ruta del fichero de backup
+     * @throws IOException  Excepción de entrada/salida em la lectura del fichero
+     * @throws SQLException Excepción de SQL en la ejecución del backup
+     * @throws Exception    Excepción general
+     */
+    public void recuperarBackup(String urlBackup) throws IOException, SQLException, Exception{
+        //Leer el fichero
+        String contenidoFichero = "";
+        FileReader lectorArchivo = new FileReader(urlBackup);
+        BufferedReader lectorBuffer = new BufferedReader(lectorArchivo);
+        String linea = "";
+        while((linea = lectorBuffer.readLine()) != null){
+            contenidoFichero += linea;
+        }
+        lectorBuffer.close();
+        lectorArchivo.close();
+
+        //Separar las sentencias del fichero por ;
+        String[] sentencias = contenidoFichero.split(";");
+
+        //Ejecutar por separado cada sentencia
+        getConexion().setAutoCommit(false);
+        for(int i=0; i<sentencias.length; i++){
+            PreparedStatement sentencia = null;
+            sentencia = getConexion().prepareStatement(sentencias[i]);
+            sentencia.executeUpdate();
+            cerrarSentencia(sentencia);
+        }
+        getConexion().commit();
     }
 }
