@@ -356,9 +356,19 @@ public class Controlador {
      * @param nombreCategoria   Nombre de la categoría a añadir a la lista de categorías del sistema
      * @throws SQLException     Excepción que se lanza si se produce un error en la base de datos
      * @throws Exception        Excepción general
+     * @post    Transforma la primera letra a mayúscula y el resto a minúscula
+     * @post    Se eliminan espacios en blanco al principio y al final
      * @post    Se actualiza la base de datos
      */
     public void aniadirCategoria(String nombreCategoria) throws SQLException, Exception{
+        nombreCategoria = nombreCategoria.trim();
+
+        //Transformar primera letra a mayúscula y el resto a minúscula
+        if(nombreCategoria.length() > 1)
+            nombreCategoria = nombreCategoria.substring(0, 1).toUpperCase() + nombreCategoria.substring(1).toLowerCase();
+        else if(nombreCategoria.length() == 1)
+            nombreCategoria = nombreCategoria.toUpperCase();
+
         Categoria categoria = new Categoria(nombreCategoria);
 
         conector.createCategoria(categoria);
@@ -384,10 +394,12 @@ public class Controlador {
             }
         }
 
-        getConector().deleteCategoria(categoriaEliminada);
-        getConector().getTodasLasCategorias();
-        getConector().getTodasLasRutas();
-        getConector().vincularCategoriasConRutas();
+        if(encontrado){
+            getConector().deleteCategoria(categoriaEliminada);
+            getConector().getTodasLasCategorias();
+            getConector().getTodasLasRutas();
+            getConector().vincularCategoriasConRutas();
+        }
     }    
 
     /**

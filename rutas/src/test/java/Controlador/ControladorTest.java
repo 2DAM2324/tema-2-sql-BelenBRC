@@ -474,4 +474,310 @@ public class ControladorTest {
         boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
         assertEquals(expResult, result);
     }
+
+    //***********************************************************************************************//
+    //******************************************CATEGORIA********************************************//
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoria no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaNoExiste() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = "Categoria que no existe";
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }  
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoria no existe en el sistema, se añade correctamente
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaNoExisteSeAniadeCorrectamente() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = "Categoria que no existe";
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }  
+        
+        assertEquals(nombreCategoria, controlador.getListaCategoriasSistema().get(controlador.getListaCategoriasSistema().size()-1).getNombreCategoria());
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoria existe en el sistema, lanza excepción SQLException
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaExisteSQLException() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = controlador.getListaCategoriasSistema().get(0).getNombreCategoria();
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }  
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoria existe en el sistema, pero con letras mayúsculas y minúsculas
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaExisteMayusculasMinusculas() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = controlador.getListaCategoriasSistema().get(0).getNombreCategoria().toUpperCase();
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }  
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoría sin letras
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaSinLetras() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = "1234567890";
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }  
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoría vacía
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaVacia() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = "";
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }  
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoría con una letra
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaUnaLetra() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = "a";
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepción SQLException");
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }  
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoría existente con espacios al principio y al final
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaExistenteConEspacios() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = " " + controlador.getListaCategoriasSistema().get(0).getNombreCategoria() + " ";
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }  
+    }
+
+    /**
+     * Test of aniadirCategoria method, of class Controlador.
+     * Categoría nueva con espacio al principio y al final se añade sin espacios
+     */
+    @Test
+    public void testAniadirCategoriaCategoriaNuevaConEspacios() {
+        System.out.println("aniadirCategoria");
+        String nombreCategoria = " Categoria que no existe ";
+        
+        try{
+            controlador.aniadirCategoria(nombreCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }  
+        
+        assertEquals(nombreCategoria.trim(), controlador.getListaCategoriasSistema().get(controlador.getListaCategoriasSistema().size()-1).getNombreCategoria());
+    }
+
+    /**
+     * Test of borrarCategoria method, of class Controlador.
+     * Categoria no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarCategoriaCategoriaNoExisteSQLException() {
+        System.out.println("borrarCategoria");
+        Integer idNoExiste = 17895;
+        
+        try{
+            controlador.borrarCategoria(idNoExiste);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }  
+    }
+
+    /**
+     * Test of borrarCategoria method, of class Controlador.
+     * Categoria no existe en el sistema, el array de categorías no se modifica
+     */
+    @Test
+    public void testBorrarCategoriaCategoriaNoExisteArrayNoModificado() {
+        System.out.println("borrarCategoria");
+        Integer idNoExiste = 17895;
+
+        Integer tamanoInicial = controlador.getListaCategoriasSistema().size();
+        
+        try{
+            controlador.borrarCategoria(idNoExiste);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }  
+        
+        assertEquals(tamanoInicial, controlador.getListaCategoriasSistema().size());
+    }
+
+    /**
+     * Test of borrarCategoria method, of class Controlador.
+     * Categoria existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarCategoriaCategoriaExisteSQLException() {
+        System.out.println("borrarCategoria");
+        Integer idCategoria = controlador.getListaCategoriasSistema().get(0).getIDCategoria();
+        
+        try{
+            controlador.borrarCategoria(idCategoria);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of borrarCategoria method, of class Controlador.
+     * Categoria existe en el sistema, se borra correctamente
+     */
+    @Test
+    public void testBorrarCategoriaCategoriaExisteSeBorraCorrectamente() {
+        System.out.println("borrarCategoria");
+        Integer idCategoria = controlador.getListaCategoriasSistema().get(0).getIDCategoria();
+        
+        try{
+            controlador.borrarCategoria(idCategoria);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }
+        
+        boolean encontrado = false;
+        for(int i = 0; i < controlador.getListaCategoriasSistema().size() && !encontrado; i++){
+            if(controlador.getListaCategoriasSistema().get(i).getIDCategoria().equals(idCategoria)){
+                encontrado = true;
+            }
+        }
+
+        assertFalse(encontrado);
+    }
+
+    /**
+     * Test of borrarCategoria method, of class Controlador.
+     * Categoria existe en el sistema, el array de categorías se reduce en 1
+     */
+    @Test
+    public void testBorrarCategoriaCategoriaExisteArrayTam() {
+        System.out.println("borrarCategoria");
+        Integer idCategoria = controlador.getListaCategoriasSistema().get(0).getIDCategoria();
+        
+        Integer tamanoInicial = controlador.getListaCategoriasSistema().size();
+        
+        try{
+            controlador.borrarCategoria(idCategoria);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }
+        
+        assertEquals(tamanoInicial-1, controlador.getListaCategoriasSistema().size());
+    }
 }
