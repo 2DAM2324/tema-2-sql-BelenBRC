@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import Modelo.Categoria;
 import Modelo.FotoPerfil;
 import Modelo.Ruta;
 import Modelo.Usuario;
@@ -2812,4 +2813,266 @@ public class ControladorTest {
 
     //***********************************************************************************************//
     //***************************************CLASIFICACION*******************************************//
+
+    /**
+     * Test of eliminarRutaDeCategoria method, of class Controlador.
+     * Ruta no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testEliminarRutaDeCategoriaNoExistenteSinExcepciones(){
+        System.out.println("eliminarRutaDeCategoria");
+
+        Integer idRuta = 85478;
+        Integer idCategoria = controlador.getListaCategoriasSistema().get(0).getIDCategoria();
+
+        try{
+            controlador.eliminarRutaDeCategoria(idRuta, idCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of eliminarRutaDeCategoria method, of class Controlador.
+     * Categoria no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testEliminarRutaDeCategoriaCategoriaNoExistenteSinExcepciones(){
+        System.out.println("eliminarRutaDeCategoria");
+
+        Integer idRuta = controlador.getListaRutasSistema().get(0).getIdRuta();
+        Integer idCategoria = 85478;
+
+        try{
+            controlador.eliminarRutaDeCategoria(idRuta, idCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of eliminarRutaDeCategoria method, of class Controlador.
+     * Ruta y Categoría existen en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testEliminarRutaDeCategoriaExistenteSinExcepciones(){
+        System.out.println("eliminarRutaDeCategoria");
+
+        Integer idRuta = controlador.getListaRutasSistema().get(0).getIdRuta();
+        Integer idCategoria = controlador.getListaCategoriasSistema().get(0).getIDCategoria();
+
+        try{
+            controlador.eliminarRutaDeCategoria(idRuta, idCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of eliminarRutaDeCategoria method, of class Controlador.
+     * Ruta y Categoría existen en el sistema, la ruta se elimina de la categoría
+     */
+    @Test
+    public void testEliminarRutaDeCategoriaExistenteRutaEliminadaDeCategoria(){
+        System.out.println("eliminarRutaDeCategoria");
+
+        Integer idRuta = controlador.getListaRutasSistema().get(0).getIdRuta();
+        Integer idCategoria = controlador.getListaCategoriasSistema().get(0).getIDCategoria();
+
+        try{
+            controlador.eliminarRutaDeCategoria(idRuta, idCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        boolean encontrado = false;
+        for(int i = 0; i < controlador.getListaCategoriasSistema().size() && !encontrado; i++){
+            if(controlador.getListaCategoriasSistema().get(i).getIDCategoria().equals(idCategoria)){
+                for(int j = 0; j < controlador.getListaCategoriasSistema().get(i).getListaRutas().size() && !encontrado; j++){
+                    if(controlador.getListaCategoriasSistema().get(i).getListaRutas().get(j).getIdRuta().equals(idRuta)){
+                        encontrado = true;
+                    }
+                }
+            }
+        }
+
+        assertFalse(encontrado);
+    }
+
+    /**
+     * Test of eliminarRutaDeCategoria method, of class Controlador.
+     * Ruta y Categoría existen en el sistema, la categoría se elimina de la ruta
+     */
+    @Test
+    public void testEliminarRutaDeCategoriaExistenteCategoriaEliminadaDeRuta(){
+        System.out.println("eliminarRutaDeCategoria");
+
+        Integer idRuta = controlador.getListaRutasSistema().get(0).getIdRuta();
+        Integer idCategoria = controlador.getListaCategoriasSistema().get(0).getIDCategoria();
+
+        try{
+            controlador.eliminarRutaDeCategoria(idRuta, idCategoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        boolean encontrado = false;
+        for(int i = 0; i < controlador.getListaRutasSistema().size() && !encontrado; i++){
+            if(controlador.getListaRutasSistema().get(i).getIdRuta().equals(idRuta)){
+                for(int j = 0; j < controlador.getListaRutasSistema().get(i).getListaCategorias().size() && !encontrado; j++){
+                    if(controlador.getListaRutasSistema().get(i).getListaCategorias().get(j).getIDCategoria().equals(idCategoria)){
+                        encontrado = true;
+                    }
+                }
+            }
+        }
+
+        assertFalse(encontrado);
+    }
+
+    /**
+     * Test of aniadirRutaACategoria method, of class Controlador.
+     * Ruta no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirRutaACategoriaNoExistenteSinExcepciones(){
+        System.out.println("aniadirRutaACategoria");
+
+        Ruta ruta = new Ruta("Ruta que no existe", "D", 1, "BAJA", 1, controlador.getListaUsuariosSistema().get(0));
+        Categoria categoria = controlador.getListaCategoriasSistema().get(0);
+
+        try{
+            controlador.aniadirRutaACategoria(ruta, categoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of aniadirRutaACategoria method, of class Controlador.
+     * Ruta no existe en el sistema, no se modifica el array de rutas de la categoría
+     */
+    @Test
+    public void testAniadirRutaACategoriaNoExistenteArrayNoModificado(){
+        System.out.println("aniadirRutaACategoria");
+
+        Ruta ruta = new Ruta("Ruta que no existe", "D", 1, "BAJA", 1, controlador.getListaUsuariosSistema().get(0));
+        Categoria categoria = controlador.getListaCategoriasSistema().get(0);
+        Integer idCategoria = categoria.getIDCategoria();
+
+        Integer tamanoInicial = categoria.getListaRutas().size();
+
+        try{
+            controlador.aniadirRutaACategoria(ruta, categoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        for(int i = 0; i < controlador.getListaCategoriasSistema().size(); i++){
+            if(controlador.getListaCategoriasSistema().get(i).getIDCategoria().equals(idCategoria)){
+                assertEquals(tamanoInicial, controlador.getListaCategoriasSistema().get(i).getListaRutas().size());
+            }
+        }
+    }
+
+    /**
+     * Test of aniadirRutaACategoria method, of class Controlador.
+     * Ruta y categoría existen en el sistema, pero no pertenecen a la misma, no lanza excepciones
+     */
+    @Test
+    public void testAniadirRutaACategoriaExistenteSinExcepciones(){
+        System.out.println("aniadirRutaACategoria");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        Integer idCategoria = 5;
+
+        Categoria categoria = null;
+        for(int i = 0; i < controlador.getListaCategoriasSistema().size() && categoria == null; i++){
+            if(controlador.getListaCategoriasSistema().get(i).getIDCategoria().equals(idCategoria)){
+                categoria = controlador.getListaCategoriasSistema().get(i);
+            }
+        }
+
+        try{
+            controlador.aniadirRutaACategoria(ruta, categoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of aniadirRutaACategoria method, of class Controlador.
+     * Ruta y categoría existen en el sistema, pero no pertenecen a la misma, la categoria tendrá 1 ruta más
+     */
+    @Test
+    public void testAniadirRutaACategoriaExistenteCategoriaTendra1RutaMas(){
+        System.out.println("aniadirRutaACategoria");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        Integer idCategoria = 5;
+
+        Categoria categoria = null;
+        for(int i = 0; i < controlador.getListaCategoriasSistema().size() && categoria == null; i++){
+            if(controlador.getListaCategoriasSistema().get(i).getIDCategoria().equals(idCategoria)){
+                categoria = controlador.getListaCategoriasSistema().get(i);
+            }
+        }
+
+        Integer tamanoInicial = categoria.getListaRutas().size();
+
+        try{
+            controlador.aniadirRutaACategoria(ruta, categoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        for(int i = 0; i < controlador.getListaCategoriasSistema().size(); i++){
+            if(controlador.getListaCategoriasSistema().get(i).getIDCategoria().equals(idCategoria)){
+                assertEquals(tamanoInicial+1, controlador.getListaCategoriasSistema().get(i).getListaRutas().size());
+            }
+        }
+    }
+
+    /**
+     * Test of aniadirRutaACategoria method, of class Controlador.
+     * Ruta y categoría existen en el sistema, pero no pertenecen a la misma, la ruta tendrá 1 categoría más
+     */
+    @Test
+    public void testAniadirRutaACategoriaExistenteRutaTendra1CategoriaMas(){
+        System.out.println("aniadirRutaACategoria");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        Integer idCategoria = 5;
+
+        Categoria categoria = null;
+        for(int i = 0; i < controlador.getListaCategoriasSistema().size() && categoria == null; i++){
+            if(controlador.getListaCategoriasSistema().get(i).getIDCategoria().equals(idCategoria)){
+                categoria = controlador.getListaCategoriasSistema().get(i);
+            }
+        }
+
+        Integer tamanoInicial = ruta.getListaCategorias().size();
+
+        try{
+            controlador.aniadirRutaACategoria(ruta, categoria);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        for(int i = 0; i < controlador.getListaRutasSistema().size(); i++){
+            if(controlador.getListaRutasSistema().get(i).getIdRuta().equals(ruta.getIdRuta())){
+                assertEquals(tamanoInicial+1, controlador.getListaRutasSistema().get(i).getListaCategorias().size());
+            }
+        }
+    }
 }

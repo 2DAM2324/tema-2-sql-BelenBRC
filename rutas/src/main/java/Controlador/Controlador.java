@@ -826,6 +826,7 @@ public class Controlador {
     public void eliminarRutaDeCategoria(Integer idRuta, Integer idCategoria) throws SQLException, Exception{
         //Buscar la ruta en la lista de rutas del sistema
         Ruta ruta = null;
+        Categoria categoria = null;
         boolean encontrado = false;
         for(int i=0; i < listaRutasSistema.size() && !encontrado; i++){
             if(listaRutasSistema.get(i).getIdRuta().equals(idRuta)){
@@ -834,20 +835,23 @@ public class Controlador {
             }
         }
 
-        //Buscar la categoría en la lista de categorías del sistema
-        Categoria categoria = null;
-        encontrado = false;
-        for(int i=0; i < listaCategoriasSistema.size() && !encontrado; i++){
-            if(listaCategoriasSistema.get(i).getIDCategoria().equals(idCategoria)){
-                categoria = listaCategoriasSistema.get(i);
-                encontrado = true;
+        if(encontrado){
+            //Buscar la categoría en la lista de categorías del sistema
+            encontrado = false;
+            for(int i=0; i < listaCategoriasSistema.size() && !encontrado; i++){
+                if(listaCategoriasSistema.get(i).getIDCategoria().equals(idCategoria)){
+                    categoria = listaCategoriasSistema.get(i);
+                    encontrado = true;
+                }
             }
         }
 
-        getConector().deleteClasificacion(categoria, ruta);
-        leerRutasBD();
-        leerCategoriasBD();
-        getConector().vincularCategoriasConRutas();
+        if(encontrado){
+            getConector().deleteClasificacion(categoria, ruta);
+            leerRutasBD();
+            leerCategoriasBD();
+            getConector().vincularCategoriasConRutas();
+        }
     }
 
     /**
