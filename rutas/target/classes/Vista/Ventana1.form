@@ -1551,6 +1551,7 @@
                                   <Component id="jComboBox_usuario_foto_perfil" min="-2" pref="112" max="-2" attributes="0"/>
                                   <Component id="jTextField_reolucion_foto_perfil" min="-2" pref="229" max="-2" attributes="0"/>
                                   <Component id="jTextField_nombre_imagen_foto_perfil" min="-2" pref="229" max="-2" attributes="0"/>
+                                  <Component id="jButtonReestablecerDatos" min="-2" pref="229" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1559,7 +1560,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="154" max="32767" attributes="0"/>
+                      <EmptySpace pref="157" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1602,7 +1603,9 @@
                           <Component id="jLabel_tamanio_foto_perfil" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField_tamanio_foto_perfil" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="167" max="32767" attributes="0"/>
+                      <EmptySpace pref="109" max="32767" attributes="0"/>
+                      <Component id="jButtonReestablecerDatos" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1749,6 +1752,20 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonReestablecerDatos">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="ff" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Reestablecer datos desde copia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReestablecerDatosActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

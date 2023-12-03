@@ -607,6 +607,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         jButton_borrar_foto_perfil = new javax.swing.JButton();
         jButton_aniadir_foto_perfil = new javax.swing.JButton();
         jButton_modificar_foto_perfil = new javax.swing.JButton();
+        jButtonReestablecerDatos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1569,6 +1570,15 @@ public final class Ventana1 extends javax.swing.JFrame {
             }
         });
 
+        jButtonReestablecerDatos.setBackground(new java.awt.Color(255, 0, 0));
+        jButtonReestablecerDatos.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonReestablecerDatos.setText("Reestablecer datos desde copia");
+        jButtonReestablecerDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReestablecerDatosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_fotosPerfilLayout = new javax.swing.GroupLayout(jPanel_fotosPerfil);
         jPanel_fotosPerfil.setLayout(jPanel_fotosPerfilLayout);
         jPanel_fotosPerfilLayout.setHorizontalGroup(
@@ -1595,12 +1605,13 @@ public final class Ventana1 extends javax.swing.JFrame {
                             .addComponent(jTextField_tamanio_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBox_usuario_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField_reolucion_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_nombre_imagen_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField_nombre_imagen_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonReestablecerDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(54, 54, 54)
                         .addGroup(jPanel_fotosPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton_guardar_foto_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_cancelar_foto_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))))
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
         jPanel_fotosPerfilLayout.setVerticalGroup(
             jPanel_fotosPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1634,7 +1645,9 @@ public final class Ventana1 extends javax.swing.JFrame {
                 .addGroup(jPanel_fotosPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_tamanio_foto_perfil)
                     .addComponent(jTextField_tamanio_foto_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addComponent(jButtonReestablecerDatos)
+                .addGap(34, 34, 34))
         );
 
         jTabbedPane.addTab("Fotos de Perfil", jPanel_fotosPerfil);
@@ -3250,6 +3263,37 @@ public final class Ventana1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_aniadir_rutaActionPerformed
 
     /**
+     * @brief Metodo que se ejecuta cuando se pulsa el boton de reestablecer datos
+     */
+    private void jButtonReestablecerDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReestablecerDatosActionPerformed
+        String backup = "C:\\Users\\belen\\Documents\\NetBeansProjects\\BRC-2DAM-AD\\tema-2-sql-BelenBRC\\rutas\\DatabaseFile.sql";
+
+
+        //Preguntar si se quiere reestablecer los datos
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres reestablecer los datos?\nEsta acción eliminará todas las modificaciones y cargará los datos de la última copia de seguridad.", "Reestablecer datos", JOptionPane.YES_NO_OPTION);
+        if(opcion == JOptionPane.YES_OPTION){
+            try{
+                controladorVista.getConector().recuperarBackup(backup);
+                JOptionPane.showMessageDialog(this, "Datos reestablecidos correctamente", "Acción completada", JOptionPane.INFORMATION_MESSAGE);
+                //Actualizar las tablas
+                controladorVista.cargarDatosSistema();
+                pintarDatosUsuario();
+                pintarDatosRuta();
+                pintarDatosCategoria();
+                pintarDatosValoracion();
+                pintarDatosFotoPerfil();
+            }
+            catch(SQLException sqle){
+                JOptionPane.showMessageDialog(this, "Error al reestablecer los datos\nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Error inesperado al reestablecer los datos\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+    }//GEN-LAST:event_jButtonReestablecerDatosActionPerformed
+
+    /**
      * @brief Metodo que se clica sobre una fila de la tabla de rutas
      * @param evt   Evento
      */
@@ -3334,6 +3378,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonReestablecerDatos;
     private javax.swing.JButton jButton_aniadir_categoria;
     private javax.swing.JButton jButton_aniadir_categoria_en_ruta;
     public javax.swing.JButton jButton_aniadir_foto_perfil;
