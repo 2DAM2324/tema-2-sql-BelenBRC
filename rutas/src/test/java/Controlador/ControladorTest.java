@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import Modelo.Conector;
 import Modelo.Ruta;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -208,7 +207,7 @@ public class ControladorTest {
     public void testNewInstanceNoLanzaExcepciones() {
         System.out.println("newInstance");
         try{
-            Controlador result = Controlador.newInstance();
+            Controlador.newInstance();
         }
         catch(Exception e){
             fail("No debería lanzar excepciones");
@@ -256,4 +255,223 @@ public class ControladorTest {
     }
 
     //***********************************************************************************************//
+
+    /**
+     * Test of comprobarFormatoDNICorrecto method, of class Controlador.
+     * DNI correcto
+     */
+    @Test
+    public void testComprobarFormatoDNICorrecto() {
+        System.out.println("comprobarFormatoDNICorrecto");
+
+        String dni = "12345678Z";
+        boolean expResult = true;
+        boolean result = controlador.comprobarFormatoDNICorrecto(dni);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoDNICorrecto method, of class Controlador.
+     * DNI vacío
+     */
+    @Test
+    public void testComprobarFormatoDNIVacio() {
+        System.out.println("comprobarFormatoDNIVacio");
+
+        String dni = "";
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoDNICorrecto(dni);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoDNICorrecto method, of class Controlador.
+     * DNI sin letra
+     */
+    @Test
+    public void testComprobarFormatoDNISinLetra() {
+        System.out.println("comprobarFormatoDNISinLetra");
+
+        String dni = "12345678";
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoDNICorrecto(dni);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoDNICorrecto method, of class Controlador.
+     * DNI con menos de 8 números
+     */
+    @Test
+    public void testComprobarFormatoDNIIncompleto() {
+        System.out.println("comprobarFormatoDNIIncompleto");
+
+        String dni = "1234567Z";
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoDNICorrecto(dni);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoDNICorrecto method, of class Controlador.
+     * DNI correcto con letra en minúscula
+     */
+    @Test
+    public void testComprobarFormatoDNILetraMinuscula() {
+        System.out.println("comprobarFormatoDNILetraMinuscula");
+
+        String dni = "12345678z";
+        boolean expResult = true;
+        boolean result = controlador.comprobarFormatoDNICorrecto(dni);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo correcto
+     */
+    @Test
+    public void testComprobarFormatoCorreoCorrecto() {
+        System.out.println("comprobarFormatoCorreoCorrecto");
+
+        String correo = "uncorreo@unadireccion.es";
+        boolean expResult = true;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo con mayúsculas
+     */
+    @Test
+    public void testComprobarFormatoCorreoMayusculas() {
+        System.out.println("comprobarFormatoCorreoMayusculas");
+
+        String correo = "UnCorreo@UnaDireccion.es";
+
+        boolean expResult = true;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo sin @
+     */
+    @Test
+    public void testComprobarFormatoCorreoSinArroba() {
+        System.out.println("comprobarFormatoCorreoSinArroba");
+
+        String correo = "uncorreo.unadireccion.es";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo sin dominio
+     */
+    @Test
+    public void testComprobarFormatoCorreoSinDominio() {
+        System.out.println("comprobarFormatoCorreoSinDominio");
+
+        String correo = "uncorreo@unadireccion";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo sin nombre
+     */
+    @Test
+    public void testComprobarFormatoCorreoSinNombre() {
+        System.out.println("comprobarFormatoCorreoSinNombre");
+
+        String correo = "@unadireccion.es";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo sin extensión
+     */
+    @Test
+    public void testComprobarFormatoCorreoSinExtension() {
+        System.out.println("comprobarFormatoCorreoSinExtension");
+
+        String correo = "uncorreo@.es";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo terminado en punto
+     */
+    @Test
+    public void testComprobarFormatoCorreoTerminadoEnPunto() {
+        System.out.println("comprobarFormatoCorreoTerminadoEnPunto");
+
+        String correo = "uncorreo@unadireccion.";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo con número en dominio
+     */
+    @Test
+    public void testComprobarFormatoCorreoConNumeroEnDominio() {
+        System.out.println("comprobarFormatoCorreoConNumeroEnDominio");
+
+        String correo = "uncorreo@unadireccion.1";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo con acentos
+     */
+    @Test
+    public void testComprobarFormatoCorreoConAcentos() {
+        System.out.println("comprobarFormatoCorreoConAcentos");
+
+        String correo = "tú@unadirección.es";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of comprobarFormatoCorreoCorrecto method, of class Controlador.
+     * Correo con caracteres especiales
+     */
+    @Test
+    public void testComprobarFormatoCorreoConCaracteresEspeciales() {
+        System.out.println("comprobarFormatoCorreoConCaracteresEspeciales");
+
+        String correo = "sHüMôr€n1t0h!#@€r+sHüL*h|.JeH";
+
+        boolean expResult = false;
+        boolean result = controlador.comprobarFormatoCorreoCorrecto(correo);
+        assertEquals(expResult, result);
+    }
 }

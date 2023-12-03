@@ -306,10 +306,14 @@ public class Controlador {
      * @brief   Método que comprueba si el formato del DNI es correcto, es decir: tiene 8 números y una letra que corresponde con los números
      * @param dni   DNI a comprobar
      * @return      True si el formato del DNI es correcto, false en caso contrario
+     * @post        La letra del DNI se ha transformado a mayúsculas
      */
     public boolean comprobarFormatoDNICorrecto(String dni){
         boolean formatoCorrecto = false;
         String letrasDNI = "TRWAGMYFPDXBNJZSQVHLCKE";
+
+        //Transformar a mayúsculas
+        dni = dni.toUpperCase();
 
         if(dni.length() == 9){
             //Comprobar si los 8 primeros caracteres son números
@@ -331,9 +335,13 @@ public class Controlador {
      * @brief   Método que comprueba si el formato del correo electrónico es correcto
      * @param correo    Correo electrónico a comprobar
      * @return  True si el formato del correo electrónico es correcto, false en caso contrario
+     * @post    El correo electrónico se ha transformado a minúsculas
      */
     public boolean comprobarFormatoCorreoCorrecto(String correo){
         boolean formatoCorrecto = false;
+
+        //Transformar a minúsculas
+        correo = correo.toLowerCase();
 
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
         Pattern pattern = Pattern.compile(regex);
