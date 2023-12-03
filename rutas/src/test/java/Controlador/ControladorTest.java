@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import Modelo.Ruta;
+import Modelo.Usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -1057,5 +1058,104 @@ public class ControladorTest {
         assertEquals("Nombre", controlador.getListaUsuariosSistema().get(controlador.getListaUsuariosSistema().size()-1).getNombreUsuario());
         assertEquals("Apellido1", controlador.getListaUsuariosSistema().get(controlador.getListaUsuariosSistema().size()-1).getApellido1());
         assertEquals("Apellido2", controlador.getListaUsuariosSistema().get(controlador.getListaUsuariosSistema().size()-1).getApellido2());
+    }
+
+    /**
+     * Test of modificarUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testModificarUsuarioNoExistenteSinExcepciones(){
+        System.out.println("modificarUsuario");
+
+        String dni = "88888888Y";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.modificarUsuario(dni, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of modificarUsuario method, of class Controlador.
+     * Usuario existe en el sistema, se modifica correctamente
+     */
+    @Test
+    public void testModificarUsuarioExistenteSeModificaCorrectamente(){
+        System.out.println("modificarUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.modificarUsuario(dni, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(apellido1, controlador.getListaUsuariosSistema().get(0).getApellido1());
+        assertEquals(apellido2, controlador.getListaUsuariosSistema().get(0).getApellido2());
+        assertEquals(correo, controlador.getListaUsuariosSistema().get(0).getCorreoElectronico());
+        assertEquals(contrasenia, controlador.getListaUsuariosSistema().get(0).getContrasenia());
+    }
+
+    /**
+     * Test of modificarUsuario method, of class Controlador.
+     * Usuario existe en el sistema, usuario es distinto al anterior
+     */
+    @Test
+    public void testModificarUsuarioExistenteUsuarioDistinto(){
+        System.out.println("modificarUsuario");
+
+        Usuario usuario = controlador.getListaUsuariosSistema().get(0);
+
+        String dni = usuario.getDNI();
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.modificarUsuario(dni, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertNotEquals(usuario, controlador.getListaUsuariosSistema().get(0));
+    }
+
+    /**
+     * Test of modificarUsuario method, of class Controlador.
+     * Usuario existe en el sistema, modificado a Apellido2 vacío
+     */
+    @Test
+    public void testModificarUsuarioExistenteApellido2Vacio(){
+        System.out.println("modificarUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String apellido1 = "Apellido1";
+        String apellido2 = "";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.modificarUsuario(dni, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(apellido1, controlador.getListaUsuariosSistema().get(0).getApellido1());
     }
 }

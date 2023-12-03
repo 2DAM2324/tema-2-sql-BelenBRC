@@ -445,6 +445,7 @@ public class Controlador {
 
     /**
      * @brief   Método que modifica los datos de un usuario de la lista de usuarios del sistema
+     * @pre     El correo electrónico se ha comprobado previamente y es correcto
      * @param DNI           DNI del usuario a modificar
      * @param apellido1     Primer apellido del usuario a modificar
      * @param apellido2     Segundo apellido del usuario a modificar
@@ -456,6 +457,20 @@ public class Controlador {
      * @throws  Exception        Excepción general
      */
     public void modificarUsuario(String DNI, String apellido1, String apellido2, String correo, String contrasenia) throws SQLException, Exception{
+        //Transformar apellidos a primera letra mayúscula y el resto minúscula
+        apellido1 = apellido1.trim();
+        apellido2 = apellido2.trim();
+
+        if(apellido1.length() > 1)
+            apellido1 = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
+        else if(apellido1.length() == 1)
+            apellido1 = apellido1.toUpperCase();
+
+        if(apellido2.length() > 1)
+            apellido2 = apellido2.substring(0, 1).toUpperCase() + apellido2.substring(1).toLowerCase();
+        else if(apellido2.length() == 1)
+            apellido2 = apellido2.toUpperCase();
+        
         Usuario usuario = null;
         boolean encontrado = false;
         for(int i=0; i < listaUsuariosSistema.size() && !encontrado; i++){
@@ -464,19 +479,21 @@ public class Controlador {
                 encontrado = true;
             }
         }
+        
+        if(encontrado){
+            usuario.setApellido1 (apellido1);
+            usuario.setApellido2(apellido2);
+            usuario.setCorreoElectronico(correo);
+            if(contrasenia.equals("********")){
+                //No se ha modificado, no hacer nada
+            }
+            else{
+                usuario.setContrasenia(contrasenia);
+            }
 
-        usuario.setApellido1 (apellido1);
-        usuario.setApellido2(apellido2);
-        usuario.setCorreoElectronico(correo);
-        if(contrasenia.equals("********")){
-            //No se ha modificado, no hacer nada
+            getConector().updateUsuario(usuario);
+            leerUsuariosBD();
         }
-        else{
-            usuario.setContrasenia(contrasenia);
-        }
-
-        getConector().updateUsuario(usuario);
-        leerUsuariosBD();
     }
 
     /**
