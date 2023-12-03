@@ -326,6 +326,7 @@ public final class Ventana1 extends javax.swing.JFrame {
         for(int i=0; i < modelo.getRowCount(); i++){
             modelo.removeRow(i);
         }
+        modelo.setRowCount(0);
     }
     
     /**
@@ -343,6 +344,9 @@ public final class Ventana1 extends javax.swing.JFrame {
             fila[1] = categorias.get(i).getNombreCategoria();
             modelo.addRow(fila);
         }
+        //Limpiar tabla rutas de categoria
+        modelo = (DefaultTableModel) jTable_rutas_de_categoria.getModel();
+        LimpiarTabla(modelo);
     }
 
     /**
@@ -377,6 +381,9 @@ public final class Ventana1 extends javax.swing.JFrame {
         for(int i = 0; i < controladorVista.getListaRutasSistema().size(); i++){
             jComboBox_ruta_valoracion.addItem(controladorVista.getListaRutasSistema().get(i));
         }
+        //Limpiar tablas de info extra
+        LimpiarTabla((DefaultTableModel) jTable_valoraciones_ruta.getModel());
+        LimpiarTabla((DefaultTableModel) jTable_categorias_ruta.getModel());
     }
 
     /**
@@ -424,6 +431,10 @@ public final class Ventana1 extends javax.swing.JFrame {
                 jComboBox_usuario_foto_perfil.addItem(controladorVista.getListaUsuariosSistema().get(i).getDNI());
             }
         }
+
+        //Vacia la tabla de info extra
+        LimpiarTabla((DefaultTableModel) jTable_valoraciones_usuario.getModel());
+        LimpiarTabla((DefaultTableModel) jTable_rutas_usuario.getModel());
     }
 
     /**
@@ -2673,7 +2684,6 @@ public final class Ventana1 extends javax.swing.JFrame {
             pintarDatosFotoPerfil();
             pintarDatosRuta();
             pintarDatosValoracion();
-
         }
     }//GEN-LAST:event_jButton_borrar_usuarioActionPerformed
 
@@ -3274,7 +3284,6 @@ public final class Ventana1 extends javax.swing.JFrame {
         if(opcion == JOptionPane.YES_OPTION){
             try{
                 controladorVista.getConector().recuperarBackup(backup);
-                JOptionPane.showMessageDialog(this, "Datos reestablecidos correctamente", "Acción completada", JOptionPane.INFORMATION_MESSAGE);
                 //Actualizar las tablas
                 controladorVista.cargarDatosSistema();
                 pintarDatosUsuario();
@@ -3282,6 +3291,8 @@ public final class Ventana1 extends javax.swing.JFrame {
                 pintarDatosCategoria();
                 pintarDatosValoracion();
                 pintarDatosFotoPerfil();
+                
+                JOptionPane.showMessageDialog(this, "Datos reestablecidos correctamente", "Acción completada", JOptionPane.INFORMATION_MESSAGE);
             }
             catch(SQLException sqle){
                 JOptionPane.showMessageDialog(this, "Error al reestablecer los datos\nCódigo: " + sqle.getErrorCode(), "Error", JOptionPane.ERROR_MESSAGE);

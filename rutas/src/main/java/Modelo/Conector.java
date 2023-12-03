@@ -945,16 +945,18 @@ public class Conector {
         sentencia.executeUpdate();
         cerrarSentencia(sentencia);
 
-        //Eliminar la foto de perfil del usuario
-        setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
-        sql = "DELETE FROM " + getNombreTabla() + " WHERE id_foto_perfil = ?";
-        sentencia = null;
+        //Eliminar la foto de perfil del usuario si la tiene
+        if(usuario.getFotoPerfil() != null){
+            setNombreTabla(NOMBRE_TABLA_FOTO_PERFIL);
+            sql = "DELETE FROM " + getNombreTabla() + " WHERE id_foto_perfil = ?";
+            sentencia = null;
 
-        sentencia = getConexion().prepareStatement(sql);
-        sentencia.setInt(1, usuario.getFotoPerfil().getIDfoto());
+            sentencia = getConexion().prepareStatement(sql);
+            sentencia.setInt(1, usuario.getFotoPerfil().getIDfoto());
 
-        sentencia.executeUpdate();
-        cerrarSentencia(sentencia);
+            sentencia.executeUpdate();
+            cerrarSentencia(sentencia);
+        }
 
         //Eliminar las valoraciones de las rutas del usuario
         setNombreTabla(NOMBRE_TABLA_VALORACION);
