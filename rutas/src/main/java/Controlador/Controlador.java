@@ -537,6 +537,9 @@ public class Controlador {
      * @throws  Exception        Excepción general
      */
     public void aniadirRuta(String nombreRuta, String descripcion, double distanciaKm, double tiempoHoras, String dificultad, String DNIcreadorRuta) throws SQLException, Exception{
+        nombreRuta = nombreRuta.trim();
+        descripcion = descripcion.trim();
+
         //Buscar usuario con IDcreadorRuta en listaUsuariosSistema
         Usuario creadorRuta = null;
         boolean encontrado = false;
@@ -573,8 +576,10 @@ public class Controlador {
             }
         }
 
-        getConector().deleteRuta(rutaEliminada);
-        cargarDatosSistema();
+        if(encontrada){
+            getConector().deleteRuta(rutaEliminada);
+            cargarDatosSistema();
+        }
     }
 
     /**
@@ -589,6 +594,9 @@ public class Controlador {
      * @throws  Exception        Excepción general
      */
     public void modificarRuta(String nombreRuta, String descripcion, String dificultad, String dniCreador) throws SQLException, Exception{
+        nombreRuta = nombreRuta.trim();
+        descripcion = descripcion.trim();
+        
         //Buscar ID del usuario creador de la ruta
         Integer IDcreadorRuta = 0;
         boolean encontrado = false;
@@ -600,19 +608,23 @@ public class Controlador {
         }
 
         Ruta ruta = null;
-        encontrado = false;
-        //Buscar la ruta en la lista de rutas del sistema por el nombre y el id del creador
-        for(int i=0; i < listaRutasSistema.size() && !encontrado; i++){
-            if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRuta) && listaRutasSistema.get(i).getCreadorRuta().getIDUsuario().equals(IDcreadorRuta)){
-                ruta = listaRutasSistema.get(i);
-                encontrado = true;
+        if(encontrado){
+            encontrado = false;
+            //Buscar la ruta en la lista de rutas del sistema por el nombre y el id del creador
+            for(int i=0; i < listaRutasSistema.size() && !encontrado; i++){
+                if(listaRutasSistema.get(i).getNombreRuta().equals(nombreRuta) && listaRutasSistema.get(i).getCreadorRuta().getIDUsuario().equals(IDcreadorRuta)){
+                    ruta = listaRutasSistema.get(i);
+                    encontrado = true;
+                }
             }
         }
-
-        ruta.setDescripcion(descripcion);
-        ruta.setDificultad(dificultad);
-        getConector().updateRuta(ruta);
-        leerRutasBD();
+        
+        if(encontrado){
+            ruta.setDescripcion(descripcion);
+            ruta.setDificultad(dificultad);
+            getConector().updateRuta(ruta);
+            leerRutasBD();
+        }
     }
 
     /**

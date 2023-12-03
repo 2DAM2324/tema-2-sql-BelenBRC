@@ -1313,4 +1313,481 @@ public class ControladorTest {
 
         assertTrue(tamanoInicial > controlador.getListaValoracionesSistema().size());
     }
+
+    //***********************************************************************************************//
+    //*******************************************RUTA************************************************//
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirRutaNoExistenteSinExcepciones(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta no existe en el sistema, se añade correctmente
+     */
+    @Test
+    public void testAniadirRutaNoExistenteSeAniadeCorrectamente(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(nombreRuta, controlador.getListaRutasSistema().get(controlador.getListaRutasSistema().size()-1).getNombreRuta());
+        assertEquals(descripcion, controlador.getListaRutasSistema().get(controlador.getListaRutasSistema().size()-1).getDescripcion());
+        assertEquals(distancia, controlador.getListaRutasSistema().get(controlador.getListaRutasSistema().size()-1).getDistanciaKm());
+        assertEquals(tiempo, controlador.getListaRutasSistema().get(controlador.getListaRutasSistema().size()-1).getTiempoHoras());
+        assertEquals(dificultad, controlador.getListaRutasSistema().get(controlador.getListaRutasSistema().size()-1).getDificultad());
+        assertEquals(dniCreador, controlador.getListaRutasSistema().get(controlador.getListaRutasSistema().size()-1).getCreadorRuta().getDNI());
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta no existe en el sistema, hay una ruta más en el sistema
+     */
+    @Test
+    public void testAniadirRutaNoExistenteArrayTam(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaRutasSistema().size();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial+1, controlador.getListaRutasSistema().size());
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta existe en el sistema, lanza excepción SQLException
+     */
+    @Test
+    public void testAniadirRutaExistenteSQLException(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta existe en el sistema, el array de rutas no se modifica
+     */
+    @Test
+    public void testAniadirRutaExistenteArrayNoModificado(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaRutasSistema().size();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaRutasSistema().size());
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta no existe, distancia =0 lanza SQLException
+     */
+    @Test
+    public void testAniadirRutaNoExistenteDistancia0SQLException(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 0.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+            System.out.println(sqle.getMessage());
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta no existe, tiempo =0 lanza SQLException
+     */
+    @Test
+    public void testAniadirRutaNoExistenteTiempo0SQLException(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 0.0;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+            System.out.println(sqle.getMessage());
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta no existe, puntuación media obtenida = 0
+     */
+    @Test
+    public void testAniadirRutaNoExistentePuntuacionMedia0(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Double puntuacionMedia = 0.0;
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(puntuacionMedia, controlador.getListaRutasSistema().get(controlador.getListaRutasSistema().size()-1).getPuntuacionMedia());
+    }
+
+    /**
+     * Test of aniadirRuta method, of class Controlador.
+     * Ruta existe en el sistema, nombreRuta con espacios al principio y al final
+     */
+    @Test
+    public void testAniadirRutaExistenteNombreRutaConEspacios(){
+        System.out.println("aniadirRuta");
+
+        String nombreRuta = " " + controlador.getListaRutasSistema().get(0).getNombreRuta() + " ";
+        String descripcion = "Descripción de la ruta";
+        Double distancia = 10.0;
+        Double tiempo = 2.5;
+        String dificultad = "BAJA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.aniadirRuta(nombreRuta, descripcion, distancia, tiempo, dificultad, dniCreador);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+            System.out.println(sqle.getMessage());
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of borrarRuta method, of class Controlador.
+     * Ruta no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarRutaNoExistenteSinExcepciones(){
+        System.out.println("borrarRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.borrarRuta(nombreRuta, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of borrarRuta method, of class Controlador.
+     * Ruta no existe en el sistema, el array de rutas no se modifica
+     */
+    @Test
+    public void testBorrarRutaNoExistenteArrayNoModificado(){
+        System.out.println("borrarRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaRutasSistema().size();
+
+        try{
+            controlador.borrarRuta(nombreRuta, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaRutasSistema().size());
+    }
+
+    /**
+     * Test of borrarRuta method, of class Controlador.
+     * Ruta existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarRutaExistenteSinExcepciones(){
+        System.out.println("borrarRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.borrarRuta(nombreRuta, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of borrarRuta method, of class Controlador.
+     * Ruta existe en el sistema, se borra correctamente
+     */
+    @Test
+    public void testBorrarRutaExistenteSeBorraCorrectamente(){
+        System.out.println("borrarRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.borrarRuta(nombreRuta, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        boolean encontrado = false;
+        for(int i = 0; i < controlador.getListaRutasSistema().size() && !encontrado; i++){
+            if(controlador.getListaRutasSistema().get(i).getNombreRuta().equals(nombreRuta)){
+                encontrado = true;
+            }
+        }
+
+        assertFalse(encontrado);
+    }
+
+    /**
+     * Test of borrarRuta method, of class Controlador.
+     * Ruta existe en el sistema, el array de rutas se reduce en 1
+     */
+    @Test
+    public void testBorrarRutaExistenteArrayTam(){
+        System.out.println("borrarRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaRutasSistema().size();
+
+        try{
+            controlador.borrarRuta(nombreRuta, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial-1, controlador.getListaRutasSistema().size());
+    }
+
+    /**
+     * Test of borrarRuta method, of class Controlador.
+     * Ruta existe en el sistema, el array de rutas de su creador se reduce en 1
+     */
+    @Test
+    public void testBorrarRutaExistenteArrayRutasCreadorTam(){
+        System.out.println("borrarRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().get(0).getListaRutas().size();
+
+        try{
+            controlador.borrarRuta(nombreRuta, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial-1, controlador.getListaUsuariosSistema().get(0).getListaRutas().size());
+    }
+
+    /**
+     * Test of borrarRuta method, of class Controlador.
+     * Ruta existe en el sistema, el array de valoraciones se reduce en al menos 1
+     */
+    @Test
+    public void testBorrarRutaExistenteArrayValoracionesTam(){
+        System.out.println("borrarRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().size();
+
+        try{
+            controlador.borrarRuta(nombreRuta, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertTrue(tamanoInicial > controlador.getListaValoracionesSistema().size());
+    }
+
+    /**
+     * Test of modificarRuta method, of class Controlador.
+     * Ruta no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testModificarRutaNoExistenteSinExcepciones(){
+        System.out.println("modificarRuta");
+
+        String nombreRuta = "Ruta que no existe";
+        String descripcion = "Descripción de la ruta modificada";
+        String dificultad = "MEDIA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.modificarRuta(nombreRuta, descripcion, dificultad, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of modificarRuta method, of class Controlador.
+     * Ruta existe en el sistema, se modifica correctamente
+     */
+    @Test
+    public void testModificarRutaExistenteSeModificaCorrectamente(){
+        System.out.println("modificarRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String descripcion = "Descripción de la ruta modificada";
+        String dificultad = "MEDIA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.modificarRuta(nombreRuta, descripcion, dificultad, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(descripcion, controlador.getListaRutasSistema().get(0).getDescripcion());
+        assertEquals(dificultad, controlador.getListaRutasSistema().get(0).getDificultad());
+    }
+
+    /**
+     * Test of modificarRuta method, of class Controlador.
+     * Ruta existe en el sistema, sin descripción
+     */
+    @Test
+    public void testModificarRutaExistenteSinDescripcion(){
+        System.out.println("modificarRuta");
+
+        String nombreRuta = controlador.getListaRutasSistema().get(0).getNombreRuta();
+        String descripcion = "";
+        String dificultad = "MEDIA";
+        String dniCreador = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.modificarRuta(nombreRuta, descripcion, dificultad, dniCreador);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(descripcion, controlador.getListaRutasSistema().get(0).getDescripcion());
+    }
 }
