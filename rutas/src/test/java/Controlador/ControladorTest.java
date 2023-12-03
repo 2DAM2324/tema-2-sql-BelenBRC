@@ -39,6 +39,7 @@ public class ControladorTest {
     @AfterAll
     public static void tearDownClass() {
         try{
+            controlador.getConector().recuperarBackup(backup);
             controlador.getConector().desconectar();
         }
         catch(Exception e){
@@ -779,5 +780,282 @@ public class ControladorTest {
         }
         
         assertEquals(tamanoInicial-1, controlador.getListaCategoriasSistema().size());
+    }
+
+    //***********************************************************************************************//
+    //*****************************************USUARIO***********************************************//
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteSinExcepciones(){
+        System.out.println("aniadirUsuario");
+
+        String dni = "88888888Y";
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, se añade correctamente
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteSeAniadeCorrectamente(){
+        System.out.println("aniadirUsuario");
+
+        String dni = "88888888Y";
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(dni, controlador.getListaUsuariosSistema().get(controlador.getListaUsuariosSistema().size()-1).getDNI());
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, el array de usuarios se incrementa en 1
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteArrayTam(){
+        System.out.println("aniadirUsuario");
+
+        String dni = "88888888Y";
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().size();
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial+1, controlador.getListaUsuariosSistema().size());
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario existe en el sistema, lanza excepción SQLException
+     */
+    @Test
+    public void testAniadirUsuarioExistenteSQLException(){
+        System.out.println("aniadirUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario existe en el sistema, el array de usuarios no se modifica
+     */
+    @Test
+    public void testAniadirUsuarioExistenteArrayNoModificado(){
+        System.out.println("aniadirUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().size();
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaUsuariosSistema().size());
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, dni existe
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteDNIExiste(){
+        System.out.println("aniadirUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, dni existe, el array de usuarios no se modifica
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteDNIExisteArrayNoModificado(){
+        System.out.println("aniadirUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().size();
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaUsuariosSistema().size());
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, contraseña vacía
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteContraseniaVacia(){
+        System.out.println("aniadirUsuario");
+
+        String dni = "88888888Y";
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "";
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, contraseña con menos de 4 caracteres
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteContraseniaCorta(){
+        System.out.println("aniadirUsuario");
+
+        String dni = "88888888Y";
+        String nombre = "Nombre";
+        String apellido1 = "Apellido1";
+        String apellido2 = "Apellido2";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "123";
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+            fail("Debería lanzar excepciones");
+        }
+        catch(SQLException sqle){
+            //Excepción esperada
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, nombre y apellidos transformados con primera letra mayúscula y el resto minúsculas y sin espacios al principio y al final
+     */
+    @Test
+    public void testAniadirUsuarioNoExistenteNombreApellidosMayusculasMinusculas(){
+        System.out.println("aniadirUsuario");
+
+        String dni = "88888888Y";
+        String nombre = "     nOmBre     ";
+        String apellido1 = "       aPeLlIdO1    ";
+        String apellido2 = "        aPeLlIdO2     ";
+        String correo = "uncorreo@valido.es";
+        String contrasenia = "Contrasenia1234";
+
+        try{
+            controlador.aniadirUsuario(dni, nombre, apellido1, apellido2, correo, contrasenia);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals("Nombre", controlador.getListaUsuariosSistema().get(controlador.getListaUsuariosSistema().size()-1).getNombreUsuario());
+        assertEquals("Apellido1", controlador.getListaUsuariosSistema().get(controlador.getListaUsuariosSistema().size()-1).getApellido1());
+        assertEquals("Apellido2", controlador.getListaUsuariosSistema().get(controlador.getListaUsuariosSistema().size()-1).getApellido2());
     }
 }

@@ -404,6 +404,8 @@ public class Controlador {
 
     /**
      * @brief   Método que añade un usuario a la lista de usuarios del sistema siempre que no exista ya
+     * @pre     El DNI se ha comprobado previamente y es correcto 
+     * @pre     El correo electrónico se ha comprobado previamente y es correcto
      * @param DNI           DNI del usuario a añadir a la lista de usuarios del sistema
      * @param nombre        Nombre del usuario a añadir a la lista de usuarios del sistema
      * @param apellido1     Primer apellido del usuario a añadir a la lista de usuarios del sistema
@@ -415,6 +417,26 @@ public class Controlador {
      * @throws  Exception        Excepción general
      */
     public void aniadirUsuario(String DNI, String nombre, String apellido1, String apellido2, String correo, String contrasenia) throws SQLException, Exception{
+        //Transformar nombre y apellidos a primera letra mayúscula y el resto minúscula
+        nombre = nombre.trim();
+        apellido1 = apellido1.trim();
+        apellido2 = apellido2.trim();
+
+        if(nombre.length() > 1)
+            nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
+        else if(nombre.length() == 1)
+            nombre = nombre.toUpperCase();
+
+        if(apellido1.length() > 1)
+            apellido1 = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
+        else if(apellido1.length() == 1)
+            apellido1 = apellido1.toUpperCase();
+
+        if(apellido2.length() > 1)
+            apellido2 = apellido2.substring(0, 1).toUpperCase() + apellido2.substring(1).toLowerCase();
+        else if(apellido2.length() == 1)
+            apellido2 = apellido2.toUpperCase();
+        
         Usuario usuario = new Usuario(nombre, apellido1, apellido2, correo, contrasenia, DNI);
 
         getConector().createUsuario(usuario);
