@@ -24,9 +24,9 @@ import Modelo.FotoPerfil;
  * @author BelenBRC
  */
 public final class Ventana1 extends javax.swing.JFrame {
-        Controlador controladorVista;
-        boolean aniadiendo = false;
-        boolean modificando = false;
+    public Controlador controladorVista;
+    public boolean aniadiendo = false;
+    public boolean modificando = false;
 
     /**
      * @brief   Constructor de la ventana principal
@@ -322,7 +322,7 @@ public final class Ventana1 extends javax.swing.JFrame {
      * @brief   Método que borra los datos de la tabla
      * @param modelo    Modelo de la tabla
      */
-    public void LimpiarTabla(DefaultTableModel modelo){
+    private void LimpiarTabla(DefaultTableModel modelo){
         for(int i=0; i < modelo.getRowCount(); i++){
             modelo.removeRow(i);
         }
@@ -448,7 +448,7 @@ public final class Ventana1 extends javax.swing.JFrame {
     /**
      * @brief   Método que pinta los datos de la tabla de fotos de perfil en la vista
      */
-    private void pintarDatosFotoPerfil(){
+    public void pintarDatosFotoPerfil(){
         DefaultTableModel modelo = (DefaultTableModel) jTable_fotosPerfil.getModel();
         //Limpiar tabla
         LimpiarTabla(modelo);
@@ -1667,13 +1667,12 @@ public final class Ventana1 extends javax.swing.JFrame {
      * @post    Se borra la categoria seleccionada de la tabla
      *          Se actualiza la tabla
      *          Se elimina del array de categorías del sistema
-     *          Se actualiza el XML
+     *          Se actualiza la base de datos
      */
     private void jButton_borrar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrar_categoriaActionPerformed
         if (jTable_categoria.getSelectedRow() != -1) {
             int fila = jTable_categoria.getSelectedRow();
             Integer id = (Integer) jTable_categoria.getValueAt(fila, 0);
-            String nombre = (String) jTable_categoria.getValueAt(fila, 1);
 
             try{
                 controladorVista.borrarCategoria(id);
@@ -1751,7 +1750,7 @@ public final class Ventana1 extends javax.swing.JFrame {
      * @param evt   Evento
      * @post    Se añade la categoria al sistema si no existe ya
      *          Se actualiza la tabla
-     *          Se actualiza el XML
+     *          Se actualiza la base de datos
      */
     private void jButton_guardar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_categoriaActionPerformed
         //Comprobar que el nombre no está vacío
@@ -2707,7 +2706,7 @@ public final class Ventana1 extends javax.swing.JFrame {
          * @param evt   Evento
          * @post    Se añade el usuario al sistema si no existe ya
          *          Se actualiza la tabla
-         *          Se actualiza el XML
+         *          Se actualiza la base de datos
          */
     private void jButton_aniadir_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_usuarioActionPerformed
         //Modificar variable de estado
@@ -2821,7 +2820,7 @@ public final class Ventana1 extends javax.swing.JFrame {
      * @param evt   Evento
      * @post    Se añade la ruta al sistema si no existe ya
      *          Se actualiza la tabla
-     *          Se actualiza el XML
+     *          Se actualiza la base de datos
      */
     private void jButton_guardar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_rutaActionPerformed
         boolean correcto = true;
@@ -3217,7 +3216,7 @@ public final class Ventana1 extends javax.swing.JFrame {
      * @param evt   Evento
      * @post    Se añade la ruta al sistema si no existe ya
      *          Se actualiza la tabla
-     *          Se actualiza el XML
+     *          Se actualiza la base de datos 
      */
     private void jButton_aniadir_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aniadir_rutaActionPerformed
         //Comprobar que el combobox de creador tiene opciones seleccionables
