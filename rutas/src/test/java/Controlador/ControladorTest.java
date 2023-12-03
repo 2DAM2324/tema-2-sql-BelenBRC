@@ -1158,4 +1158,159 @@ public class ControladorTest {
 
         assertEquals(apellido1, controlador.getListaUsuariosSistema().get(0).getApellido1());
     }
+
+    /**
+     * Test of borrarUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarUsuarioNoExistenteSinExcepciones(){
+        System.out.println("borrarUsuario");
+
+        String dni = "88888888Y";
+
+        try{
+            controlador.borrarUsuario(dni);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of borrarUsuario method, of class Controlador.
+     * Usuario no existe en el sistema, el array de usuarios no se modifica
+     */
+    @Test
+    public void testBorrarUsuarioNoExistenteArrayNoModificado(){
+        System.out.println("borrarUsuario");
+
+        String dni = "88888888Y";
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().size();
+
+        try{
+            controlador.borrarUsuario(dni);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaUsuariosSistema().size());
+    }
+
+    /**
+     * Test of borrarUsuario method, of class Controlador.
+     * Usuario existe en el sistema, se borra correctamente
+     */
+    @Test
+    public void testBorrarUsuarioExistenteSeBorraCorrectamente(){
+        System.out.println("borrarUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.borrarUsuario(dni);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        boolean encontrado = false;
+        for(int i = 0; i < controlador.getListaUsuariosSistema().size() && !encontrado; i++){
+            if(controlador.getListaUsuariosSistema().get(i).getDNI().equals(dni)){
+                encontrado = true;
+            }
+        }
+
+        assertFalse(encontrado);
+    }
+
+    /**
+     * Test of borrarUsuario method, of class Controlador.
+     * Usuario existe en el sistema, el array de usuarios se reduce en 1
+     */
+    @Test
+    public void testBorrarUsuarioExistenteArrayTam(){
+        System.out.println("borrarUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().size();
+
+        try{
+            controlador.borrarUsuario(dni);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial-1, controlador.getListaUsuariosSistema().size());
+    }
+
+    /**
+     * Test of borrarUsuario method, of class Controlador.
+     * Usuario existe, el array de rutas se reduce en al menos 1
+     */
+    @Test
+    public void testBorrarUsuarioExistenteArrayRutasTam(){
+        System.out.println("borrarUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaRutasSistema().size();
+
+        try{
+            controlador.borrarUsuario(dni);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertTrue(tamanoInicial > controlador.getListaRutasSistema().size());
+    }
+
+    /**
+     * Test of borrarUsuario method, of class Controlador.
+     * Usuario existe, hay una foto menos en el sistema
+     */
+    @Test
+    public void testBorrarUsuarioExistenteArrayFotosTam(){
+        System.out.println("borrarUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaFotosPerfilSistema().size();
+
+        try{
+            controlador.borrarUsuario(dni);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial-1, controlador.getListaFotosPerfilSistema().size());
+    }
+
+    /**
+     * Test of borrarUsuario method, of class Controlador.
+     * Usuario existe, hay menos valoraciones en el sistema
+     */
+    @Test
+    public void testBorrarUsuarioExistenteArrayValoracionesTam(){
+        System.out.println("borrarUsuario");
+
+        String dni = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().size();
+
+        try{
+            controlador.borrarUsuario(dni);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertTrue(tamanoInicial > controlador.getListaValoracionesSistema().size());
+    }
 }

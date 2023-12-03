@@ -518,8 +518,10 @@ public class Controlador {
             }
         }
 
-        getConector().deleteUsuario(usuarioEliminado);
-        cargarDatosSistema();
+        if(encontrado){
+            getConector().deleteUsuario(usuarioEliminado);
+            cargarDatosSistema();
+        }
     }
 
     /**
