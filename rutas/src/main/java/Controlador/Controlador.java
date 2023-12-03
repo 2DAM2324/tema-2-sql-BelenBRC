@@ -737,17 +737,21 @@ public class Controlador {
     public void aniadirFotoPerfil(String dniUsuario, String nombreImagen, Integer resolucionImagenMp, Integer tamanioKb) throws SQLException, Exception{
         //Buscar usuario con dni
         Usuario usuario = null;
-        for(int i=0; i < listaUsuariosSistema.size(); i++){
+        boolean encontrado = false;
+        for(int i=0; i < listaUsuariosSistema.size() && !encontrado; i++){
             if(listaUsuariosSistema.get(i).getDNI().equals(dniUsuario)){
                 usuario = listaUsuariosSistema.get(i);
+                encontrado = true;
             }
         }
 
-        FotoPerfil fotoPerfil = new FotoPerfil(nombreImagen, resolucionImagenMp, tamanioKb, usuario);
+        if(encontrado){
+            FotoPerfil fotoPerfil = new FotoPerfil(nombreImagen, resolucionImagenMp, tamanioKb, usuario);
 
-        getConector().createFotoPerfil(fotoPerfil);
-        getConector().getTodasLasFotosPerfil();
-        getConector().getTodosLosUsuarios();
+            getConector().createFotoPerfil(fotoPerfil);
+            getConector().getTodasLasFotosPerfil();
+            getConector().getTodosLosUsuarios();
+        }
     }
 
     /**
@@ -772,12 +776,14 @@ public class Controlador {
             }
         }
 
-        fotoPerfil.setNombreImagen(nombreImagen);
-        fotoPerfil.setResolucionImagenMp(resolucionImagenMp);
-        fotoPerfil.setTamanioKb(tamanioKb);
+        if(encontrado){
+            fotoPerfil.setNombreImagen(nombreImagen);
+            fotoPerfil.setResolucionImagenMp(resolucionImagenMp);
+            fotoPerfil.setTamanioKb(tamanioKb);
 
-        getConector().updateFotoPerfil(fotoPerfil);
-        leerFotosPerfilBD();
+            getConector().updateFotoPerfil(fotoPerfil);
+            leerFotosPerfilBD();
+        }
     }
 
     /**
@@ -792,16 +798,18 @@ public class Controlador {
         FotoPerfil fotoPerfilEliminada = null;
         boolean encontrado = false;
 
-        for(int i=0; i < listaFotosPerfilSistema.size() && ! encontrado; i++){
+        for(int i=0; i < listaFotosPerfilSistema.size() && !encontrado; i++){
             if(listaFotosPerfilSistema.get(i).getIDfoto().equals(idFotoEliminada)){
                 fotoPerfilEliminada = listaFotosPerfilSistema.get(i);
                 encontrado = true;
             }
         }
         
-        listaFotosPerfilSistema.remove(fotoPerfilEliminada);
-        leerUsuariosBD();
-        leerFotosPerfilBD();
+        if(encontrado){
+            conector.deleteFotoPerfil(fotoPerfilEliminada);
+            leerUsuariosBD();
+            leerFotosPerfilBD();
+        }
     }
     
     /**

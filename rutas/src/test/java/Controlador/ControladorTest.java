@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import Modelo.FotoPerfil;
 import Modelo.Ruta;
 import Modelo.Usuario;
 import Modelo.Valoracion;
@@ -2362,4 +2363,453 @@ public class ControladorTest {
 
     //***********************************************************************************************//
     //***************************************FOTO DE PERFIL******************************************//
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirFotoPerfilNoExistenteSinExcepciones(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = "Usuario que no existe";
+        String nombreFoto = "Foto de perfil";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario no existe en el sistema, el array de fotos de perfil no se modifica
+     */
+    @Test
+    public void testAniadirFotoPerfilNoExistenteArrayNoModificado(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = "Usuario que no existe";
+        String nombreFoto = "Foto de perfil";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        Integer tamanoInicial = controlador.getListaFotosPerfilSistema().size();
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaFotosPerfilSistema().size());
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteSinExcepciones(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, se añade correctamente
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteSeAniadeCorrectamente(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(nombreFoto, controlador.getListaFotosPerfilSistema().get(controlador.getListaFotosPerfilSistema().size()-1).getNombreImagen());
+        assertEquals(resolucion, controlador.getListaFotosPerfilSistema().get(controlador.getListaFotosPerfilSistema().size()-1).getResolucionImagenMp());
+        assertEquals(tamanio, controlador.getListaFotosPerfilSistema().get(controlador.getListaFotosPerfilSistema().size()-1).getTamanioKb());
+        assertEquals(dniUsuario, controlador.getListaFotosPerfilSistema().get(controlador.getListaFotosPerfilSistema().size()-1).getUsuario().getDNI());
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, el array de fotos de perfil se incrementa en 1
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteArrayTam(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        Integer tamanoInicial = controlador.getListaFotosPerfilSistema().size();
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial+1, controlador.getListaFotosPerfilSistema().size());
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, el usuario tiene la foto de perfil
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteUsuarioTieneFotoPerfil(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        Integer idFoto = controlador.getListaUsuariosSistema().get(0).getFotoPerfil().getIDfoto();
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+        
+        assertNotEquals(idFoto, controlador.getListaUsuariosSistema().get(0).getFotoPerfil().getIDfoto());
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, resolución =0 lanza SQLException
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteResolucion0SQLException(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 0;
+        Integer tamanio = 100;
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+            fail("Debería lanzar SQLException");
+        }
+        catch(SQLException sqle){
+            assertTrue(true);
+        }
+        catch(Exception e){
+            fail("Debería lanzar SQLException");
+        }
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, tamnio =0 lanza SQLException
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteTamanio0SQLException(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 0;
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+            fail("Debería lanzar SQLException");
+        }
+        catch(SQLException sqle){
+            assertTrue(true);
+        }
+        catch(Exception e){
+            fail("Debería lanzar SQLException");
+        }
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, resolución=0 no se añade la foto de perfil
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteResolucion0NoAniadeFotoPerfil(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 0;
+        Integer tamanio = 100;
+
+        Integer tamanoInicial = controlador.getListaFotosPerfilSistema().size();
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+            fail("Debería lanzar SQLException");
+        }
+        catch(SQLException sqle){
+            assertTrue(true);
+        }
+        catch(Exception e){
+            fail("Debería lanzar SQLException");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaFotosPerfilSistema().size());
+    }
+
+    /**
+     * Test of aniadirFotoPerfil method, of class Controlador.
+     * Usuario existe en el sistema, tamanio=0 no se añade la foto de perfil
+     */
+    @Test
+    public void testAniadirFotoPerfilExistenteTamanio0NoAniadeFotoPerfil(){
+        System.out.println("aniadirFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 0;
+
+        Integer tamanoInicial = controlador.getListaFotosPerfilSistema().size();
+
+        try{
+            controlador.aniadirFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+            fail("Debería lanzar SQLException");
+        }
+        catch(SQLException sqle){
+            assertTrue(true);
+        }
+        catch(Exception e){
+            fail("Debería lanzar SQLException");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaFotosPerfilSistema().size());
+    }
+
+    /**
+     * Test of modificarFotoPerfil method, of class Controlador.
+     * Usuario no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testModificarFotoPerfilNoExistenteSinExcepciones(){
+        System.out.println("modificarFotoPerfil");
+
+        String dniUsuario = "Usuario que no existe";
+        String nombreFoto = "Foto de perfil";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        try{
+            controlador.modificarFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of modificarFotoPerfil method, of class Controlador.
+     * Usuario existe y tiene foto de perfil, se modifica correctamente
+     */
+    @Test
+    public void testModificarFotoPerfilExistenteSeModificaCorrectamente(){
+        System.out.println("modificarFotoPerfil");
+
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        try{
+            controlador.modificarFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(nombreFoto, controlador.getListaUsuariosSistema().get(0).getFotoPerfil().getNombreImagen());
+        assertEquals(resolucion, controlador.getListaUsuariosSistema().get(0).getFotoPerfil().getResolucionImagenMp());
+        assertEquals(tamanio, controlador.getListaUsuariosSistema().get(0).getFotoPerfil().getTamanioKb());
+        assertEquals(dniUsuario, controlador.getListaUsuariosSistema().get(0).getFotoPerfil().getUsuario().getDNI());
+    }
+
+    /**
+     * Test of modificarFotoPerfil method, of class Controlador.
+     * Usuario existe y tiene foto de perfil, la foto de perfil es distinta
+     */
+    @Test
+    public void testModificarFotoPerfilExistenteFotoPerfilDistinta(){
+        System.out.println("modificarFotoPerfil");
+
+        FotoPerfil foto = controlador.getListaFotosPerfilSistema().get(0);
+        Integer idFoto = foto.getIDfoto();
+
+        String dniUsuario = foto.getUsuario().getDNI();
+        String nombreFoto = "Foto de perfil test";
+        Integer resolucion = 100;
+        Integer tamanio = 100;
+
+        try{
+            controlador.modificarFotoPerfil(dniUsuario, nombreFoto, resolucion, tamanio);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        for(int i = 0; i < controlador.getListaFotosPerfilSistema().size(); i++){
+            if(controlador.getListaFotosPerfilSistema().get(i).getIDfoto().equals(idFoto)){
+                assertNotEquals(foto, controlador.getListaFotosPerfilSistema().get(i));
+            }
+        }
+    }
+
+    /**
+     * Test of borrarFotoPerfil method, of class Controlador.
+     * Foto no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarFotoPerfilNoExistenteSinExcepciones(){
+        System.out.println("borrarFotoPerfil");
+
+        Integer idFoto = 85478;
+
+        try{
+            controlador.borrarFotoPerfil(idFoto);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of borrarFotoPerfil method, of class Controlador.
+     * Foto no existe en el sistema, no se modifica el array de fotos de perfil
+     */
+    @Test
+    public void testBorrarFotoPerfilNoExistenteArrayNoModificado(){
+        System.out.println("borrarFotoPerfil");
+
+        Integer idFoto = 85478;
+
+        Integer tamanoInicial = controlador.getListaFotosPerfilSistema().size();
+
+        try{
+            controlador.borrarFotoPerfil(idFoto);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaFotosPerfilSistema().size());
+    }
+
+    /**
+     * Test of borrarFotoPerfil method, of class Controlador.
+     * Foto existe en el sistema, se borra correctamente
+     */
+    @Test
+    public void testBorrarFotoPerfilExistenteSeBorraCorrectamente(){
+        System.out.println("borrarFotoPerfil");
+
+        FotoPerfil foto = controlador.getListaFotosPerfilSistema().get(0);
+        Integer idFoto = foto.getIDfoto();
+
+        try{
+            controlador.borrarFotoPerfil(idFoto);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        boolean encontrado = false;
+        for(int i = 0; i < controlador.getListaFotosPerfilSistema().size() && !encontrado; i++){
+            if(controlador.getListaFotosPerfilSistema().get(i).getIDfoto().equals(idFoto)){
+                encontrado = true;
+            }
+        }
+
+        assertFalse(encontrado);
+    }
+
+    /**
+     * Test of borrarFotoPerfil method, of class Controlador.
+     * Foto existe en el sistema, el array de fotos de perfil se reduce en 1
+     */
+    @Test
+    public void testBorrarFotoPerfilExistenteArrayTam(){
+        System.out.println("borrarFotoPerfil");
+
+        FotoPerfil foto = controlador.getListaFotosPerfilSistema().get(0);
+        Integer idFoto = foto.getIDfoto();
+
+        Integer tamanoInicial = controlador.getListaFotosPerfilSistema().size();
+
+        try{
+            controlador.borrarFotoPerfil(idFoto);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial-1, controlador.getListaFotosPerfilSistema().size());
+    }
+
+    /**
+     * Test of borrarFotoPerfil method, of class Controlador.
+     * Foto existe en el sistema, el usuario no tiene foto de perfil
+     */
+    @Test
+    public void testBorrarFotoPerfilExistenteUsuarioNoTieneFotoPerfil(){
+        System.out.println("borrarFotoPerfil");
+
+        FotoPerfil foto = controlador.getListaFotosPerfilSistema().get(0);
+        Integer idFoto = foto.getIDfoto();
+
+        Integer idUsuario = foto.getUsuario().getIDUsuario();
+
+        try{
+            controlador.borrarFotoPerfil(idFoto);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        for(int i = 0; i < controlador.getListaUsuariosSistema().size(); i++){
+            if(controlador.getListaUsuariosSistema().get(i).getIDUsuario().equals(idUsuario)){
+                assertNull(controlador.getListaUsuariosSistema().get(i).getFotoPerfil());
+            }
+        }
+    }
+
+    //***********************************************************************************************//
+    //***************************************CLASIFICACION*******************************************//
 }
