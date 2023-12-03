@@ -541,7 +541,7 @@ public class Conector {
             }
 
             Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
-            usuario.getListaValoraciones().add(valoracion);
+            usuario.setValoracionEnLista(valoracion);
             ruta.setValoracionEnLista(valoracion);
 
             getListaValoraciones().add(valoracion);

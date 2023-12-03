@@ -618,7 +618,7 @@ public class Controlador {
                 }
             }
         }
-        
+
         if(encontrado){
             ruta.setDescripcion(descripcion);
             ruta.setDificultad(dificultad);
@@ -646,14 +646,24 @@ public class Controlador {
                 usuario = listaUsuariosSistema.get(i);
             }
         }
-        
-        Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
-        ruta.setValoracionEnLista(valoracion);      //Para actualizar la puntuación media de la ruta
 
-        getConector().createValoracion(valoracion);
-        getConector().getTodasLasValoraciones();
-        getConector().getTodasLasRutas();
-        getConector().getTodosLosUsuarios();
+        boolean encontrado = false;
+        //Buscar la valoración en la lista de valoraciones del sistema
+        for(int i=0; i < listaValoracionesSistema.size() && !encontrado; i++){
+            if(listaValoracionesSistema.get(i).getRuta().getIdRuta().equals(ruta.getIdRuta()) && listaValoracionesSistema.get(i).getUsuario().getDNI().equals(dniUsuario)){
+                encontrado = true;
+            }
+        }
+        
+        if(!encontrado){
+            Valoracion valoracion = new Valoracion(ruta, usuario, puntuacion, comentario);
+            ruta.setValoracionEnLista(valoracion);      //Para actualizar la puntuación media de la ruta
+
+            getConector().createValoracion(valoracion);
+            getConector().getTodasLasValoraciones();
+            getConector().getTodasLasRutas();
+            getConector().getTodosLosUsuarios();
+        }
     }
     
     /**
@@ -676,8 +686,10 @@ public class Controlador {
             }
         }
         
-        getConector().deleteValoracion(valoracionEliminada);
-        cargarDatosSistema();
+        if(encontrado){
+            getConector().deleteValoracion(valoracionEliminada);
+            cargarDatosSistema();
+        }
     }
 
     /**
@@ -703,10 +715,12 @@ public class Controlador {
             }
         }
 
-        valoracion.setPuntuacion(puntuacion);
-        valoracion.setComentario(comentario);
-        getConector().updateValoracion(valoracion);
-        cargarDatosSistema();
+        if(encontrado){
+            valoracion.setPuntuacion(puntuacion);
+            valoracion.setComentario(comentario);
+            getConector().updateValoracion(valoracion);
+            cargarDatosSistema();
+        }
     }
 
     /**

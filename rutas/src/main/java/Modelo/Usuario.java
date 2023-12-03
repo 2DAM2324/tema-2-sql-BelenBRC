@@ -241,7 +241,10 @@ public class Usuario implements Serializable{
      * @post     La valoración se añade al final de la lista
      */
     public void setValoracionEnLista(Valoracion valoracion){
-        getListaValoraciones().add(valoracion);
+        //Si no existe la valoración
+        if(!getListaValoraciones().contains(valoracion)){
+            getListaValoraciones().add(valoracion);
+        }
     }
 
     /**

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import Modelo.Ruta;
 import Modelo.Usuario;
+import Modelo.Valoracion;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -1790,4 +1791,575 @@ public class ControladorTest {
 
         assertEquals(descripcion, controlador.getListaRutasSistema().get(0).getDescripcion());
     }
+
+    //***********************************************************************************************//
+    //*******************************************VALORACION******************************************//
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirValoracionNoExistenteSinExcepciones(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(2);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, se añade correctamente
+     */
+    @Test
+    public void testAniadirValoracionNoExistenteSeAniadeCorrectamente(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(2);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(puntuacion, controlador.getListaValoracionesSistema().get(controlador.getListaValoracionesSistema().size()-1).getPuntuacion());
+        assertEquals(comentario, controlador.getListaValoracionesSistema().get(controlador.getListaValoracionesSistema().size()-1).getComentario());
+        assertEquals(dniUsuario, controlador.getListaValoracionesSistema().get(controlador.getListaValoracionesSistema().size()-1).getUsuario().getDNI());
+        assertEquals(ruta.getIdRuta(), controlador.getListaValoracionesSistema().get(controlador.getListaValoracionesSistema().size()-1).getRuta().getIdRuta());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, hay una valoración más en el sistema
+     */
+    @Test
+    public void testAniadirValoracionNoExistenteArrayTam(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(2);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().size();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial+1, controlador.getListaValoracionesSistema().size());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, hay una valoración más en el array de valoraciones de la ruta
+     */
+    @Test
+    public void testAniadirValoracionNoExistenteArrayValoracionesRutaTam(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(2);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        Integer tamanoInicial = controlador.getListaRutasSistema().get(2).getListaValoraciones().size();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial+1, controlador.getListaRutasSistema().get(2).getListaValoraciones().size());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, hay una valoración más en el array de valoraciones del usuario
+     */
+    @Test
+    public void testAniadirValoracionNoExistenteArrayValoracionesUsuarioTam(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(2);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().get(0).getListaValoraciones().size();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial+1, controlador.getListaUsuariosSistema().get(0).getListaValoraciones().size());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, se modifica la puntuación media de la ruta
+     */
+    @Test
+    public void testAniadirValoracionNoExistentePuntuacionMediaRuta(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(2);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+        Double puntuacionMediaPrevia = ruta.getPuntuacionMedia();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertNotEquals(puntuacionMediaPrevia, controlador.getListaRutasSistema().get(2).getPuntuacionMedia());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testAniadirValoracionExistenteNoException(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración existe en el sistema, el array de valoraciones no se modifica
+     */
+    @Test
+    public void testAniadirValoracionExistenteArrayNoModificado(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().size();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaValoracionesSistema().size());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración existe en el sistema, el array de valoraciones de la ruta no se modifica
+     */
+    @Test
+    public void testAniadirValoracionExistenteArrayValoracionesRutaNoModificado(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        Integer tamanoInicial = ruta.getListaValoraciones().size();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+
+        assertEquals(tamanoInicial, ruta.getListaValoraciones().size());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración existe en el sistema, el array de valoraciones del usuario no se modifica
+     */
+    @Test
+    public void testAniadirValoracionExistenteArrayValoracionesUsuarioNoModificado(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = 5;
+        String comentario = "Comentario de prueba";
+
+        Integer tamanoInicial = controlador.getListaUsuariosSistema().get(0).getListaValoraciones().size();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaUsuariosSistema().get(0).getListaValoraciones().size());
+    }
+
+    /**
+     * Test of aniadirValoracion method, of class Controlador.
+     * Valoración existe en el sistema, la puntuación media de la ruta no se modifica
+     */
+    @Test
+    public void testAniadirValoracionExistentePuntuacionMediaRutaNoModificada(){
+        System.out.println("aniadirValoracion");
+
+        Ruta ruta = controlador.getListaRutasSistema().get(0);
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+        Integer puntuacion = controlador.getListaValoracionesSistema().get(0).getPuntuacion();
+        String comentario = "Comentario de prueba";
+        Double puntuacionMediaPrevia = ruta.getPuntuacionMedia();
+
+        try{
+            controlador.aniadirValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(SQLException sqle){
+            fail("No debería lanzar excepciones");
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepcion genérica");
+        }
+
+        assertEquals(puntuacionMediaPrevia, controlador.getListaRutasSistema().get(0).getPuntuacionMedia());
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarValoracionNoExistenteSinExcepciones(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = "Ruta que no existe";
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, el array de valoraciones no se modifica
+     */
+    @Test
+    public void testBorrarValoracionNoExistenteArrayNoModificado(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = "Ruta que no existe";
+        String dniUsuario = controlador.getListaUsuariosSistema().get(0).getDNI();
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().size();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial, controlador.getListaValoracionesSistema().size());
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testBorrarValoracionExistenteSinExcepciones(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = controlador.getListaValoracionesSistema().get(0).getRuta().getNombreRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, se borra correctamente
+     */
+    @Test
+    public void testBorrarValoracionExistenteSeBorraCorrectamente(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = controlador.getListaValoracionesSistema().get(0).getRuta().getNombreRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        boolean encontrado = false;
+        for(int i = 0; i < controlador.getListaValoracionesSistema().size() && !encontrado; i++){
+            if(controlador.getListaValoracionesSistema().get(i).getRuta().getNombreRuta().equals(nombreRuta) &&
+                    controlador.getListaValoracionesSistema().get(i).getUsuario().getDNI().equals(dniUsuario)){
+                encontrado = true;
+            }
+        }
+
+        assertFalse(encontrado);
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, el array de valoraciones se reduce en 1
+     */
+    @Test
+    public void testBorrarValoracionExistenteArrayTam(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = controlador.getListaValoracionesSistema().get(0).getRuta().getNombreRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().size();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial-1, controlador.getListaValoracionesSistema().size());
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, el array de valoraciones de la ruta se reduce en 1
+     */
+    @Test
+    public void testBorrarValoracionExistenteArrayValoracionesRutaTam(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = controlador.getListaValoracionesSistema().get(0).getRuta().getNombreRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().get(0).getRuta().getListaValoraciones().size();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(tamanoInicial-1, controlador.getListaValoracionesSistema().get(0).getRuta().getListaValoraciones().size());
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, el array de valoraciones del usuario se reduce en 1
+     */
+    @Test
+    public void testBorrarValoracionExistenteArrayValoracionesUsuarioTam(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = controlador.getListaValoracionesSistema().get(0).getRuta().getNombreRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+
+        Integer tamanoInicial = controlador.getListaValoracionesSistema().get(0).getUsuario().getListaValoraciones().size();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        for(int i = 0; i < controlador.getListaUsuariosSistema().size(); i++){
+            if(controlador.getListaUsuariosSistema().get(i).getDNI().equals(dniUsuario)){
+                assertEquals(tamanoInicial-1, controlador.getListaUsuariosSistema().get(i).getListaValoraciones().size());
+            }
+        }
+    }
+
+    /**
+     * Test of borrarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, la puntuación media de la ruta se modifica
+     */
+    @Test
+    public void testBorrarValoracionExistentePuntuacionMediaRutaModificada(){
+        System.out.println("borrarValoracion");
+
+        String nombreRuta = controlador.getListaValoracionesSistema().get(0).getRuta().getNombreRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+        Double puntuacionMediaPrevia = controlador.getListaValoracionesSistema().get(0).getRuta().getPuntuacionMedia();
+
+        try{
+            controlador.borrarValoracion(nombreRuta, dniUsuario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertNotEquals(puntuacionMediaPrevia, controlador.getListaValoracionesSistema().get(0).getRuta().getPuntuacionMedia());
+    }
+
+    /**
+     * Test of modificarValoracion method, of class Controlador.
+     * Valoración no existe en el sistema, no lanza excepciones
+     */
+    @Test
+    public void testModificarValoracionNoExistenteSinExcepciones(){
+        System.out.println("modificarValoracion");
+
+        Ruta ruta = controlador.getListaValoracionesSistema().get(0).getRuta();
+        String dniUsuario = "Usuario que no existe";
+        Integer puntuacion = controlador.getListaValoracionesSistema().get(0).getPuntuacion() -1;
+        String comentario = "Comentario de prueba";
+
+        try{
+            controlador.modificarValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+    }
+
+    /**
+     * Test of modificarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, se modifica correctamente
+     */
+    @Test
+    public void testModificarValoracionExistenteSeModificaCorrectamente(){
+        System.out.println("modificarValoracion");
+
+        Ruta ruta = controlador.getListaValoracionesSistema().get(0).getRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+        Integer puntuacion = controlador.getListaValoracionesSistema().get(0).getPuntuacion() -1;
+        String comentario = "Comentario de prueba";
+
+        try{
+            controlador.modificarValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertEquals(puntuacion, controlador.getListaValoracionesSistema().get(0).getPuntuacion());
+        assertEquals(comentario, controlador.getListaValoracionesSistema().get(0).getComentario());
+    }
+
+    /**
+     * Test of modificarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, la valoración es distinta
+     */
+    @Test
+    public void testModificarValoracionExistenteValoracionDistinta(){
+        System.out.println("modificarValoracion");
+
+        Valoracion valoracion = controlador.getListaValoracionesSistema().get(0);
+
+        Ruta ruta = valoracion.getRuta();
+        String dniUsuario = valoracion.getUsuario().getDNI();
+        Integer puntuacion = valoracion.getPuntuacion() -1;
+        String comentario = "Comentario de prueba";
+
+        try{
+            controlador.modificarValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        for(int i = 0; i < controlador.getListaValoracionesSistema().size(); i++){
+            if(controlador.getListaValoracionesSistema().get(i).getRuta().getIdRuta().equals(ruta.getIdRuta()) &&
+                    controlador.getListaValoracionesSistema().get(i).getUsuario().getDNI().equals(dniUsuario)){
+                assertNotEquals(valoracion, controlador.getListaValoracionesSistema().get(i));
+            }
+        }
+    }
+
+    /**
+     * Test of modificarValoracion method, of class Controlador.
+     * Valoración existe en el sistema, la puntuación media de la ruta se modifica
+     */
+    @Test
+    public void testModificarValoracionExistentePuntuacionMediaRutaModificada(){
+        System.out.println("modificarValoracion");
+
+        Ruta ruta = controlador.getListaValoracionesSistema().get(0).getRuta();
+        String dniUsuario = controlador.getListaValoracionesSistema().get(0).getUsuario().getDNI();
+        Integer puntuacion = controlador.getListaValoracionesSistema().get(0).getPuntuacion() -1;
+        String comentario = "Comentario de prueba";
+        Double puntuacionMediaPrevia = ruta.getPuntuacionMedia();
+
+        try{
+            controlador.modificarValoracion(ruta, dniUsuario, puntuacion, comentario);
+        }
+        catch(Exception e){
+            fail("No debería lanzar excepciones");
+        }
+
+        assertNotEquals(puntuacionMediaPrevia, controlador.getListaValoracionesSistema().get(0).getRuta().getPuntuacionMedia());
+    }
+
+    //***********************************************************************************************//
+    //***************************************FOTO DE PERFIL******************************************//
 }
